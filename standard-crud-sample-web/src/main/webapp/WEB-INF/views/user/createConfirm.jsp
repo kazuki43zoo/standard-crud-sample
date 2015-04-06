@@ -10,7 +10,7 @@
         <div class="col-sm-offset-3 col-sm-8">
             <form:button class="btn btn-default" name="createRedo">
                 <span class="glyphicon glyphicon-backward"></span> 入力し直す</form:button>
-            <form:button class="btn btn-default">
+            <form:button class="btn btn-default" name="create">
                 <span class="glyphicon glyphicon-save"></span> 登録</form:button>
         </div>
     </div>

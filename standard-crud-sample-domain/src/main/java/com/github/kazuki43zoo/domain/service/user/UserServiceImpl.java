@@ -10,13 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
-import org.terasoluna.gfw.common.message.ResultMessages;
 
 import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,7 +23,10 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Inject
-    UserCredentialShardService userCredentialShardService;
+    UserSharedService userSharedService;
+
+    @Inject
+    CredentialSharedService userCredentialShardService;
 
     @Inject
     Mapper beanMapper;
@@ -42,12 +42,6 @@ public class UserServiceImpl implements UserService {
         return new PageImpl<User>(users, pageable, count);
     }
 
-    public User find(String userUuid) {
-        User user = Optional.ofNullable(userRepository.findOne(userUuid))
-                .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add("e.sc.fw.5001")));
-        return user;
-    }
-
     public User create(User inputUser, List<Role> inputRoles) {
 
         // create a user
@@ -59,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
         // create a user credential
         {
-            userCredentialShardService.createUserCredential(inputUser);
+            userCredentialShardService.createCredential(inputUser);
         }
 
         // create user roles
@@ -76,7 +70,7 @@ public class UserServiceImpl implements UserService {
     public User update(String userUuid, User inputUser, List<Role> inputRoles) {
 
         // find user
-        User storedUser = find(userUuid);
+        User storedUser = userSharedService.find(userUuid);
 
         // check a optimistic locking within long transaction
         {
@@ -99,7 +93,8 @@ public class UserServiceImpl implements UserService {
 
         // update a user credential
         {
-            userCredentialShardService.updateUserCredential(storedUser, inputUser);
+            UserCredential inputCredential = inputUser.getCredential();
+            userCredentialShardService.updateCredential(storedUser, inputCredential.getUserId(), inputCredential.getPassword());
         }
 
         // update user roles
@@ -116,7 +111,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User delete(String userUuid) {
-        User user = find(userUuid);
+        User user = userSharedService.find(userUuid);
         if (user.getStatus() != UserStatus.DELETED) {
             user.setStatus(UserStatus.DELETED);
             userRepository.update(user);

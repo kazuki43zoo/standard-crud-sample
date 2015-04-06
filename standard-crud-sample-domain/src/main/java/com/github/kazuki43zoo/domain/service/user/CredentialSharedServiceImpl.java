@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 @Transactional
 @Service
-public class UserCredentialShardServiceImpl implements UserCredentialShardService {
+public class CredentialSharedServiceImpl implements CredentialSharedService {
 
     @Inject
     UserRepository userRepository;
@@ -25,7 +25,6 @@ public class UserCredentialShardServiceImpl implements UserCredentialShardServic
     @Inject
     PasswordEncoder passwordEncoder;
 
-
     public boolean isValidUserIdOnCreating(String userId) {
         return !userRepository.existsByUserId(userId);
     }
@@ -34,7 +33,7 @@ public class UserCredentialShardServiceImpl implements UserCredentialShardServic
         return !userRepository.existsByUserIdAndNotUserUuid(userId, userUuid);
     }
 
-    public void createUserCredential(User inputUser) {
+    public void createCredential(User inputUser) {
         UserCredential credential = inputUser.getCredential();
         credential.setUserUuid(inputUser.getUserUuid());
         credential.setPassword(passwordEncoder.encode(credential.getPassword()));
@@ -44,12 +43,12 @@ public class UserCredentialShardServiceImpl implements UserCredentialShardServic
         userRepository.createCredential(inputUser);
     }
 
-    public void updateUserCredential(User storedUser, User inputUser) {
+
+    public void updateCredential(User storedUser, String userId, String password) {
         UserCredential storedCredential = storedUser.getCredential();
-        UserCredential inputCredential = inputUser.getCredential();
-        storedCredential.setUserId(inputCredential.getUserId());
-        if (inputCredential.getPassword() != null) {
-            storedCredential.setPassword(passwordEncoder.encode(inputCredential.getPassword()));
+        storedCredential.setUserId(userId);
+        if (password != null) {
+            storedCredential.setPassword(passwordEncoder.encode(password));
             storedCredential.setLastUpdateAt(dateFactory.newDateTime().toLocalDateTime());
             if (storedCredential.getStatus() == CredentialStatus.WAITING_FOR_ACTIVE) {
                 storedCredential.setStatus(CredentialStatus.ACTIVE);
@@ -60,6 +59,5 @@ public class UserCredentialShardServiceImpl implements UserCredentialShardServic
         }
         storedCredential.setVersion(storedCredential.getVersion() + 1);
     }
-
 
 }

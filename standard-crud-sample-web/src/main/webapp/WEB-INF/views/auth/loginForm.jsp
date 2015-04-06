@@ -17,6 +17,7 @@
             <t:messagesPanel messagesType="danger" messagesAttributeName="SPRING_SECURITY_LAST_EXCEPTION"/>
         </c:when>
     </c:choose>
+    <t:messagesPanel/>
 
     <c:url value="/authenticate" var="searchUrl"/>
     <form action="${searchUrl}" method="post" class="form-horizontal">

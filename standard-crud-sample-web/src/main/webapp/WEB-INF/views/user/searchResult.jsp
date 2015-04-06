@@ -78,7 +78,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         いいえ
                     </button>
-                    <button name="_method" value="DELETE" class="btn btn-default">
+                    <button name="_method" value="DELETE" class="btn btn-default" name="delete">
                         はい
                     </button>
                 </form:form>

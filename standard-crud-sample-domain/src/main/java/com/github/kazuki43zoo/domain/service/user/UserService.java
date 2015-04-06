@@ -12,8 +12,6 @@ public interface UserService {
 
     Page<User> searchUsers(UserSearchCriteria criteria, Pageable pageable);
 
-    User find(String userUuid);
-
     User create(User inputUser, List<Role> inputRoles);
 
     User update(String userUuid, User inputUser, List<Role> inputRoles);

@@ -73,7 +73,7 @@ public class UserController {
     }
 
     @TransactionTokenCheck(value = "create")
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, params = "create")
     public String create(
             @Validated({Default.class, UserForm.Creating.class}) UserForm form,
             BindingResult bindingResult,
@@ -141,7 +141,7 @@ public class UserController {
     }
 
     @TransactionTokenCheck(value = "update")
-    @RequestMapping(value = "{userUuid}", method = RequestMethod.PUT)
+    @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "update")
     public String update(
             @PathVariable("userUuid") String userUuid,
             @Validated({Default.class, UserForm.Updating.class}) UserForm form,
@@ -173,7 +173,7 @@ public class UserController {
 
 
     @TransactionTokenCheck
-    @RequestMapping(value = "{userUuid}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "{userUuid}", method = RequestMethod.PUT, params = "delete")
     public String delete(
             @PathVariable("userUuid") String userUuid,
             RedirectAttributes redirectAttributes) {

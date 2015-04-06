@@ -21,7 +21,7 @@ public class ProfileServiceImpl implements ProfileService {
     UserRepository userRepository;
 
     @Inject
-    UserCredentialShardService userCredentialShardService;
+    CredentialSharedService userCredentialShardService;
 
     @Inject
     Mapper beanMapper;
@@ -53,7 +53,8 @@ public class ProfileServiceImpl implements ProfileService {
 
         // update a user credential
         {
-            userCredentialShardService.updateUserCredential(storedUser, inputUser);
+            UserCredential inputCredential = inputUser.getCredential();
+            userCredentialShardService.updateCredential(storedUser, inputCredential.getUserId(), inputCredential.getPassword());
         }
 
         return storedUser;

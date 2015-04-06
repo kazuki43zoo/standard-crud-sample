@@ -23,7 +23,7 @@
         <sec:form-login
                 login-page="/login?encourage"
                 login-processing-url="/authenticate"
-                authentication-failure-url="/login?error"
+                authentication-failure-handler-ref="authenticationFailureHandler"
                 username-parameter="username"
                 password-parameter="password"/>
 
@@ -33,6 +33,7 @@
                 delete-cookies="JSESSIONID"/>
 
         <sec:intercept-url pattern="/login" access="isAnonymous()"/>
+        <sec:intercept-url pattern="/password" access="isAnonymous()"/>
         <sec:intercept-url pattern="/users/**" access="hasRole('ADMIN')"/>
         <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
 
@@ -43,6 +44,16 @@
             <sec:password-encoder ref="passwordEncoder"/>
         </sec:authentication-provider>
     </sec:authentication-manager>
+
+    <bean id="authenticationFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+        <property name="defaultFailureUrl" value="/login?error"/>
+        <property name="exceptionMappings">
+            <map>
+                <entry key="org.springframework.security.authentication.CredentialsExpiredException"
+                       value="/password?changeForm"/>
+            </map>
+        </property>
+    </bean>
 
     <!-- CSRF Protection -->
     <bean id="accessDeniedHandler"

@@ -14,7 +14,7 @@
         <div class="col-sm-offset-3 col-sm-8">
             <form:button class="btn btn-default" name="editRedo">
                 <span class="glyphicon glyphicon-backward"></span> 入力し直す</form:button>
-            <form:button class="btn btn-default" name="_method" value="PUT">
+            <form:button class="btn btn-default" name="edit">
                 <span class="glyphicon glyphicon-save"></span> 更新</form:button>
         </div>
     </div>

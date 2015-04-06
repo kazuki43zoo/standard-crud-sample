@@ -32,7 +32,7 @@ public class UserSearchController {
     UserService userService;
 
     @Inject
-    UserSearchHelper userSearchHelper;
+    UserHelper userHelper;
 
     @Inject
     Mapper beanMapper;
@@ -77,7 +77,7 @@ public class UserSearchController {
         if (!users.hasContent()) {
             redirectAttributes.addFlashAttribute(
                     ResultMessages.info().add("i.sc.um.2001", pageable.getPageNumber() + 1));
-            userSearchHelper.takeOverSearchCriteriaOnRedirect(redirectAttributes, form,
+            userHelper.takeOverSearchCriteriaOnRedirect(redirectAttributes, form,
                     new PageRequest(users.getTotalPages() - 1, pageable.getPageSize(), pageable.getSort()));
             return "redirect:/users";
         }
@@ -92,7 +92,7 @@ public class UserSearchController {
             RedirectAttributes redirectAttributes,
             @ModelAttribute UserSearchForm form,
             @ModelAttribute("usersPageable") Pageable pageable) {
-        userSearchHelper.takeOverSearchCriteriaOnRedirect(redirectAttributes, form, pageable);
+        userHelper.takeOverSearchCriteriaOnRedirect(redirectAttributes, form, pageable);
         return "redirect:/users";
     }
 

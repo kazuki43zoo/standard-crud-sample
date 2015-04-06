@@ -2,14 +2,14 @@ package com.github.kazuki43zoo.domain.service.user;
 
 import com.github.kazuki43zoo.domain.model.User;
 
-public interface UserCredentialShardService {
+public interface CredentialSharedService {
 
     boolean isValidUserIdOnCreating(String userId);
 
     boolean isValidUserIdOnUpdating(String userId, String userUuid);
 
-    void createUserCredential(User inputUser);
+    void createCredential(User inputUser);
 
-    void updateUserCredential(User storedUser, User inputUser);
+    void updateCredential(User storedUser, String userId, String password);
 
 }

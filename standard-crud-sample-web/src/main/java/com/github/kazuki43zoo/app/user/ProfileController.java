@@ -35,9 +35,6 @@ public class ProfileController {
     UserHelper userHelper;
 
     @Inject
-    ProfileHelper profileHelper;
-
-    @Inject
     UserCredentialFormValidator userCredentialFormValidator;
 
     @Inject
@@ -86,7 +83,7 @@ public class ProfileController {
     }
 
     @TransactionTokenCheck(value = "edit")
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.POST, params = "edit")
     public String edit(
             @AuthenticationPrincipal CustomUserDetails userDetail,
             @Validated({Default.class, ProfileForm.Updating.class}) ProfileForm form,
@@ -102,14 +99,14 @@ public class ProfileController {
             User inputUser = beanMapper.map(form, User.class);
             profileService.edit(userDetail.getUser().getUserUuid(), inputUser);
 
-            profileHelper.updateSecurityContextByUserId(form.getUserId());
+            userHelper.updateSecurityContextByUserId(form.getUserId());
 
         } catch (DuplicateKeyException e) {
             userHelper.rejectInvalidUserId(bindingResult);
             return editRedo(form);
 
         } catch (ObjectOptimisticLockingFailureException e) {
-            profileHelper.updateSecurityContextByUserUuid(userDetail.getUser().getUserUuid());
+            userHelper.updateSecurityContextByUserUuid(userDetail.getUser().getUserUuid());
             redirectAttributes.addFlashAttribute(ResultMessages.danger().add("e.sc.um.8005"));
             return "redirect:/profile?editForm";
 

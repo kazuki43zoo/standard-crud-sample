@@ -1,6 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
-import com.github.kazuki43zoo.domain.service.user.UserCredentialShardService;
+import com.github.kazuki43zoo.domain.service.user.CredentialSharedService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -12,7 +12,7 @@ import javax.inject.Inject;
 public class UserCredentialFormValidator implements SmartValidator {
 
     @Inject
-    UserCredentialShardService userCredentialShardService;
+    CredentialSharedService credentialShardService;
 
     @Inject
     UserHelper userHelper;
@@ -35,7 +35,7 @@ public class UserCredentialFormValidator implements SmartValidator {
 
         validateUserId(form, errors, isCreating);
 
-        validatePasswordAndConfirmationPassword(form, errors);
+        validatePasswordAndConfirmPassword(form, errors);
 
     }
 
@@ -43,9 +43,9 @@ public class UserCredentialFormValidator implements SmartValidator {
         if (!errors.hasFieldErrors("userId")) {
             boolean isValidUserId;
             if (isCreating) {
-                isValidUserId = userCredentialShardService.isValidUserIdOnCreating(form.getUserId());
+                isValidUserId = credentialShardService.isValidUserIdOnCreating(form.getUserId());
             } else {
-                isValidUserId = userCredentialShardService.isValidUserIdOnUpdating(form.getUserId(), form.getUserUuid());
+                isValidUserId = credentialShardService.isValidUserIdOnUpdating(form.getUserId(), form.getUserUuid());
             }
             if (!isValidUserId) {
                 userHelper.rejectInvalidUserId(errors);
@@ -53,7 +53,7 @@ public class UserCredentialFormValidator implements SmartValidator {
         }
     }
 
-    private void validatePasswordAndConfirmationPassword(UserCredentialForm form, Errors errors) {
+    private void validatePasswordAndConfirmPassword(UserCredentialForm form, Errors errors) {
         if (!errors.hasFieldErrors("password")
                 && !errors.hasFieldErrors("confirmPassword")) {
             if (form.getPassword() != null) {

@@ -183,6 +183,15 @@ footer {
   bottom:50px;
 }
 
+.paginationContainer {
+    text-align : center;
+}
+
+span.form-control {
+    border: none;
+    -webkit-box-shadow: none;
+}
+
 @media print, screen and (max-width: 960px) {
   
   div.wrapper {

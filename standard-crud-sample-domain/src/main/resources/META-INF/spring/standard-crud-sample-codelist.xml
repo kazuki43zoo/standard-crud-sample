@@ -21,4 +21,14 @@
     </bean>
     -->
 
+    <bean id="CL_USERSTATUS"
+          class="org.terasoluna.gfw.common.codelist.EnumCodeList">
+        <constructor-arg value="com.github.kazuki43zoo.domain.model.UserStatus" />
+    </bean>
+
+    <bean id="CL_ROLE"
+          class="org.terasoluna.gfw.common.codelist.EnumCodeList">
+        <constructor-arg value="com.github.kazuki43zoo.domain.model.Role" />
+    </bean>
+
 </beans>

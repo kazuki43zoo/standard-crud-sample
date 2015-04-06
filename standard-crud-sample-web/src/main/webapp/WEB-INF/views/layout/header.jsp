@@ -1,3 +1,4 @@
 <h1>
-    <a href="${pageContext.request.contextPath}">standard-crud-sample</a>
+    <a href="<c:url value="/" />">
+        <span class="glyphicon glyphicon-home"></span> standard-crud-sample</a>
 </h1>

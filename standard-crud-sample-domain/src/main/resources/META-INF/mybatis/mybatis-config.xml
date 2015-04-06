@@ -26,9 +26,7 @@
     </typeAliases>
 
     <typeHandlers>
-<!--
         <package name="com.github.kazuki43zoo.infra.mybatis.typehandler" />
--->
     </typeHandlers>
 
 </configuration>

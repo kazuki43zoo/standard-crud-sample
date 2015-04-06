@@ -26,6 +26,7 @@
                 <value>i18n/application-messages</value>
             </list>
         </property>
+        <property name="defaultEncoding" value="UTF-8" />
     </bean>
 
     <!-- Exception Code Resolver. -->
@@ -34,13 +35,13 @@
         <!-- Setting and Customization by project. -->
         <property name="exceptionMappings">
             <map>
-                <entry key="ResourceNotFoundException" value="e.xx.fw.5001" />
-                <entry key="InvalidTransactionTokenException" value="e.xx.fw.7001" />
-                <entry key="BusinessException" value="e.xx.fw.8001" />
-                <entry key=".DataAccessException" value="e.xx.fw.9002" />
+                <entry key="ResourceNotFoundException" value="e.sc.fw.5001" />
+                <entry key="InvalidTransactionTokenException" value="e.sc.fw.7001" />
+                <entry key="BusinessException" value="e.sc.fw.8001" />
+                <entry key=".DataAccessException" value="e.sc.fw.9002" />
             </map>
         </property>
-        <property name="defaultExceptionCode" value="e.xx.fw.9001" />
+        <property name="defaultExceptionCode" value="e.sc.fw.9001" />
     </bean>
 
     <!-- Exception Logger. -->
@@ -53,6 +54,19 @@
     <bean id="exceptionLoggingFilter"
         class="org.terasoluna.gfw.web.exception.ExceptionLoggingFilter" >
         <property name="exceptionLogger" ref="exceptionLogger" />
+    </bean>
+
+    <bean id="beanValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource">
+            <bean class="org.springframework.context.support.ResourceBundleMessageSource">
+                <property name="basenames">
+                    <list>
+                        <value>ValidationMessages</value>
+                    </list>
+                </property>
+                <property name="defaultEncoding" value="UTF-8" />
+            </bean>
+        </property>
     </bean>
 
 </beans>

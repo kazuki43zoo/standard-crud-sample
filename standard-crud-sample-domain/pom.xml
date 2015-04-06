@@ -24,12 +24,6 @@
             <groupId>org.terasoluna.gfw</groupId>
             <artifactId>terasoluna-gfw-security-core</artifactId>
         </dependency>
-        <!--  REMOVE THIS LINE IF YOU USE JPA
-        <dependency>
-            <groupId>org.terasoluna.gfw</groupId>
-            <artifactId>terasoluna-gfw-jpa</artifactId>
-        </dependency>
-              REMOVE THIS LINE IF YOU USE JPA  -->
         <dependency>
             <groupId>org.terasoluna.gfw</groupId>
             <artifactId>terasoluna-gfw-mybatis3</artifactId>
@@ -78,13 +72,11 @@
         <!-- == End Unit Test == -->
 
         <!-- == Begin Coding Support == -->
-        <!--
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        -->
         <!-- == End Coding Support == -->
 
     </dependencies>

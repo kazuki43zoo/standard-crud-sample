@@ -11,21 +11,10 @@
         <version>5.0.0.RELEASE</version>
     </parent>
 
-    <name>TERASOLUNA Server Framework for Java (5.x) Web Blank Multi Project (MyBatis3)</name>
-    <description>Web Blank Multi Project (MyBatis3) using TERASOLUNA Server Framework for Java (5.x)</description>
-    <url>http://terasoluna.org</url>
-    <inceptionYear>2014</inceptionYear>
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>manual</distribution>
-        </license>
-    </licenses>
-    <organization>
-        <name>TERASOLUNA Framework Team</name>
-        <url>http://terasoluna.org</url>
-    </organization>
+    <name>The Sample Application for standard CRUD operation</name>
+    <description>The Sample Application for standard CRUD operation using TERASOLUNA Server Framework for Java (5.x)</description>
+    <url>http://kazuki43zoo.github.com</url>
+    <inceptionYear>2015</inceptionYear>
     <repositories>
         <repository>
             <releases>
@@ -129,7 +118,7 @@
     </dependencyManagement>
     <properties>
         <encoding>UTF-8</encoding>
-        <java-version>1.7</java-version>
+        <java-version>1.8</java-version>
         <org.codehaus.mojo.build-helper-maven-plugi.version>1.9.1</org.codehaus.mojo.build-helper-maven-plugi.version>
         <postgresql.version>9.3-1102-jdbc41</postgresql.version>
         <ojdbc.version>12.1.0.2</ojdbc.version>

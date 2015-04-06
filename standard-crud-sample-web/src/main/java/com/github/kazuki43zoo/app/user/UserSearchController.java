@@ -7,7 +7,6 @@ import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -97,7 +96,6 @@ public class UserSearchController {
     }
 
     @ExceptionHandler(HttpSessionRequiredException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleHttpSessionRequiredException() {
         return "redirect:/users?searchForm";
     }

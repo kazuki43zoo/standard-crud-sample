@@ -25,14 +25,11 @@ public class CredentialServiceImpl implements CredentialService {
     PasswordEncoder passwordEncoder;
 
     public void change(String userId, String password, String newPassword) {
-
         Optional<User> storedUser = Optional.ofNullable(userRepository.findOneByUserId(userId));
         if (!storedUser.isPresent() || !passwordEncoder.matches(password, storedUser.get().getCredential().getPassword())) {
-            throw new BusinessException(ResultMessages.error().add(""));
+            throw new BusinessException(ResultMessages.danger().add("e.sc.um.8012"));
         }
-
         credentialShardService.updateCredential(storedUser.get(), userId, newPassword);
-
     }
 
 }

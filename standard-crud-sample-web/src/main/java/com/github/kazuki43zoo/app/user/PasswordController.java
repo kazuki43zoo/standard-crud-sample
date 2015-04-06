@@ -1,7 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.domain.service.user.CredentialService;
-import com.github.kazuki43zoo.domain.service.user.UserService;
 import org.dozer.Mapper;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
@@ -24,9 +23,6 @@ import javax.inject.Inject;
 @RequestMapping("password")
 @TransactionTokenCheck("password")
 public class PasswordController {
-
-    @Inject
-    UserService userService;
 
     @Inject
     CredentialService credentialService;
@@ -70,10 +66,12 @@ public class PasswordController {
 
         } catch (BusinessException e) {
             redirectAttributes.addFlashAttribute(e.getResultMessages());
+            redirectAttributes.addFlashAttribute(form);
             return "redirect:/password?changeForm";
 
         } catch (ObjectOptimisticLockingFailureException e) {
             redirectAttributes.addFlashAttribute(ResultMessages.error().add("e.sc.um.8005"));
+            redirectAttributes.addFlashAttribute(form);
             return "redirect:/password?changeForm";
 
         }

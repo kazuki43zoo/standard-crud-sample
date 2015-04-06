@@ -55,7 +55,7 @@ public class UserHelper {
 
     public void applyUserToForm(UserForm form, User user) {
         beanMapper.map(user, form);
-        form.setPassword("");
+        form.setPassword(null);
         form.setRoles(new ArrayList<>());
         user.getRoles().forEach(userRole -> {
             form.getRoles().add(userRole.getRole());

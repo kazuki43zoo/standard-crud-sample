@@ -9,8 +9,25 @@
         <class-a>com.github.kazuki43zoo.domain.model.User</class-a>
         <class-b>com.github.kazuki43zoo.domain.model.User</class-b>
         <field-exclude>
-            <a>userUuid</a>
-            <b>userUuid</b>
+            <a>version</a>
+            <b>version</b>
+        </field-exclude>
+        <field-exclude>
+            <a>credential</a>
+            <b>credential</b>
+        </field-exclude>
+        <field-exclude>
+            <a>roles</a>
+            <b>roles</b>
+        </field-exclude>
+    </mapping>
+
+    <mapping map-id="updateProfile">
+        <class-a>com.github.kazuki43zoo.domain.model.User</class-a>
+        <class-b>com.github.kazuki43zoo.domain.model.User</class-b>
+        <field-exclude>
+            <a>status</a>
+            <b>status</b>
         </field-exclude>
         <field-exclude>
             <a>version</a>
@@ -25,4 +42,5 @@
             <b>roles</b>
         </field-exclude>
     </mapping>
+
 </mappings>

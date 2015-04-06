@@ -25,4 +25,21 @@
         </field-exclude>
     </mapping>
 
+    <mapping>
+        <class-a>com.github.kazuki43zoo.app.user.ProfileForm</class-a>
+        <class-b>com.github.kazuki43zoo.domain.model.User</class-b>
+        <field>
+            <a>userId</a>
+            <b>credential.userId</b>
+        </field>
+        <field>
+            <a>password</a>
+            <b>credential.password</b>
+        </field>
+        <field>
+            <a>credentialVersion</a>
+            <b>credential.version</b>
+        </field>
+    </mapping>
+
 </mappings>

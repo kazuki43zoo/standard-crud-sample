@@ -7,14 +7,13 @@ import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.HttpSessionRequiredException;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.message.ResultMessages;
@@ -95,6 +94,12 @@ public class UserSearchController {
             @ModelAttribute("usersPageable") Pageable pageable) {
         userSearchHelper.takeOverSearchCriteriaOnRedirect(redirectAttributes, form, pageable);
         return "redirect:/users";
+    }
+
+    @ExceptionHandler(HttpSessionRequiredException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleHttpSessionRequiredException() {
+        return "redirect:/users?searchForm";
     }
 
 }

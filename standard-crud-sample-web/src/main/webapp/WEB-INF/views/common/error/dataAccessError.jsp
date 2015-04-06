@@ -11,7 +11,7 @@
         <h1>Data Access Error!</h1>
         <div class="error">
             <c:if test="${!empty exceptionCode}">[${f:h(exceptionCode)}]</c:if>
-            <spring:message code="e.sc.fw.9002" arguments="${X-Track}" />
+            <spring:message code="e.sc.fw.9002" arguments="${requestScope['X-Track']}"/>
         </div>
         <t:messagesPanel />
     <br>

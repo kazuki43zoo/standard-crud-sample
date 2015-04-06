@@ -30,12 +30,11 @@ public class UserController {
     @Inject
     UserService userService;
 
-
     @Inject
     UserHelper userHelper;
 
     @Inject
-    UserFormValidator userFormValidator;
+    UserCredentialFormValidator userCredentialFormValidator;
 
     @Inject
     Mapper beanMapper;
@@ -47,7 +46,7 @@ public class UserController {
 
     @InitBinder("userForm")
     public void addValidators(WebDataBinder binder) {
-        binder.addValidators(userFormValidator);
+        binder.addValidators(userCredentialFormValidator);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "createForm")

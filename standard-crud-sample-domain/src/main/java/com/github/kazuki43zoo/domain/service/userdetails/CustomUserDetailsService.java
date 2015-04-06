@@ -22,7 +22,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Inject
     UserRepository userRepository;
 
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = Optional.ofNullable(userRepository.findOneByUserId(username))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));

@@ -3,7 +3,7 @@
 
     <jsp:include page="inc/confirm.jsp"/>
 
-    <form:hidden path="confirmationPassword"/>
+    <form:hidden path="confirmPassword"/>
     <form:hidden path="password"/>
 
     <div class="form-group">

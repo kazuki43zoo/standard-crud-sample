@@ -9,7 +9,7 @@ import org.springframework.validation.SmartValidator;
 import javax.inject.Inject;
 
 @Component
-public class UserFormValidator implements SmartValidator {
+public class UserCredentialFormValidator implements SmartValidator {
 
     @Inject
     UserCredentialShardService userCredentialShardService;
@@ -19,7 +19,7 @@ public class UserFormValidator implements SmartValidator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return UserForm.class.isAssignableFrom(clazz);
+        return UserCredentialForm.class.isAssignableFrom(clazz);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class UserFormValidator implements SmartValidator {
     @Override
     public void validate(Object target, Errors errors, Object... validationHints) {
 
-        boolean isCreating = ArrayUtils.contains(validationHints, UserForm.Creating.class);
-        UserForm form = UserForm.class.cast(target);
+        boolean isCreating = ArrayUtils.contains(validationHints, UserCredentialForm.Creating.class);
+        UserCredentialForm form = UserCredentialForm.class.cast(target);
 
         validateUserId(form, errors, isCreating);
 
@@ -39,7 +39,7 @@ public class UserFormValidator implements SmartValidator {
 
     }
 
-    private void validateUserId(UserForm form, Errors errors, boolean isCreating) {
+    private void validateUserId(UserCredentialForm form, Errors errors, boolean isCreating) {
         if (!errors.hasFieldErrors("userId")) {
             boolean isValidUserId;
             if (isCreating) {
@@ -53,12 +53,12 @@ public class UserFormValidator implements SmartValidator {
         }
     }
 
-    private void validatePasswordAndConfirmationPassword(UserForm form, Errors errors) {
+    private void validatePasswordAndConfirmationPassword(UserCredentialForm form, Errors errors) {
         if (!errors.hasFieldErrors("password")
-                && !errors.hasFieldErrors("confirmationPassword")) {
+                && !errors.hasFieldErrors("confirmPassword")) {
             if (form.getPassword() != null) {
-                if (!form.getPassword().equals(form.getConfirmationPassword())) {
-                    errors.rejectValue("confirmationPassword", "e.sc.um.5007");
+                if (!form.getPassword().equals(form.getConfirmPassword())) {
+                    errors.rejectValue("confirmPassword", "e.sc.um.5007");
                 }
             }
         }

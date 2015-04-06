@@ -1,7 +1,8 @@
 <div id="wrapper">
 
+    <t:messagesPanel/>
+
     <div class="row">
-        <sec:authorize access="hasRole('USER')">
             <div id="userNav" class="col col-xs-6">
                 <div class="well">
                     <h3>利用者向けメニュー</h3>
@@ -10,11 +11,12 @@
                         <a href="<c:url value="/profile?editForm" />"
                            class="btn btn-default">
                             <span class="glyphicon glyphicon-search"></span>
-                            <spring:message code="title.profile.editForm"/></a>
+                            <spring:message code="title.user.profileEditForm"/></a>
                     </p>
+                    <sec:authorize access="hasRole('USER')">
+                    </sec:authorize>
                 </div>
             </div>
-        </sec:authorize>
         <sec:authorize access="hasRole('ADMIN')">
             <div id="adminNav" class="col col-xs-6">
                 <div class="well">

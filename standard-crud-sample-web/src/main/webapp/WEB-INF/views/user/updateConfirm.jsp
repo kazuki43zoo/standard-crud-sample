@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <form:hidden path="confirmationPassword"/>
+    <form:hidden path="confirmPassword"/>
     <form:hidden path="password"/>
     <form:hidden path="version"/>
     <form:hidden path="credentialVersion"/>

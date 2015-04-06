@@ -32,12 +32,24 @@
           href="<c:url value="/resources/app/css/styles.css"/>">
 </head>
 <body>
+
 <div class="container">
-    <tiles:insertAttribute name="header"/>
-    <tiles:insertAttribute name="body"/>
-    <hr>
-    <p style="text-align: center; background: #e5eCf9;">Copyright &copy; 2015
-        kazuki43zoo.github.com</p>
+
+    <header class="navbar navbar-default navbar-fixed-top">
+        <tiles:insertAttribute name="header"/>
+    </header>
+
+    <div id="wrapper">
+        <tiles:insertAttribute name="body"/>
+    </div>
+
+    <footer>
+        <tiles:insertAttribute name="footer"/>
+    </footer>
+
 </div>
+
+<jsp:include page="inc/logoutDialog.jsp"/>
+
 </body>
 </html>

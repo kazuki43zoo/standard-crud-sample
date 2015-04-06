@@ -1,27 +1,21 @@
-<div id="wrapper">
+<t:messagesPanel/>
 
-    <h1><spring:message code="${titleKey}"/></h1>
+<c:url value="/users" var="creatingUrl"/>
+<form:form action="${creatingUrl}" cssClass="form-horizontal" modelAttribute="userForm">
 
-    <t:messagesPanel/>
+    <jsp:include page="inc/form.jsp"/>
 
-    <c:url value="/users" var="creatingUrl"/>
-    <form:form action="${creatingUrl}" cssClass="form-horizontal" modelAttribute="userForm">
-
-        <jsp:include page="inc/form.jsp"/>
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-8">
-                <form:button class="btn btn-default" name="createConfirm">
-                    <span class="glyphicon glyphicon-ok"></span> 入力完了</form:button>
-                <a href="<c:url value="/users?createForm"/>" class="btn btn-default">
-                    <span class="glyphicon glyphicon-erase"></span> クリア</a>
-            </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-8">
+            <form:button class="btn btn-default" name="createConfirm">
+                <span class="glyphicon glyphicon-ok"></span> 入力完了</form:button>
+            <a href="<c:url value="/users?createForm"/>" class="btn btn-default">
+                <span class="glyphicon glyphicon-erase"></span> クリア</a>
         </div>
+    </div>
 
-    </form:form>
+</form:form>
 
-    <a href="<c:url value="/"/>" class="btn btn-default">
-        <span class="glyphicon glyphicon-step-backward"></span>
-        <spring:message code="title.welcome.home"/></a>
-
-</div>
+<a href="<c:url value="/"/>" class="btn btn-default">
+    <span class="glyphicon glyphicon-step-backward"></span>
+    <spring:message code="title.welcome.home"/></a>

@@ -56,7 +56,7 @@
             ,role
         )
         VALUES
-        <foreach collection="roles" item="userRole" separator="," index="i">
+        <foreach collection="roles" item="userRole" separator=",">
             (
                 #{userUuid}
                 ,#{userRole.role}
@@ -113,7 +113,8 @@
         <result property="email" column="email" />
         <result property="status" column="status" />
         <result property="version" column="version" />
-        <association property="credential" javaType="UserCredential" columnPrefix="credential_">
+        <association property="credential" javaType="UserCredential"
+                     columnPrefix="credential_">
             <id property="userUuid" column="user_uuid" />
             <result property="userId" column="user_id" />
             <result property="password" column="password" />
@@ -121,7 +122,8 @@
             <result property="lastUpdateAt" column="last_update_at" />
             <result property="version" column="version" />
         </association>
-        <collection property="roles" javaType="list" ofType="UserRole" columnPrefix="roles_">
+        <collection property="roles" javaType="list" ofType="UserRole"
+                    columnPrefix="roles_">
             <id property="userUuid" column="user_uuid" />
             <id property="role" column="role" />
         </collection>
@@ -201,7 +203,7 @@
             #{pageable.offset}
     </select>
 
-    <select id="findOne" resultMap="userResultMap">
+    <sql id="fragmentSelectFromOfFindOne">
         SELECT
             u.user_uuid
             ,u.name
@@ -225,8 +227,20 @@
             t_user_credential uc ON uc.user_uuid = u.user_uuid
         INNER JOIN
             t_user_roles ur ON ur.user_uuid = u.user_uuid
+    </sql>
+
+    <select id="findOne" resultMap="userResultMap">
+        <include refid="fragmentSelectFromOfFindOne"/>
         WHERE
             u.user_uuid = #{userUuid}
+    </select>
+
+    <select id="findOneByUserId" resultMap="userResultMap">
+        <include refid="fragmentSelectFromOfFindOne"/>
+        WHERE
+            uc.user_id = #{userId}
+        AND
+            u.status != 'DELETED'
     </select>
 
     <select id="existsByUserId" resultType="boolean">

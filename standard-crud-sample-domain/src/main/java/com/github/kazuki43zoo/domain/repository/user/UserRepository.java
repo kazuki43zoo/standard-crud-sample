@@ -17,6 +17,8 @@ public interface UserRepository {
 
     User findOne(String userUuid);
 
+    User findOneByUserId(String userId);
+
     void create(User user);
 
     void createCredential(User user);

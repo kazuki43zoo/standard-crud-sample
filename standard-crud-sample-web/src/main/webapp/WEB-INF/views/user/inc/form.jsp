@@ -1,5 +1,5 @@
 <div class="form-group">
-    <form:label path="userId" cssClass="col-sm-2 control-label">ユーザーID</form:label>
+    <form:label path="userId" cssClass="col-sm-3 control-label">ユーザーID</form:label>
     <div class="col-sm-4">
         <form:input cssClass="form-control" path="userId"/>
     </div>
@@ -8,7 +8,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="name" cssClass="col-sm-2 control-label">氏名</form:label>
+    <form:label path="name" cssClass="col-sm-3 control-label">氏名</form:label>
     <div class="col-sm-4">
         <form:input cssClass="form-control" path="name"/>
     </div>
@@ -17,7 +17,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="dateOfBirth" cssClass="col-sm-2 control-label">誕生日</form:label>
+    <form:label path="dateOfBirth" cssClass="col-sm-3 control-label">誕生日</form:label>
     <div class="col-sm-4">
         <form:input type="date" cssClass="form-control" path="dateOfBirth"/>
     </div>
@@ -26,7 +26,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="address" cssClass="col-sm-2 control-label">住所</form:label>
+    <form:label path="address" cssClass="col-sm-3 control-label">住所</form:label>
     <div class="col-sm-4">
         <form:input cssClass="form-control" path="address"/>
     </div>
@@ -35,7 +35,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="tel" cssClass="col-sm-2 control-label">電話番号</form:label>
+    <form:label path="tel" cssClass="col-sm-3 control-label">電話番号</form:label>
     <div class="col-sm-4">
         <form:input cssClass="form-control" path="tel"/>
     </div>
@@ -44,7 +44,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="email" cssClass="col-sm-2 control-label">メールアドレス</form:label>
+    <form:label path="email" cssClass="col-sm-3 control-label">メールアドレス</form:label>
     <div class="col-sm-4">
         <form:input cssClass="form-control" path="email"/>
     </div>
@@ -53,7 +53,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="password" cssClass="col-sm-2 control-label">パスワード</form:label>
+    <form:label path="password" cssClass="col-sm-3 control-label">パスワード</form:label>
     <div class="col-sm-4">
         <form:password cssClass="form-control" path="password" showPassword="true"/>
     </div>
@@ -62,7 +62,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="confirmationPassword" cssClass="col-sm-2 control-label">確認パスワード</form:label>
+    <form:label path="confirmationPassword" cssClass="col-sm-3 control-label">確認パスワード</form:label>
     <div class="col-sm-4">
         <form:password cssClass="form-control" path="confirmationPassword"/>
     </div>
@@ -71,7 +71,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="roles" cssClass="col-sm-2 control-label">ロール</form:label>
+    <form:label path="roles" cssClass="col-sm-3 control-label">ロール</form:label>
     <div class="col-sm-4">
         <c:forEach var="roleCodeListElement" items="${CL_ROLE}">
             <div class="checkbox-inline">

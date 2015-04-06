@@ -193,7 +193,7 @@ public class UserController {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ModelAndView handleConcurrencyFailureException(
+    public ModelAndView handleObjectOptimisticLockingFailureException(
             ObjectOptimisticLockingFailureException e) {
         ExtendedModelMap model = new ExtendedModelMap();
         String viewNameOfUpdateForm =

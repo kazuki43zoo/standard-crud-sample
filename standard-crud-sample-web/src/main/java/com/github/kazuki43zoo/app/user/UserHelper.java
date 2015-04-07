@@ -20,7 +20,6 @@ import org.terasoluna.gfw.common.codelist.CodeList;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -85,19 +84,9 @@ public class UserHelper {
         return user;
     }
 
-    public void applyUserToForm(UserForm form, User user) {
-        beanMapper.map(user, form);
-        form.setPassword(null);
-        form.setRoles(new ArrayList<>());
-        user.getRoles().forEach(userRole -> {
-            form.getRoles().add(userRole.getRole());
-        });
-    }
-
     public void rejectInvalidUserId(Errors errors) {
         errors.rejectValue("userId", "e.sc.um.8003");
     }
-
 
     public void updateSecurityContextByUserId(String userId) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userId);

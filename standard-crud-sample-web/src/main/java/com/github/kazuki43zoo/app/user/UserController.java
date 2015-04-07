@@ -21,6 +21,7 @@ import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
 import javax.inject.Inject;
 import javax.validation.groups.Default;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("users")
@@ -85,11 +86,14 @@ public class UserController {
 
         User createdUser;
         try {
+
             User user = beanMapper.map(form, User.class);
             createdUser = userService.create(user, form.getRoles());
+
         } catch (DuplicateKeyException e) {
             userHelper.rejectInvalidUserId(bindingResult);
             return createRedo(form);
+
         }
 
         redirectAttributes.addAttribute("userUuid", createdUser.getUserUuid());
@@ -110,8 +114,15 @@ public class UserController {
             UserForm form,
             Model model) {
         User user = userHelper.loadUserIntoModel(userUuid, model);
-        userHelper.applyUserToForm(form, user);
+
+        beanMapper.map(user, form);
+        form.setPassword(null);
+        form.setRoles(new ArrayList<>());
+        user.getRoles().forEach(userRole -> {
+            form.getRoles().add(userRole.getRole());
+        });
         model.addAttribute(form);
+
         return "user/updateForm";
     }
 
@@ -153,11 +164,14 @@ public class UserController {
         }
 
         try {
+
             User user = beanMapper.map(form, User.class);
             userService.update(userUuid, user, form.getRoles());
+
         } catch (DuplicateKeyException e) {
             userHelper.rejectInvalidUserId(bindingResult);
             return updateRedo(userUuid, form, model);
+
         }
 
         redirectAttributes.addAttribute("userUuid", userUuid);

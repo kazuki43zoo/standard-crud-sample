@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+       ">
 
-    <bean id="jdbcTemplateForCodeList" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource" />
-        <property name="fetchSize" value="${codelist.jdbc.fetchSize:1000}" />
+    <bean id="jdbcTemplateForCodeList"
+          class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="fetchSize" value="${codelist.jdbc.fetchSize:1000}"/>
     </bean>
 
     <bean id="AbstractJdbcCodeList"
-          class="org.terasoluna.gfw.common.codelist.JdbcCodeList" abstract="true">
-        <property name="jdbcTemplate" ref="jdbcTemplateForCodeList" />
+          class="org.terasoluna.gfw.common.codelist.JdbcCodeList"
+          abstract="true">
+        <property name="jdbcTemplate" ref="jdbcTemplateForCodeList"/>
     </bean>
 
     <!-- Example for usage of AbstractJdbcCodeList
@@ -23,12 +28,13 @@
 
     <bean id="CL_USERSTATUS"
           class="org.terasoluna.gfw.common.codelist.EnumCodeList">
-        <constructor-arg value="com.github.kazuki43zoo.domain.model.UserStatus" />
+        <constructor-arg
+                value="com.github.kazuki43zoo.domain.model.UserStatus"/>
     </bean>
 
     <bean id="CL_ROLE"
           class="org.terasoluna.gfw.common.codelist.EnumCodeList">
-        <constructor-arg value="com.github.kazuki43zoo.domain.model.Role" />
+        <constructor-arg value="com.github.kazuki43zoo.domain.model.Role"/>
     </bean>
 
 </beans>

@@ -1,8 +1,9 @@
 package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.domain.model.User;
+import com.github.kazuki43zoo.domain.service.security.CustomUserDetails;
+import com.github.kazuki43zoo.domain.service.security.SecurityContextService;
 import com.github.kazuki43zoo.domain.service.user.ProfileService;
-import com.github.kazuki43zoo.domain.service.userdetails.CustomUserDetails;
 import org.dozer.Mapper;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -32,10 +33,13 @@ public class ProfileController {
     ProfileService profileService;
 
     @Inject
+    SecurityContextService securityContextService;
+
+    @Inject
     UserHelper userHelper;
 
     @Inject
-    ProfileFormValidator userCredentialFormValidator;
+    ConfirmPasswordValidator confirmPasswordValidator;
 
     @Inject
     Mapper beanMapper;
@@ -52,10 +56,11 @@ public class ProfileController {
 
     @InitBinder("profileForm")
     public void addValidators(WebDataBinder binder) {
-        binder.addValidators(userCredentialFormValidator);
+        binder.addValidators(
+                confirmPasswordValidator);
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = "editForm")
+    @RequestMapping(method = RequestMethod.GET)
     public String editForm(
             @AuthenticationPrincipal CustomUserDetails userDetail,
             ProfileForm form) {
@@ -64,13 +69,13 @@ public class ProfileController {
         return "user/profileEditForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "editRedo")
+    @RequestMapping(method = RequestMethod.POST, params = "redo")
     public String editRedo(ProfileForm form) {
         return "user/profileEditForm";
     }
 
     @TransactionTokenCheck(value = "edit", type = TransactionTokenType.BEGIN)
-    @RequestMapping(method = RequestMethod.POST, params = "editConfirm")
+    @RequestMapping(method = RequestMethod.POST, params = "confirm")
     public String editConfirm(
             @Validated({Default.class, ProfileForm.Updating.class}) ProfileForm form,
             BindingResult bindingResult) {
@@ -83,7 +88,7 @@ public class ProfileController {
     }
 
     @TransactionTokenCheck(value = "edit")
-    @RequestMapping(method = RequestMethod.POST, params = "edit")
+    @RequestMapping(method = RequestMethod.POST)
     public String edit(
             @AuthenticationPrincipal CustomUserDetails userDetail,
             @Validated({Default.class, ProfileForm.Updating.class}) ProfileForm form,
@@ -95,27 +100,22 @@ public class ProfileController {
         }
 
         try {
-
             User inputUser = beanMapper.map(form, User.class);
             profileService.edit(userDetail.getUser().getUserUuid(), inputUser);
-
-            userHelper.updateSecurityContextByUserId(form.getUserId());
-
+            securityContextService.updateSecurityContextByUserId(form.getUserId());
         } catch (DuplicateKeyException e) {
             userHelper.rejectInvalidUserId(bindingResult);
             return editRedo(form);
-
         } catch (ObjectOptimisticLockingFailureException e) {
-            userHelper.updateSecurityContextByUserUuid(userDetail.getUser().getUserUuid());
+            securityContextService.updateSecurityContextByUserUuid(userDetail.getUser().getUserUuid());
             redirectAttributes.addFlashAttribute(ResultMessages.danger().add("e.sc.um.8005"));
-            return "redirect:/profile?editForm";
-
+            return "redirect:/profile";
         }
 
         return "redirect:/profile?editComplete";
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = "editComplete")
+    @RequestMapping(method = RequestMethod.GET, params = "complete")
     public String updateComplete() {
         return "user/profileEditComplete";
     }

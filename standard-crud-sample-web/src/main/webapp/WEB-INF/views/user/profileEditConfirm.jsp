@@ -12,9 +12,9 @@
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-8">
-            <form:button class="btn btn-default" name="editRedo">
+            <form:button class="btn btn-default" name="redo">
                 <span class="glyphicon glyphicon-backward"></span> 入力し直す</form:button>
-            <form:button class="btn btn-default" name="edit">
+            <form:button class="btn btn-default">
                 <span class="glyphicon glyphicon-save"></span> 更新</form:button>
         </div>
     </div>

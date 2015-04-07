@@ -19,28 +19,34 @@
     </c:choose>
     <t:messagesPanel/>
 
-    <c:url value="/authenticate" var="searchUrl"/>
-    <form action="${searchUrl}" method="post" class="form-horizontal">
+    <c:url value="/login" var="loginUrl"/>
+    <form:form action="${loginUrl}" cssClass="form-horizontal" modelAttribute="loginForm">
         <div class="form-group">
-            <label for="username" class="col-sm-3 control-label">ユーザーID</label>
+            <form:label path="userId" cssClass="col-sm-3 control-label">ユーザーID</form:label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="username" name="username">
+                <form:input path="userId" cssClass="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <form:errors path="userId" />
             </div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-3 control-label">パスワード</label>
+            <form:label path="password" cssClass="col-sm-3 control-label">パスワード</form:label>
 
             <div class="col-sm-4">
-                <input type="password" class="form-control" id="password" name="password">
+                <form:password path="password" cssClass="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <form:errors path="password" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-4">
-                <button class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span>ログイン</button>
+                <form:button class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span>ログイン</form:button>
             </div>
         </div>
         <sec:csrfInput/>
-    </form>
+    </form:form>
 
 </div>

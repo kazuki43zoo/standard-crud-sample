@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 @lombok.Data
 @lombok.ToString(exclude = {"password", "confirmPassword"})
-public class ProfileForm implements Serializable {
+public class ProfileForm implements ConfirmPasswordContainer, Serializable {
 
     interface Creating {
     }

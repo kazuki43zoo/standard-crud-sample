@@ -11,7 +11,7 @@
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-8">
-            <form:button class="btn btn-default" name="editConfirm">
+            <form:button class="btn btn-default" name="confirm">
                 <span class="glyphicon glyphicon-ok"></span> 入力完了</form:button>
             <a href="<c:url value="/profile?editForm"/>" class="btn btn-default">
                 <span class="glyphicon glyphicon-refresh"></span> 元に戻す</a>

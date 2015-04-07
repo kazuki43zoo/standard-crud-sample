@@ -8,7 +8,7 @@
                     <h3>利用者向けメニュー</h3>
 
                     <p>
-                        <a href="<c:url value="/profile?editForm" />"
+                        <a href="<c:url value="/profile" />"
                            class="btn btn-default">
                             <span class="glyphicon glyphicon-search"></span>
                             <spring:message code="title.user.profileEditForm"/></a>

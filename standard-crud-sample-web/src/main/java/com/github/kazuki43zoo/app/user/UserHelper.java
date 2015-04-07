@@ -7,10 +7,6 @@ import com.github.kazuki43zoo.domain.service.user.UserSharedService;
 import org.dozer.Mapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,10 +23,6 @@ public class UserHelper {
 
     @Inject
     UserSharedService userSharedService;
-
-    @Inject
-    UserDetailsService userDetailsService;
-
     @Inject
     Mapper beanMapper;
 
@@ -86,19 +78,6 @@ public class UserHelper {
 
     public void rejectInvalidUserId(Errors errors) {
         errors.rejectValue("userId", "e.sc.um.8003");
-    }
-
-    public void updateSecurityContextByUserId(String userId) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-        authentication.setDetails(userDetails);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
-    public void updateSecurityContextByUserUuid(String userUuid) {
-        User user = userSharedService.find(userUuid);
-        updateSecurityContextByUserId(user.getCredential().getUserId());
     }
 
 

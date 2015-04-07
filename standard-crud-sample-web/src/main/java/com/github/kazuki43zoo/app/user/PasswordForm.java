@@ -5,7 +5,8 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @lombok.Data
-public class PasswordForm implements Serializable {
+@lombok.ToString(of = "userId")
+public class PasswordForm implements ConfirmPasswordContainer, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -13,13 +14,13 @@ public class PasswordForm implements Serializable {
     private String userId;
 
     @NotNull
-    private String password;
+    private String currentPassword;
 
     @NotNull
     @Size(min = 8, max = 32)
-    private String newPassword;
+    private String password;
 
     @NotNull
-    private String confirmNewPassword;
+    private String confirmPassword;
 
 }

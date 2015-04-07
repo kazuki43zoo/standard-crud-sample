@@ -24,7 +24,7 @@
                 login-page="/login?encourage"
                 login-processing-url="/authenticate"
                 authentication-failure-handler-ref="authenticationFailureHandler"
-                username-parameter="username"
+                username-parameter="userId"
                 password-parameter="password"/>
 
         <sec:logout
@@ -50,12 +50,11 @@
         <property name="exceptionMappings">
             <map>
                 <entry key="org.springframework.security.authentication.CredentialsExpiredException"
-                       value="/password?changeForm"/>
+                       value="/password"/>
             </map>
         </property>
     </bean>
 
-    <!-- CSRF Protection -->
     <bean id="accessDeniedHandler"
           class="org.springframework.security.web.access.DelegatingAccessDeniedHandler">
         <constructor-arg index="0">
@@ -76,7 +75,6 @@
         </constructor-arg>
     </bean>
 
-    <!-- Put UserID into MDC -->
     <bean id="userIdMDCPutFilter"
           class="org.terasoluna.gfw.security.web.logging.UserIdMDCPutFilter">
     </bean>

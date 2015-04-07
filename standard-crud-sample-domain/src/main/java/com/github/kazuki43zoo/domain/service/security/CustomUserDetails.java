@@ -1,4 +1,4 @@
-package com.github.kazuki43zoo.domain.service.userdetails;
+package com.github.kazuki43zoo.domain.service.security;
 
 import com.github.kazuki43zoo.domain.model.CredentialStatus;
 import com.github.kazuki43zoo.domain.model.User;

@@ -35,7 +35,10 @@ public class UserController {
     UserHelper userHelper;
 
     @Inject
-    ProfileFormValidator userCredentialFormValidator;
+    UserIdValidator userIdValidator;
+
+    @Inject
+    ConfirmPasswordValidator confirmPasswordValidator;
 
     @Inject
     Mapper beanMapper;
@@ -47,7 +50,9 @@ public class UserController {
 
     @InitBinder("userForm")
     public void addValidators(WebDataBinder binder) {
-        binder.addValidators(userCredentialFormValidator);
+        binder.addValidators(
+                userIdValidator,
+                confirmPasswordValidator);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "createForm")
@@ -86,14 +91,11 @@ public class UserController {
 
         User createdUser;
         try {
-
             User user = beanMapper.map(form, User.class);
             createdUser = userService.create(user, form.getRoles());
-
         } catch (DuplicateKeyException e) {
             userHelper.rejectInvalidUserId(bindingResult);
             return createRedo(form);
-
         }
 
         redirectAttributes.addAttribute("userUuid", createdUser.getUserUuid());
@@ -118,9 +120,7 @@ public class UserController {
         beanMapper.map(user, form);
         form.setPassword(null);
         form.setRoles(new ArrayList<>());
-        user.getRoles().forEach(userRole -> {
-            form.getRoles().add(userRole.getRole());
-        });
+        user.getRoles().forEach(userRole -> form.getRoles().add(userRole.getRole()));
         model.addAttribute(form);
 
         return "user/updateForm";
@@ -164,14 +164,11 @@ public class UserController {
         }
 
         try {
-
             User user = beanMapper.map(form, User.class);
             userService.update(userUuid, user, form.getRoles());
-
         } catch (DuplicateKeyException e) {
             userHelper.rejectInvalidUserId(bindingResult);
             return updateRedo(userUuid, form, model);
-
         }
 
         redirectAttributes.addAttribute("userUuid", userUuid);

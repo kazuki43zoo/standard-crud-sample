@@ -9,7 +9,7 @@ import org.springframework.validation.SmartValidator;
 import javax.inject.Inject;
 
 @Component
-public class ProfileFormValidator implements SmartValidator {
+public class UserIdValidator implements SmartValidator {
 
     @Inject
     CredentialSharedService credentialShardService;
@@ -33,13 +33,6 @@ public class ProfileFormValidator implements SmartValidator {
         boolean isCreating = ArrayUtils.contains(validationHints, ProfileForm.Creating.class);
         ProfileForm form = ProfileForm.class.cast(target);
 
-        validateUserId(form, errors, isCreating);
-
-        validatePasswordAndConfirmPassword(form, errors);
-
-    }
-
-    private void validateUserId(ProfileForm form, Errors errors, boolean isCreating) {
         if (!errors.hasFieldErrors("userId")) {
             boolean isValidUserId;
             if (isCreating) {
@@ -51,17 +44,7 @@ public class ProfileFormValidator implements SmartValidator {
                 userHelper.rejectInvalidUserId(errors);
             }
         }
-    }
 
-    private void validatePasswordAndConfirmPassword(ProfileForm form, Errors errors) {
-        if (!errors.hasFieldErrors("password")
-                && !errors.hasFieldErrors("confirmPassword")) {
-            if (form.getPassword() != null) {
-                if (!form.getPassword().equals(form.getConfirmPassword())) {
-                    errors.rejectValue("confirmPassword", "e.sc.um.5007");
-                }
-            }
-        }
     }
 
 }

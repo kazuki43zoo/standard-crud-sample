@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Objects;
+
 @Component
 public class ConfirmPasswordValidator implements Validator {
 
@@ -17,7 +19,9 @@ public class ConfirmPasswordValidator implements Validator {
         ConfirmPasswordContainer confirmPasswordContainer = ConfirmPasswordContainer.class.cast(target);
         if (!errors.hasFieldErrors("password")
                 && !errors.hasFieldErrors("confirmPassword")) {
-            if (!confirmPasswordContainer.getPassword().equals(confirmPasswordContainer.getConfirmPassword())) {
+            if (!Objects.equals(
+                    confirmPasswordContainer.getPassword(),
+                    confirmPasswordContainer.getConfirmPassword())) {
                 errors.rejectValue("confirmPassword", "e.sc.um.5007");
             }
         }

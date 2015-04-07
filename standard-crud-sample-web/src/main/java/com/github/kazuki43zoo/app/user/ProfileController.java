@@ -74,7 +74,7 @@ public class ProfileController {
         return "user/profileEditForm";
     }
 
-    @TransactionTokenCheck(value = "edit", type = TransactionTokenType.BEGIN)
+    @TransactionTokenCheck(type = TransactionTokenType.BEGIN)
     @RequestMapping(method = RequestMethod.POST, params = "confirm")
     public String editConfirm(
             @Validated({Default.class, ProfileForm.Updating.class}) ProfileForm form,
@@ -87,7 +87,7 @@ public class ProfileController {
         return "user/profileEditConfirm";
     }
 
-    @TransactionTokenCheck(value = "edit")
+    @TransactionTokenCheck
     @RequestMapping(method = RequestMethod.POST)
     public String edit(
             @AuthenticationPrincipal CustomUserDetails userDetail,
@@ -112,7 +112,7 @@ public class ProfileController {
             return "redirect:/profile";
         }
 
-        return "redirect:/profile?editComplete";
+        return "redirect:/profile?complete";
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "complete")

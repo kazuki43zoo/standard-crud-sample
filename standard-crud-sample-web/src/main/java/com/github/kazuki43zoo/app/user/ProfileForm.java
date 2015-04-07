@@ -1,6 +1,7 @@
 package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.core.validation.Numeric;
+import org.hibernate.validator.constraints.Email;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,6 +43,7 @@ public class ProfileForm implements ConfirmPasswordContainer, Serializable {
 
     @NotNull
     @Size(max = 256)
+    @Email
     private String email;
 
     @NotNull(groups = Creating.class)

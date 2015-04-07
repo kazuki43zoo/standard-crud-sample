@@ -6,6 +6,7 @@
 <html class="no-js">
 <!--<![endif]-->
 <head>
+
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="viewport" content="width=device-width"/>
@@ -21,8 +22,7 @@
     <c:set var="titleKey" scope="request">
         <tiles:insertAttribute name="title" ignore="true"/>
     </c:set>
-    <title><spring:message code="${titleKey}"
-                           text="standard-crud-sample"/></title>
+    <title><spring:message code="${titleKey}" text="standard-crud-sample"/></title>
 
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">

@@ -16,8 +16,10 @@
         <c:when test="${param.containsKey('error')}">
             <t:messagesPanel messagesType="danger" messagesAttributeName="SPRING_SECURITY_LAST_EXCEPTION"/>
         </c:when>
+        <c:otherwise>
+            <t:messagesPanel/>
+        </c:otherwise>
     </c:choose>
-    <t:messagesPanel/>
 
     <c:url value="/login" var="loginUrl"/>
     <form:form action="${loginUrl}" cssClass="form-horizontal" modelAttribute="loginForm">
@@ -25,20 +27,20 @@
             <form:label path="userId" cssClass="col-sm-3 control-label">ユーザーID</form:label>
 
             <div class="col-sm-4">
-                <form:input path="userId" cssClass="form-control" />
+                <form:input path="userId" cssClass="form-control"/>
             </div>
             <div class="col-sm-4">
-                <form:errors path="userId" />
+                <form:errors path="userId"/>
             </div>
         </div>
         <div class="form-group">
             <form:label path="password" cssClass="col-sm-3 control-label">パスワード</form:label>
 
             <div class="col-sm-4">
-                <form:password path="password" cssClass="form-control" />
+                <form:password path="password" cssClass="form-control"/>
             </div>
             <div class="col-sm-4">
-                <form:errors path="password" />
+                <form:errors path="password"/>
             </div>
         </div>
         <div class="form-group">

@@ -10,8 +10,14 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @lombok.Data
-@lombok.ToString(exclude = {"password", "confirmationPassword"})
-public class ProfileForm implements UserCredentialForm, Serializable {
+@lombok.ToString(exclude = {"password", "confirmPassword"})
+public class ProfileForm implements Serializable {
+
+    interface Creating {
+    }
+
+    interface Updating {
+    }
 
     private static final long serialVersionUID = 1L;
 

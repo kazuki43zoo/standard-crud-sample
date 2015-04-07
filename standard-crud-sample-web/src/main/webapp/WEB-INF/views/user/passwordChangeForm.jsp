@@ -1,7 +1,7 @@
 <t:messagesPanel/>
 
 <c:url value="/password" var="changeUrl"/>
-<form:form action="${changeUrl}" cssClass="form-horizontal" modelAttribute="passwordChangeForm">
+<form:form action="${changeUrl}" cssClass="form-horizontal" modelAttribute="passwordForm">
 
     <div class="form-group">
         <form:label path="userId" cssClass="col-sm-3 control-label">ユーザーID</form:label>

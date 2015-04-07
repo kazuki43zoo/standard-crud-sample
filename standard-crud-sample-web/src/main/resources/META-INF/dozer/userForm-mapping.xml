@@ -42,17 +42,4 @@
         </field>
     </mapping>
 
-    <mapping>
-        <class-a>com.github.kazuki43zoo.app.user.PasswordChangeForm</class-a>
-        <class-b>com.github.kazuki43zoo.domain.model.User</class-b>
-        <field>
-            <a>userId</a>
-            <b>credential.userId</b>
-        </field>
-        <field>
-            <a>newPassword</a>
-            <b>credential.password</b>
-        </field>
-    </mapping>
-
 </mappings>

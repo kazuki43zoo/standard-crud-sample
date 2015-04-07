@@ -35,7 +35,7 @@ public class ProfileController {
     UserHelper userHelper;
 
     @Inject
-    UserCredentialFormValidator userCredentialFormValidator;
+    ProfileFormValidator userCredentialFormValidator;
 
     @Inject
     Mapper beanMapper;

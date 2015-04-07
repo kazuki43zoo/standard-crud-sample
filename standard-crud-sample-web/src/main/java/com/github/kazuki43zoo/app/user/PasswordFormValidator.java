@@ -5,21 +5,21 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class PasswordChangeFormValidator implements Validator {
+public class PasswordFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return PasswordChangeForm.class.isAssignableFrom(clazz);
+        return PasswordForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        PasswordChangeForm form = PasswordChangeForm.class.cast(target);
+        PasswordForm form = PasswordForm.class.cast(target);
         validatePasswordAndNewPassword(form, errors);
         validateNewPasswordAndConfirmNewPassword(form, errors);
     }
 
-    private void validatePasswordAndNewPassword(PasswordChangeForm form, Errors errors) {
+    private void validatePasswordAndNewPassword(PasswordForm form, Errors errors) {
         if (!errors.hasFieldErrors("password")
                 && !errors.hasFieldErrors("newPassword")) {
             if (form.getPassword().equals(form.getNewPassword())) {
@@ -28,7 +28,7 @@ public class PasswordChangeFormValidator implements Validator {
         }
     }
 
-    private void validateNewPasswordAndConfirmNewPassword(PasswordChangeForm form, Errors errors) {
+    private void validateNewPasswordAndConfirmNewPassword(PasswordForm form, Errors errors) {
         if (!errors.hasFieldErrors("newPassword")
                 && !errors.hasFieldErrors("confirmNewPassword")) {
             if (!form.getNewPassword().equals(form.getConfirmNewPassword())) {

@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @lombok.Data
-public class PasswordChangeForm implements Serializable {
+public class PasswordForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

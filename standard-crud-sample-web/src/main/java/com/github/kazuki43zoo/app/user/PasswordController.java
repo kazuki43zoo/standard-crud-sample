@@ -1,7 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.domain.service.user.CredentialService;
-import org.dozer.Mapper;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,17 +27,14 @@ public class PasswordController {
     CredentialService credentialService;
 
     @Inject
-    PasswordChangeFormValidator passwordChangeFormValidator;
-
-    @Inject
-    Mapper beanMapper;
+    PasswordFormValidator passwordChangeFormValidator;
 
     @ModelAttribute
-    public PasswordChangeForm setupPasswordChangeForm() {
-        return new PasswordChangeForm();
+    public PasswordForm setupPasswordForm() {
+        return new PasswordForm();
     }
 
-    @InitBinder("passwordChangeForm")
+    @InitBinder("passwordForm")
     public void addValidators(WebDataBinder binder) {
         binder.addValidators(passwordChangeFormValidator);
     }
@@ -52,7 +48,7 @@ public class PasswordController {
     @TransactionTokenCheck(value = "change")
     @RequestMapping(method = RequestMethod.POST)
     public String change(
-            @Validated PasswordChangeForm form,
+            @Validated PasswordForm form,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
 

@@ -9,7 +9,7 @@ import org.springframework.validation.SmartValidator;
 import javax.inject.Inject;
 
 @Component
-public class UserCredentialFormValidator implements SmartValidator {
+public class ProfileFormValidator implements SmartValidator {
 
     @Inject
     CredentialSharedService credentialShardService;
@@ -19,7 +19,7 @@ public class UserCredentialFormValidator implements SmartValidator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return UserCredentialForm.class.isAssignableFrom(clazz);
+        return ProfileForm.class.isAssignableFrom(clazz);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class UserCredentialFormValidator implements SmartValidator {
     @Override
     public void validate(Object target, Errors errors, Object... validationHints) {
 
-        boolean isCreating = ArrayUtils.contains(validationHints, UserCredentialForm.Creating.class);
-        UserCredentialForm form = UserCredentialForm.class.cast(target);
+        boolean isCreating = ArrayUtils.contains(validationHints, ProfileForm.Creating.class);
+        ProfileForm form = ProfileForm.class.cast(target);
 
         validateUserId(form, errors, isCreating);
 
@@ -39,7 +39,7 @@ public class UserCredentialFormValidator implements SmartValidator {
 
     }
 
-    private void validateUserId(UserCredentialForm form, Errors errors, boolean isCreating) {
+    private void validateUserId(ProfileForm form, Errors errors, boolean isCreating) {
         if (!errors.hasFieldErrors("userId")) {
             boolean isValidUserId;
             if (isCreating) {
@@ -53,7 +53,7 @@ public class UserCredentialFormValidator implements SmartValidator {
         }
     }
 
-    private void validatePasswordAndConfirmPassword(UserCredentialForm form, Errors errors) {
+    private void validatePasswordAndConfirmPassword(ProfileForm form, Errors errors) {
         if (!errors.hasFieldErrors("password")
                 && !errors.hasFieldErrors("confirmPassword")) {
             if (form.getPassword() != null) {

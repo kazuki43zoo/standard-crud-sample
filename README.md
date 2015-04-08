@@ -19,8 +19,7 @@ Sample Application of standard CRUD using TERASOLUNA Server Framework 5.x (5.0.0
 
 > **NOTE:**
 >
-> Please install the lombok into  IED(Eclipse, STS, IDEA ,etc...)
-> For details, refer to [here](http://projectlombok.org/download.html).
+> Please install the lombok into  IED(Eclipse, STS, IDEA ,etc...). For details, refer to [here](http://projectlombok.org/download.html).
 
 ## Features of this samples
 This sample application provide how to implement standard features.

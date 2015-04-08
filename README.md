@@ -41,6 +41,8 @@ Target features are follows:
 * Exception handling
 * File upload (comming soon !!)
 * File download (comming soon !!)
+* JSP with JSTL and Spring tag libraries
+* Tiles layout
 
 #### Security Layer
 * Form and DB Authentication

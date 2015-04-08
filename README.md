@@ -39,6 +39,8 @@ Target features are follows:
 * Message management
 * Pagination
 * Exception handling
+* File upload (comming soon !!)
+* File download (comming soon !!)
 
 #### Security Layer
 * Form and DB Authentication

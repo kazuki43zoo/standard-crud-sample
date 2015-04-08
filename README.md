@@ -1,7 +1,7 @@
 # standard-crud-sample
 Sample Application of standard CRUD using TERASOLUNA Server Framework 5.x (5.0.0.RELEASE)
 
-## Main Frameworks and Libraries
+## Frameworks and Libraries
 
 |Class|Library|Version|
 |:---|:---|:---|
@@ -15,6 +15,12 @@ Sample Application of standard CRUD using TERASOLUNA Server Framework 5.x (5.0.0
 |Date and Time Operations|Joda Time|2.5|
 |Logging|Logback|1.1.2|
 |+α|TERASOLUNA Server Framework 5.x common library|5.0.0.RELEASE|
+|+α|Lombok|1.14.8|
+
+> **NOTE:**
+>
+> Please install the lombok into  IED(Eclipse, STS, IDEA ,etc...)
+> For details, refer to [here](http://projectlombok.org/download.html).
 
 ## Features of this samples
 This sample application provide how to implement standard features.
@@ -36,9 +42,11 @@ Target features are follows:
 * Exception handling
 
 #### Security Layer
-* Authentication (Login & Logout)
-* Login form validation (integrating with Spring MVC)
-* Authorization (URL based control & screen item control)
+* Form and DB Authentication
+* Logout
+* Login form validation using Spring MVC
+* URL based Authorization
+* Screen item control with Authorization 
 * Attack measure (CSRF & Session fixation protection & securty HTTP headers)
 * Invalid session detection
 

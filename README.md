@@ -33,16 +33,17 @@ Target features are follows:
 
 #### Application Layer
 * Standard screen flow control (PRG pattern)
-* Transaction token check
 * Input validation (Bean Validation & Spring Validator)
-* Form managment on `HttpSession` (using `@SessionAttributes` annotation)
-* Message management
 * Pagination
+* Taking over search criteria on stateless (using query parameter + `@ModelAttribute` + `RequestDataValueProcessor`)
+* Transaction token check
 * Exception handling
+* Message management
+* Tiles layout
+* JSP with JSTL and Spring tag libraries
+
 * File upload (comming soon !!)
 * File download (comming soon !!)
-* JSP with JSTL and Spring tag libraries
-* Tiles layout
 
 #### Security Layer
 * Form and DB Authentication

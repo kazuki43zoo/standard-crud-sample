@@ -157,6 +157,7 @@ public class UserController {
             @PathVariable("userUuid") String userUuid,
             @Validated({Default.class, UserForm.Updating.class}) UserForm form,
             BindingResult bindingResult,
+            @RequestParam("backwardQueryString") String backwardQueryString,
             Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -172,6 +173,7 @@ public class UserController {
         }
 
         redirectAttributes.addAttribute("userUuid", userUuid);
+        redirectAttributes.addAttribute("backwardQueryString" , backwardQueryString);
         return "redirect:/users/{userUuid}?updateComplete";
     }
 
@@ -184,14 +186,16 @@ public class UserController {
 
 
     @TransactionTokenCheck
-    @RequestMapping(value = "{userUuid}", method = RequestMethod.PUT, params = "delete")
+    @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "delete")
     public String delete(
             @PathVariable("userUuid") String userUuid,
+            @RequestParam("backwardQueryString") String backwardQueryString,
             RedirectAttributes redirectAttributes) {
 
         userService.delete(userUuid);
 
         redirectAttributes.addAttribute("userUuid", userUuid);
+        redirectAttributes.addAttribute("backwardQueryString" , backwardQueryString);
         return "redirect:/users/{userUuid}?deleteComplete";
     }
 

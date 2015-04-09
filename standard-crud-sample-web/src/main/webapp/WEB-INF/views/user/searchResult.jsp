@@ -1,3 +1,5 @@
+<c:set var="backwardQueryString" value="${f:query(userSearchForm)}&page=${usersPage.number}&size=${usersPage.size}" />
+
 <script type="text/javascript">
     $(function () {
         $("#userTable .deleteBtn").on("click", function () {
@@ -34,7 +36,7 @@
             <td>${f:h(user.email)}</td>
             <td>${f:h(CL_USERSTATUS[user.status.name()])}</td>
             <td>
-                <a href="<c:url value="/users/${f:h(user.userUuid)}?updateForm" />" class="btn btn-default"
+                <a href="<c:url value="/users/${f:h(user.userUuid)}?updateForm&backwardQueryString=${f:h(f:u(backwardQueryString))}" />" class="btn btn-default"
                    title="編集">
                     <span class="glyphicon glyphicon-edit"></span></a>
                 <c:if test="${user.status.name() != 'DELETED'}">
@@ -55,7 +57,7 @@
 </c:if>
 
 <div>
-    <a href="<c:url value="/users?searchForm"/>" class="btn btn-default">
+    <a href="<c:url value="/users?searchForm&${f:h(f:query(userSearchForm))}"/>" class="btn btn-default">
         <span class="glyphicon glyphicon-step-backward"></span>
         <spring:message code="title.user.searchForm"/></a>
 </div>
@@ -75,10 +77,11 @@
             </div>
             <div class="modal-footer">
                 <form:form id="deleteForm">
+                    <input type="hidden" name="backwardQueryString" value="${f:h(backwardQueryString)}">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         いいえ
                     </button>
-                    <button name="_method" value="DELETE" class="btn btn-default" name="delete">
+                    <button name="delete" class="btn btn-default" >
                         はい
                     </button>
                 </form:form>

@@ -41,7 +41,6 @@ Target features are follows:
 * Message management
 * Tiles layout
 * JSP with JSTL and Spring tag libraries
-
 * File upload (comming soon !!)
 * File download (comming soon !!)
 

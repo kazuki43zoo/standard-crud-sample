@@ -23,13 +23,14 @@
         <div class="col-sm-offset-3 col-sm-8">
             <form:button class="btn btn-default" name="updateConfirm">
                 <span class="glyphicon glyphicon-ok"></span> 入力完了</form:button>
-            <a href="<c:url value="/users/${user.userUuid}?updateForm"/>" class="btn btn-default">
-                <span class="glyphicon glyphicon-refresh"></span> 最新化</a>
+            <a href="<c:url value="/users/${user.userUuid}?updateForm&backwardQueryString=${f:h(f:u(backwardQueryString))}"/>" class="btn btn-default">
+                <span class="glyphicon glyphicon-refresh"></span> 最新化
+            </a>
         </div>
     </div>
 
 </form:form>
 
-<a href="<c:url value="/users?searchResult"/>" class="btn btn-default">
+<a href="<c:url value="/users?${f:h(backwardQueryString)}"/>" class="btn btn-default">
     <span class="glyphicon glyphicon-step-backward"></span>
     <spring:message code="title.user.searchResult"/></a>

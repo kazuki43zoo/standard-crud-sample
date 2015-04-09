@@ -79,10 +79,11 @@
           class="org.terasoluna.gfw.web.mvc.support.CompositeRequestDataValueProcessor">
         <constructor-arg>
             <util:list>
-                <bean
-                        class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
-                <bean
-                        class="org.terasoluna.gfw.web.token.transaction.TransactionTokenRequestDataValueProcessor"/>
+                <bean class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
+                <bean class="org.terasoluna.gfw.web.token.transaction.TransactionTokenRequestDataValueProcessor"/>
+                <bean class="com.github.kazuki43zoo.app.ModelAttributeRequestDataValueProcessor">
+                    <constructor-arg value="backwardQueryString"/>
+                </bean>
             </util:list>
         </constructor-arg>
     </bean>

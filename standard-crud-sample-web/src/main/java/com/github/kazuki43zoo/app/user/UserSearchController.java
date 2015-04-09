@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,7 +23,6 @@ import javax.inject.Inject;
 @Controller
 @RequestMapping("users")
 @TransactionTokenCheck("users")
-@SessionAttributes(types = {UserSearchForm.class}, value = {"usersPageable"})
 public class UserSearchController {
 
     @Inject
@@ -82,22 +80,7 @@ public class UserSearchController {
         }
 
         model.addAttribute("usersPage", users);
-        model.addAttribute("usersPageable", pageable);
         return "user/searchResult";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, params = "searchResult")
-    public String searchResult(
-            RedirectAttributes redirectAttributes,
-            @ModelAttribute UserSearchForm form,
-            @ModelAttribute("usersPageable") Pageable pageable) {
-        userHelper.takeOverSearchCriteriaOnRedirect(redirectAttributes, form, pageable);
-        return "redirect:/users";
-    }
-
-    @ExceptionHandler(HttpSessionRequiredException.class)
-    public String handleHttpSessionRequiredException() {
-        return "redirect:/users?searchForm";
     }
 
 }

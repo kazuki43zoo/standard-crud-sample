@@ -52,7 +52,7 @@
 
 <c:if test="${1 < usersPage.totalPages}">
     <div class="paginationContainer">
-        <t:pagination page="${usersPage}" outerElementClass="pagination"/>
+        <t:pagination page="${usersPage}" criteriaQuery="${f:query(userSearchForm)}" outerElementClass="pagination"/>
     </div>
 </c:if>
 

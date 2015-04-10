@@ -15,11 +15,12 @@ public class PasswordFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         PasswordForm form = PasswordForm.class.cast(target);
-        if (!errors.hasFieldErrors("currentPassword")
-                && !errors.hasFieldErrors("password")) {
-            if (form.getCurrentPassword().equals(form.getPassword())) {
-                errors.rejectValue("password", "e.sc.um.5011");
-            }
+        if (errors.hasFieldErrors("currentPassword")
+                || errors.hasFieldErrors("password")) {
+            return;
+        }
+        if (form.getCurrentPassword().equals(form.getPassword())) {
+            errors.rejectValue("password", "e.sc.um.5011");
         }
     }
 

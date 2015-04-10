@@ -4,6 +4,6 @@
 <a href="<c:url value="/users?createForm"/>" class="btn btn-default">
     <span class="glyphicon glyphicon-plus"></span>
     <spring:message code="title.user.createForm"/></a>
-<a href="<c:url value="/users?initSearchForm"/>" class="btn btn-default">
+<a href="<c:url value="/users?searchForm"/>" class="btn btn-default">
     <span class="glyphicon glyphicon-step-backward"></span>
     <spring:message code="title.user.searchForm"/></a>

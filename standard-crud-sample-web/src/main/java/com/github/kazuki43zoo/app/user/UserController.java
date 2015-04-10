@@ -21,7 +21,6 @@ import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
 import javax.inject.Inject;
 import javax.validation.groups.Default;
-import java.util.ArrayList;
 
 @Controller
 @RequestMapping("users")
@@ -119,8 +118,9 @@ public class UserController {
 
         beanMapper.map(user, form);
         form.setPassword(null);
-        form.setRoles(new ArrayList<>());
-        user.getRoles().forEach(userRole -> form.getRoles().add(userRole.getRole()));
+        user.getRoles().forEach(userRole -> {
+            form.getRoles().add(userRole.getRole());
+        });
         model.addAttribute(form);
 
         return "user/updateForm";
@@ -130,7 +130,7 @@ public class UserController {
     public String updateRedo(
             @PathVariable("userUuid") String userUuid,
             UserForm form, Model model) {
-        userHelper.loadUserIntoModelWithCheckingVersion(userUuid, model, form);
+        userHelper.loadUserIntoModelWithinLongTransaction(userUuid, model, form);
         return "user/updateForm";
     }
 
@@ -146,7 +146,7 @@ public class UserController {
             return updateRedo(userUuid, form, model);
         }
 
-        userHelper.loadUserIntoModelWithCheckingVersion(userUuid, model, form);
+        userHelper.loadUserIntoModelWithinLongTransaction(userUuid, model, form);
 
         return "user/updateConfirm";
     }
@@ -157,7 +157,7 @@ public class UserController {
             @PathVariable("userUuid") String userUuid,
             @Validated({Default.class, UserForm.Updating.class}) UserForm form,
             BindingResult bindingResult,
-            @RequestParam("backwardQueryString") String backwardQueryString,
+            @ModelAttribute("backwardQueryString") String backwardQueryString,
             Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -173,7 +173,7 @@ public class UserController {
         }
 
         redirectAttributes.addAttribute("userUuid", userUuid);
-        redirectAttributes.addAttribute("backwardQueryString" , backwardQueryString);
+        redirectAttributes.addAttribute("backwardQueryString", backwardQueryString);
         return "redirect:/users/{userUuid}?updateComplete";
     }
 
@@ -189,13 +189,13 @@ public class UserController {
     @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "delete")
     public String delete(
             @PathVariable("userUuid") String userUuid,
-            @RequestParam("backwardQueryString") String backwardQueryString,
+            @ModelAttribute("backwardQueryString") String backwardQueryString,
             RedirectAttributes redirectAttributes) {
 
         userService.delete(userUuid);
 
         redirectAttributes.addAttribute("userUuid", userUuid);
-        redirectAttributes.addAttribute("backwardQueryString" , backwardQueryString);
+        redirectAttributes.addAttribute("backwardQueryString", backwardQueryString);
         return "redirect:/users/{userUuid}?deleteComplete";
     }
 

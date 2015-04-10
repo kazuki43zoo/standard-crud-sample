@@ -1,6 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
-import com.github.kazuki43zoo.domain.service.user.CredentialSharedService;
+import com.github.kazuki43zoo.domain.service.user.UserSharedService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -12,7 +12,7 @@ import javax.inject.Inject;
 public class UserIdValidator implements SmartValidator {
 
     @Inject
-    CredentialSharedService credentialShardService;
+    UserSharedService userSharedService;
 
     @Inject
     UserHelper userHelper;
@@ -33,16 +33,18 @@ public class UserIdValidator implements SmartValidator {
         boolean isCreating = ArrayUtils.contains(validationHints, ProfileForm.Creating.class);
         ProfileForm form = ProfileForm.class.cast(target);
 
-        if (!errors.hasFieldErrors("userId")) {
-            boolean isValidUserId;
-            if (isCreating) {
-                isValidUserId = credentialShardService.isValidUserIdOnCreating(form.getUserId());
-            } else {
-                isValidUserId = credentialShardService.isValidUserIdOnUpdating(form.getUserId(), form.getUserUuid());
-            }
-            if (!isValidUserId) {
-                userHelper.rejectInvalidUserId(errors);
-            }
+        if (errors.hasFieldErrors("userId") || errors.hasFieldErrors("userUuid")) {
+            return;
+        }
+
+        boolean isValidUserId;
+        if (isCreating) {
+            isValidUserId = userSharedService.isValidUserIdOnCreating(form.getUserId());
+        } else {
+            isValidUserId = userSharedService.isValidUserIdOnUpdating(form.getUserId(), form.getUserUuid());
+        }
+        if (!isValidUserId) {
+            userHelper.rejectInvalidUserId(errors);
         }
 
     }

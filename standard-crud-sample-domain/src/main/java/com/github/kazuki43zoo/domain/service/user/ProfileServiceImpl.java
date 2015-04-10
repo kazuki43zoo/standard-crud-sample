@@ -4,14 +4,10 @@ import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.model.UserCredential;
 import com.github.kazuki43zoo.domain.repository.user.UserRepository;
 import org.dozer.Mapper;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
-import org.terasoluna.gfw.common.message.ResultMessages;
 
 import javax.inject.Inject;
-import java.util.Optional;
 
 @Transactional
 @Service
@@ -21,7 +17,7 @@ public class ProfileServiceImpl implements ProfileService {
     UserRepository userRepository;
 
     @Inject
-    CredentialSharedService userCredentialShardService;
+    UserSharedService userSharedService;
 
     @Inject
     Mapper beanMapper;
@@ -29,33 +25,18 @@ public class ProfileServiceImpl implements ProfileService {
     public User edit(String userUuid, User inputUser) {
 
         // find user
-        User storedUser = Optional.ofNullable(userRepository.findOne(userUuid))
-                .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add("e.sc.fw.5001")));
+        User storedUser = userSharedService.findUser(userUuid);
 
         // check a optimistic locking within long transaction
-        {
-            if (storedUser.getVersion() != inputUser.getVersion()) {
-                throw new ObjectOptimisticLockingFailureException(User.class, userUuid);
-            }
-            if (storedUser.getCredential().getVersion() != inputUser.getCredential().getVersion()) {
-                throw new ObjectOptimisticLockingFailureException(UserCredential.class, userUuid);
-            }
-        }
+        userSharedService.checkOptimisticLockingWithinLongTransaction(storedUser, inputUser);
 
         // update a user
-        {
-            beanMapper.map(inputUser, storedUser, "updateProfile");
-            if (!userRepository.update(storedUser)) {
-                throw new ObjectOptimisticLockingFailureException(User.class, userUuid);
-            }
-            storedUser.setVersion(storedUser.getVersion() + 1);
-        }
+        userSharedService.updateUser(storedUser, inputUser);
 
         // update a user credential
-        {
-            UserCredential inputCredential = inputUser.getCredential();
-            userCredentialShardService.updateCredential(storedUser, inputCredential.getUserId(), inputCredential.getPassword());
-        }
+        UserCredential inputCredential = inputUser.getCredential();
+        userSharedService.updateCredential(
+                storedUser, inputCredential.getUserId(), inputCredential.getPassword());
 
         return storedUser;
     }

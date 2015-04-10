@@ -30,7 +30,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
     }
 
     public void updateSecurityContextByUserUuid(String userUuid) {
-        User user = userSharedService.find(userUuid);
+        User user = userSharedService.findUser(userUuid);
         updateSecurityContextByUserId(user.getCredential().getUserId());
     }
 

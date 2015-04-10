@@ -7,7 +7,6 @@ import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,11 +25,9 @@ public class UserServiceImpl implements UserService {
     UserSharedService userSharedService;
 
     @Inject
-    CredentialSharedService userCredentialShardService;
-
-    @Inject
     Mapper beanMapper;
 
+    @Transactional(readOnly = true)
     public Page<User> searchUsers(UserSearchCriteria criteria, Pageable pageable) {
         long count = userRepository.countByCriteria(criteria);
         List<User> users;
@@ -39,79 +36,56 @@ public class UserServiceImpl implements UserService {
         } else {
             users = Collections.emptyList();
         }
-        return new PageImpl<User>(users, pageable, count);
+        return new PageImpl<>(users, pageable, count);
     }
 
     public User create(User inputUser, List<Role> inputRoles) {
 
         // create a user
-        {
-            inputUser.setStatus(UserStatus.ACTIVE);
-            inputUser.setVersion(0);
-            userRepository.create(inputUser);
-        }
+        inputUser.setStatus(UserStatus.ACTIVE);
+        inputUser.setVersion(0);
+        userRepository.create(inputUser);
 
         // create a user credential
-        {
-            userCredentialShardService.createCredential(inputUser);
-        }
+        userSharedService.createCredential(inputUser);
 
         // create user roles
-        {
-            inputRoles.forEach(inputRole -> {
-                inputUser.addRole(new UserRole(inputUser.getUserUuid(), inputRole));
-            });
-            userRepository.createRoles(inputUser);
-        }
+        inputRoles.forEach(inputRole -> {
+            inputUser.addRole(new UserRole(inputUser.getUserUuid(), inputRole));
+        });
+        userRepository.createRoles(inputUser);
 
         return inputUser;
     }
 
     public User update(String userUuid, User inputUser, List<Role> inputRoles) {
 
-        // find user
-        User storedUser = userSharedService.find(userUuid);
+        User storedUser = userSharedService.findUser(userUuid);
 
         // check a optimistic locking within long transaction
-        {
-            if (storedUser.getVersion() != inputUser.getVersion()) {
-                throw new ObjectOptimisticLockingFailureException(User.class, userUuid);
-            }
-            if (storedUser.getCredential().getVersion() != inputUser.getCredential().getVersion()) {
-                throw new ObjectOptimisticLockingFailureException(UserCredential.class, userUuid);
-            }
-        }
+        userSharedService.checkOptimisticLockingWithinLongTransaction(storedUser, inputUser);
 
         // update a user
-        {
-            beanMapper.map(inputUser, storedUser, "updateUser");
-            if (!userRepository.update(storedUser)) {
-                throw new ObjectOptimisticLockingFailureException(User.class, userUuid);
-            }
-            storedUser.setVersion(storedUser.getVersion() + 1);
-        }
+        userSharedService.updateUser(storedUser, inputUser);
 
         // update a user credential
-        {
-            UserCredential inputCredential = inputUser.getCredential();
-            userCredentialShardService.updateCredential(storedUser, inputCredential.getUserId(), inputCredential.getPassword());
-        }
+        UserCredential inputCredential = inputUser.getCredential();
+        userSharedService.updateCredential(
+                storedUser, inputCredential.getUserId(), inputCredential.getPassword());
 
         // update user roles
-        {
-            userRepository.deleteRoles(storedUser);
-            storedUser.getRoles().clear();
-            inputRoles.forEach(inputRole -> {
-                storedUser.addRole(new UserRole(storedUser.getUserUuid(), inputRole));
-            });
-            userRepository.createRoles(storedUser);
-        }
+        userRepository.deleteRoles(storedUser);
+        storedUser.getRoles().clear();
+        inputRoles.forEach(inputRole -> {
+            storedUser.addRole(new UserRole(storedUser.getUserUuid(), inputRole));
+        });
+        userRepository.createRoles(storedUser);
 
         return storedUser;
     }
 
     public User delete(String userUuid) {
-        User user = userSharedService.find(userUuid);
+        User user = userSharedService.findUser(userUuid);
         if (user.getStatus() != UserStatus.DELETED) {
             user.setStatus(UserStatus.DELETED);
             userRepository.update(user);

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
@@ -39,12 +39,6 @@ public class UserSearchController {
         return new UserSearchForm();
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = "initSearchForm")
-    public String initSearchForm(SessionStatus sessionStatus) {
-        sessionStatus.setComplete();
-        return "redirect:/users?searchForm";
-    }
-
     @RequestMapping(method = RequestMethod.GET, params = "searchForm")
     public String searchForm(UserSearchForm from) {
         return "user/searchForm";
@@ -56,8 +50,7 @@ public class UserSearchController {
             @Validated UserSearchForm form,
             BindingResult bindingResult,
             Pageable pageable,
-            Model model,
-            RedirectAttributes redirectAttributes) {
+            Model model) {
 
         if (bindingResult.hasErrors()) {
             return searchForm(form);
@@ -72,11 +65,10 @@ public class UserSearchController {
         }
 
         if (!users.hasContent()) {
-            redirectAttributes.addFlashAttribute(
+            model.addAttribute(
                     ResultMessages.info().add("i.sc.um.2001", pageable.getPageNumber() + 1));
-            userHelper.takeOverSearchCriteriaOnRedirect(redirectAttributes, form,
-                    new PageRequest(users.getTotalPages() - 1, pageable.getPageSize(), pageable.getSort()));
-            return "redirect:/users";
+            return search(form, bindingResult,
+                    new PageRequest(users.getTotalPages() - 1, pageable.getPageSize(), pageable.getSort()), model);
         }
 
         model.addAttribute("usersPage", users);

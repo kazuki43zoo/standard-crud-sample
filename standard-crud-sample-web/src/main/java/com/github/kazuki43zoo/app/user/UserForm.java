@@ -4,6 +4,7 @@ import com.github.kazuki43zoo.domain.model.Role;
 import com.github.kazuki43zoo.domain.model.UserStatus;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @lombok.Data
@@ -20,5 +21,11 @@ public class UserForm extends ProfileForm {
     @NotNull(groups = Updating.class)
     private UserStatus status;
 
+    public List<Role> getRoles() {
+        if (roles == null) {
+            roles = new ArrayList<>();
+        }
+        return roles;
+    }
 
 }

@@ -1,13 +1,13 @@
-<c:set var="backwardQueryString" value="${f:query(userSearchForm)}&page=${usersPage.number}&size=${usersPage.size}" />
+<c:set var="backwardQueryString" value="page=${usersPage.number}&size=${usersPage.size}&${f:query(userSearchForm)}"/>
 
 <script type="text/javascript">
     $(function () {
         $("#userTable .deleteBtn").on("click", function () {
             var $this = $(this);
-            var dialog = $("#deletingConfirmationDialog");
+            var $dialog = $("#deletingConfirmationDialog");
             var action = contextPath + "users/" + $this.data("user-uuid");
-            dialog.find("#deleteForm").attr("action", action);
-            dialog.modal('show');
+            $dialog.find("#deleteForm").attr("action", action);
+            $dialog.modal('show');
         });
     });
 </script>
@@ -36,10 +36,10 @@
             <td>${f:h(user.email)}</td>
             <td>${f:h(CL_USERSTATUS[user.status.name()])}</td>
             <td>
-                <a href="<c:url value="/users/${f:h(user.userUuid)}?updateForm&backwardQueryString=${f:h(f:u(backwardQueryString))}" />" class="btn btn-default"
-                   title="編集">
+                <a href="<c:url value="/users/${f:h(user.userUuid)}?updateForm&backwardQueryString=${f:h(f:u(backwardQueryString))}" />"
+                   class="btn btn-default" title="編集">
                     <span class="glyphicon glyphicon-edit"></span></a>
-                <c:if test="${user.status.name() != 'DELETED'}">
+                <c:if test="${user.status != 'DELETED'}">
                     <button class="btn btn-default deleteBtn"
                             data-user-uuid="${f:h(user.userUuid)}" title="削除">
                         <span class="glyphicon glyphicon-trash"></span>
@@ -81,7 +81,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         いいえ
                     </button>
-                    <button name="delete" class="btn btn-default" >
+                    <button name="delete" class="btn btn-default">
                         はい
                     </button>
                 </form:form>

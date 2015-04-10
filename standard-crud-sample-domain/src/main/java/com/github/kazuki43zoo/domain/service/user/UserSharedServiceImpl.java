@@ -1,10 +1,16 @@
 package com.github.kazuki43zoo.domain.service.user;
 
+import com.github.kazuki43zoo.domain.model.CredentialStatus;
 import com.github.kazuki43zoo.domain.model.User;
+import com.github.kazuki43zoo.domain.model.UserCredential;
 import com.github.kazuki43zoo.domain.repository.user.UserRepository;
 import org.dozer.Mapper;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
@@ -19,24 +25,89 @@ public class UserSharedServiceImpl implements UserSharedService {
     UserRepository userRepository;
 
     @Inject
-    CredentialSharedService userCredentialShardService;
+    JodaTimeDateFactory dateFactory;
 
     @Inject
     Mapper beanMapper;
 
+    @Inject
+    PasswordEncoder passwordEncoder;
 
-    public User find(String userUuid) {
-        return get(userRepository.findOne(userUuid));
+    @Transactional(readOnly = true)
+    public User findUser(String userUuid) {
+        return Optional.ofNullable(userRepository.findOne(userUuid))
+                .orElseThrow(() -> notFoundException());
     }
 
-    public User findByUserId(String userId) {
-        return get(userRepository.findOneByUserId(userId));
+    @Transactional(readOnly = true)
+    public User findUserByUserId(String userId) {
+        return Optional.ofNullable(userRepository.findOneByUserId(userId))
+                .orElseThrow(() -> notFoundException());
     }
 
-    private User get(User user) {
-        return Optional.ofNullable(user)
-                .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add("e.sc.fw.5001")));
+    private ResourceNotFoundException notFoundException() {
+        return new ResourceNotFoundException(
+                ResultMessages.error().add("e.sc.fw.5001"));
     }
 
+    @Transactional(readOnly = true)
+    public boolean isValidUserIdOnCreating(String userId) {
+        return !userRepository.existsByUserId(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isValidUserIdOnUpdating(String userId, String userUuid) {
+        return !userRepository.existsByUserIdAndNotUserUuid(userId, userUuid);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void checkOptimisticLockingWithinLongTransaction(User storedUser, User inputUser) {
+        if (storedUser.getVersion() != inputUser.getVersion()) {
+            throw new ObjectOptimisticLockingFailureException(
+                    User.class, storedUser.getUserUuid());
+        }
+        if (storedUser.getCredential().getVersion() != inputUser.getCredential().getVersion()) {
+            throw new ObjectOptimisticLockingFailureException(
+                    UserCredential.class, storedUser.getUserUuid());
+        }
+    }
+
+    public void updateUser(User storedUser, User inputUser) {
+        beanMapper.map(inputUser, storedUser, "updateProfile");
+        if (!userRepository.update(storedUser)) {
+            throw new ObjectOptimisticLockingFailureException(
+                    User.class, storedUser.getUserUuid());
+        }
+        storedUser.setVersion(storedUser.getVersion() + 1);
+    }
+
+
+    public void createCredential(User inputUser) {
+        UserCredential credential = inputUser.getCredential();
+        credential.setUserUuid(inputUser.getUserUuid());
+        credential.setPassword(passwordEncoder.encode(credential.getPassword()));
+        credential.setStatus(CredentialStatus.WAITING_FOR_ACTIVE);
+        credential.setLastUpdateAt(dateFactory.newDateTime().toLocalDateTime());
+        credential.setVersion(0);
+        userRepository.createCredential(inputUser);
+    }
+
+
+    public void updateCredential(User storedUser, String userId, String password) {
+        UserCredential storedCredential = storedUser.getCredential();
+        storedCredential.setUserId(userId);
+        Optional.ofNullable(password).ifPresent(value -> {
+            storedCredential.setPassword(passwordEncoder.encode(value));
+            storedCredential.setLastUpdateAt(dateFactory.newDateTime().toLocalDateTime());
+            if (storedCredential.getStatus() == CredentialStatus.WAITING_FOR_ACTIVE) {
+                storedCredential.setStatus(CredentialStatus.ACTIVE);
+            }
+        });
+        if (!userRepository.updateCredential(storedUser)) {
+            throw new ObjectOptimisticLockingFailureException(
+                    UserCredential.class, storedUser.getUserUuid());
+        }
+        storedCredential.setVersion(storedCredential.getVersion() + 1);
+    }
 
 }

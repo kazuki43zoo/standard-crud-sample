@@ -19,18 +19,16 @@ public class CredentialServiceImpl implements CredentialService {
     UserRepository userRepository;
 
     @Inject
-    CredentialSharedService credentialShardService;
+    UserSharedService userSharedService;
 
     @Inject
     PasswordEncoder passwordEncoder;
 
     public void change(String userId, String currentPassword, String newPassword) {
-        Optional<User> storedUser = Optional.ofNullable(userRepository.findOneByUserId(userId));
-        if (!storedUser.isPresent()
-                || !passwordEncoder.matches(currentPassword, storedUser.get().getCredential().getPassword())) {
-            throw new BusinessException(ResultMessages.danger().add("e.sc.um.8011"));
-        }
-        credentialShardService.updateCredential(storedUser.get(), userId, newPassword);
+        User user = Optional.ofNullable(userRepository.findOneByUserId(userId))
+                .filter(entity -> passwordEncoder.matches(currentPassword, entity.getCredential().getPassword()))
+                .orElseThrow(() -> new BusinessException(ResultMessages.danger().add("e.sc.um.8011")));
+        userSharedService.updateCredential(user, userId, newPassword);
     }
 
 }

@@ -37,7 +37,7 @@ public class PasswordController {
         return new PasswordForm();
     }
 
-    @InitBinder
+    @InitBinder("passwordForm")
     public void addValidators(WebDataBinder binder) {
         binder.addValidators(
                 passwordFormValidator,

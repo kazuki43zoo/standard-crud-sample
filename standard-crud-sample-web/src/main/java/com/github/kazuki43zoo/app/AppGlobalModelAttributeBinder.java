@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AppGlobalModelAttributeBinder {
 
     @ModelAttribute("backwardQueryString")
-    public String bindBackwardQueryString(@RequestParam(value = "backwardQueryString", required = false) String backwardQueryString) {
+    public String bindBackwardQueryString(
+            @RequestParam(value = "backwardQueryString", required = false) String backwardQueryString) {
         return backwardQueryString;
     }
 

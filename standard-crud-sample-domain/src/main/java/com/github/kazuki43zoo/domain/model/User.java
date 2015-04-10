@@ -20,6 +20,9 @@ public class User implements Serializable {
     private List<UserRole> roles = new ArrayList<>();
     private long version;
 
+    public void incrementVersion(){
+        version++;
+    }
     public void addRole(UserRole role) {
         roles.add(role);
     }

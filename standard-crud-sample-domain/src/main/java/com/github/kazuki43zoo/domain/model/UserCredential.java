@@ -14,4 +14,7 @@ public class UserCredential implements Serializable {
     private CredentialStatus status;
     private LocalDateTime lastUpdateAt;
     private long version;
+    public void incrementVersion(){
+        version++;
+    }
 }

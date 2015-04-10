@@ -36,18 +36,7 @@ public class UserSharedServiceImpl implements UserSharedService {
     @Transactional(readOnly = true)
     public User findUser(String userUuid) {
         return Optional.ofNullable(userRepository.findOne(userUuid))
-                .orElseThrow(() -> notFoundException());
-    }
-
-    @Transactional(readOnly = true)
-    public User findUserByUserId(String userId) {
-        return Optional.ofNullable(userRepository.findOneByUserId(userId))
-                .orElseThrow(() -> notFoundException());
-    }
-
-    private ResourceNotFoundException notFoundException() {
-        return new ResourceNotFoundException(
-                ResultMessages.error().add("e.sc.fw.5001"));
+                .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add("e.sc.fw.5001")));
     }
 
     @Transactional(readOnly = true)
@@ -78,9 +67,8 @@ public class UserSharedServiceImpl implements UserSharedService {
             throw new ObjectOptimisticLockingFailureException(
                     User.class, storedUser.getUserUuid());
         }
-        storedUser.setVersion(storedUser.getVersion() + 1);
+        storedUser.incrementVersion();
     }
-
 
     public void createCredential(User inputUser) {
         UserCredential credential = inputUser.getCredential();
@@ -88,10 +76,8 @@ public class UserSharedServiceImpl implements UserSharedService {
         credential.setPassword(passwordEncoder.encode(credential.getPassword()));
         credential.setStatus(CredentialStatus.WAITING_FOR_ACTIVE);
         credential.setLastUpdateAt(dateFactory.newDateTime().toLocalDateTime());
-        credential.setVersion(0);
         userRepository.createCredential(inputUser);
     }
-
 
     public void updateCredential(User storedUser, String userId, String password) {
         UserCredential storedCredential = storedUser.getCredential();
@@ -107,7 +93,7 @@ public class UserSharedServiceImpl implements UserSharedService {
             throw new ObjectOptimisticLockingFailureException(
                     UserCredential.class, storedUser.getUserUuid());
         }
-        storedCredential.setVersion(storedCredential.getVersion() + 1);
+        storedCredential.incrementVersion();
     }
 
 }

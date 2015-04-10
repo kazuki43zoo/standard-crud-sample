@@ -6,8 +6,6 @@ public interface UserSharedService {
 
     User findUser(String userUuid);
 
-    User findUserByUserId(String userId);
-
     boolean isValidUserIdOnCreating(String userId);
 
     boolean isValidUserIdOnUpdating(String userId, String userUuid);
@@ -18,8 +16,6 @@ public interface UserSharedService {
 
     void updateUser(User storedUser, User inputUser);
 
-
     void updateCredential(User storedUser, String userId, String password);
-
 
 }

@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 @Transactional
 @Service
-public class SecurityContextServiceImpl implements SecurityContextService {
+public class SecurityContextSharedServiceImpl implements SecurityContextSharedService {
 
     @Inject
     UserSharedService userSharedService;

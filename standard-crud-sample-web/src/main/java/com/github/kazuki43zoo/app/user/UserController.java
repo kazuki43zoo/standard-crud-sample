@@ -2,11 +2,14 @@ package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.app.ModelAttributeNames;
 import com.github.kazuki43zoo.domain.model.User;
+import com.github.kazuki43zoo.domain.service.security.CustomUserDetails;
+import com.github.kazuki43zoo.domain.service.security.SecurityContextSharedService;
 import com.github.kazuki43zoo.domain.service.user.UserService;
 import org.dozer.Mapper;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -30,6 +33,9 @@ public class UserController {
 
     @Inject
     UserService userService;
+
+    @Inject
+    SecurityContextSharedService securityContextSharedService;
 
     @Inject
     UserHelper userHelper;
@@ -158,6 +164,7 @@ public class UserController {
             @PathVariable("userUuid") String userUuid,
             @Validated({Default.class, UserForm.Updating.class}) UserForm form,
             BindingResult bindingResult,
+            @AuthenticationPrincipal CustomUserDetails userDetail,
             @ModelAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING) String backwardQueryString,
             Model model, RedirectAttributes redirectAttributes) {
 
@@ -168,6 +175,9 @@ public class UserController {
         try {
             User user = beanMapper.map(form, User.class);
             userService.update(userUuid, user, form.getRoles());
+            if (userDetail.getUser().getUserUuid().equals(userUuid)) {
+                securityContextSharedService.updateSecurityContextByUserId(form.getUserId());
+            }
         } catch (DuplicateKeyException e) {
             userHelper.rejectInvalidUserId(bindingResult);
             return updateRedo(userUuid, form, model);

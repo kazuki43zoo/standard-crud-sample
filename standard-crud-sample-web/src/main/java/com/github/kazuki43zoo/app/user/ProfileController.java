@@ -2,7 +2,7 @@ package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.service.security.CustomUserDetails;
-import com.github.kazuki43zoo.domain.service.security.SecurityContextService;
+import com.github.kazuki43zoo.domain.service.security.SecurityContextSharedService;
 import com.github.kazuki43zoo.domain.service.user.ProfileService;
 import org.dozer.Mapper;
 import org.springframework.dao.DuplicateKeyException;
@@ -33,7 +33,7 @@ public class ProfileController {
     ProfileService profileService;
 
     @Inject
-    SecurityContextService securityContextService;
+    SecurityContextSharedService securityContextSharedService;
 
     @Inject
     UserHelper userHelper;
@@ -102,12 +102,12 @@ public class ProfileController {
         try {
             User inputUser = beanMapper.map(form, User.class);
             profileService.edit(userDetail.getUser().getUserUuid(), inputUser);
-            securityContextService.updateSecurityContextByUserId(form.getUserId());
+            securityContextSharedService.updateSecurityContextByUserId(form.getUserId());
         } catch (DuplicateKeyException e) {
             userHelper.rejectInvalidUserId(bindingResult);
             return editRedo(form);
         } catch (ObjectOptimisticLockingFailureException e) {
-            securityContextService.updateSecurityContextByUserUuid(userDetail.getUser().getUserUuid());
+            securityContextSharedService.updateSecurityContextByUserUuid(userDetail.getUser().getUserUuid());
             redirectAttributes.addFlashAttribute(ResultMessages.danger().add("e.sc.um.8005"));
             return "redirect:/profile";
         }

@@ -1,6 +1,6 @@
 package com.github.kazuki43zoo.domain.service.security;
 
-public interface SecurityContextService {
+public interface SecurityContextSharedService {
 
     void updateSecurityContextByUserId(String userId);
 

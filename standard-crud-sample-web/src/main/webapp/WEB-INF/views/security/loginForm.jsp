@@ -45,7 +45,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-4">
-                <form:button class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span>ログイン</form:button>
+                <form:button class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span> ログイン</form:button>
             </div>
         </div>
         <sec:csrfInput/>

@@ -9,7 +9,7 @@
 
                 <p>
                     <a href="<c:url value="/profile" />" class="btn btn-default">
-                        <span class="glyphicon glyphicon-search"></span>
+                        <span class="glyphicon glyphicon-edit"></span>
                         <spring:message code="title.user.profileEditForm"/>
                     </a>
                 </p>

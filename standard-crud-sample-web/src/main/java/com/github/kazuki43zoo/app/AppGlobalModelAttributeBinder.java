@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @ControllerAdvice
 public class AppGlobalModelAttributeBinder {
 
-    @ModelAttribute("backwardQueryString")
+    @ModelAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING)
     public String bindBackwardQueryString(
-            @RequestParam(value = "backwardQueryString", required = false) String backwardQueryString) {
+            @RequestParam(value = ModelAttributeNames.BACKWARD_QUERY_STRING, required = false) String backwardQueryString) {
         return backwardQueryString;
     }
 

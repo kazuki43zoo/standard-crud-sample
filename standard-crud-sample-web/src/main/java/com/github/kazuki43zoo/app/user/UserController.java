@@ -1,5 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
+import com.github.kazuki43zoo.app.ModelAttributeNames;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.service.user.UserService;
 import org.dozer.Mapper;
@@ -157,7 +158,7 @@ public class UserController {
             @PathVariable("userUuid") String userUuid,
             @Validated({Default.class, UserForm.Updating.class}) UserForm form,
             BindingResult bindingResult,
-            @ModelAttribute("backwardQueryString") String backwardQueryString,
+            @ModelAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING) String backwardQueryString,
             Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -173,7 +174,7 @@ public class UserController {
         }
 
         redirectAttributes.addAttribute("userUuid", userUuid);
-        redirectAttributes.addAttribute("backwardQueryString", backwardQueryString);
+        redirectAttributes.addAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING, backwardQueryString);
         return "redirect:/users/{userUuid}?updateComplete";
     }
 
@@ -189,13 +190,13 @@ public class UserController {
     @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "delete")
     public String delete(
             @PathVariable("userUuid") String userUuid,
-            @ModelAttribute("backwardQueryString") String backwardQueryString,
+            @ModelAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING) String backwardQueryString,
             RedirectAttributes redirectAttributes) {
 
         userService.delete(userUuid);
 
         redirectAttributes.addAttribute("userUuid", userUuid);
-        redirectAttributes.addAttribute("backwardQueryString", backwardQueryString);
+        redirectAttributes.addAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING, backwardQueryString);
         return "redirect:/users/{userUuid}?deleteComplete";
     }
 

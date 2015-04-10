@@ -21,6 +21,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
     @Inject
     UserDetailsService userDetailsService;
 
+    @Transactional(readOnly = true)
     public void updateSecurityContextByUserId(String userId) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
         UsernamePasswordAuthenticationToken authentication =
@@ -29,6 +30,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+    @Transactional(readOnly = true)
     public void updateSecurityContextByUserUuid(String userUuid) {
         User user = userSharedService.findUser(userUuid);
         updateSecurityContextByUserId(user.getCredential().getUserId());

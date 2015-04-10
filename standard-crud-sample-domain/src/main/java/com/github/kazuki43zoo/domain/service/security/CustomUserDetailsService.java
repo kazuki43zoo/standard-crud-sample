@@ -22,6 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Inject
     UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = Optional.ofNullable(userRepository.findOneByUserId(username))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));

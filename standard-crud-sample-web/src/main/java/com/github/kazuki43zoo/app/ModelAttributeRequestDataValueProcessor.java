@@ -16,7 +16,7 @@ public class ModelAttributeRequestDataValueProcessor extends RequestDataValuePro
     @Override
     public Map<String, String> getExtraHiddenFields(HttpServletRequest request) {
         Map<String, String> hiddenFields = new LinkedHashMap<>();
-        targetAttributeNames.stream().forEach(targetAttributeName -> {
+        targetAttributeNames.forEach(targetAttributeName -> {
             Optional.ofNullable(request.getAttribute(targetAttributeName))
                     .ifPresent(value -> {
                         hiddenFields.put(targetAttributeName, value.toString());

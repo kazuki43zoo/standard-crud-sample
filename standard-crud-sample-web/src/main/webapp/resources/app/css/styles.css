@@ -191,6 +191,10 @@ span.form-control {
     -webkit-box-shadow: none;
 }
 
+[class$="error"], [id$="errors"] {
+    color: #ff0000;
+}
+
 @media print, screen and (max-width: 960px) {
   
   div.wrapper {

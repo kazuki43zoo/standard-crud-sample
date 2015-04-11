@@ -126,7 +126,7 @@ public class UserController {
         beanMapper.map(user, form);
         form.setPassword(null);
         user.getRoles().forEach(userRole -> {
-            form.getRoles().add(userRole.getRole());
+            form.addRole(userRole.getRole());
         });
         model.addAttribute(form);
 

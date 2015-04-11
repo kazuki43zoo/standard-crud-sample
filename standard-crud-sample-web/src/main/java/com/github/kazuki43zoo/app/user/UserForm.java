@@ -1,5 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
+import com.github.kazuki43zoo.core.validation.Select;
 import com.github.kazuki43zoo.domain.model.Role;
 import com.github.kazuki43zoo.domain.model.UserStatus;
 
@@ -15,17 +16,17 @@ public class UserForm extends ProfileForm {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
+    @Select
     private List<Role> roles;
 
-    @NotNull(groups = Updating.class)
+    @Select(groups = Updating.class)
     private UserStatus status;
 
-    public List<Role> getRoles() {
-        if (roles == null) {
+    public void addRole(Role role){
+        if(roles == null){
             roles = new ArrayList<>();
         }
-        return roles;
+        roles.add(role);
     }
 
 }

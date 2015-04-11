@@ -19,7 +19,7 @@
 <div class="form-group">
     <form:label path="dateOfBirth" cssClass="col-sm-3 control-label">誕生日</form:label>
     <div class="col-sm-4">
-        <form:input type="date" cssClass="form-control" path="dateOfBirth"/>
+        <form:input type="date" cssClass="form-control" path="dateOfBirth" placeholder="(yyyy-M-d形式)"/>
     </div>
     <div class="col-sm-4">
         <form:errors cssClass="control-label" path="dateOfBirth"/>
@@ -37,7 +37,7 @@
 <div class="form-group">
     <form:label path="tel" cssClass="col-sm-3 control-label">電話番号</form:label>
     <div class="col-sm-4">
-        <form:input cssClass="form-control" path="tel"/>
+        <form:input cssClass="form-control" path="tel" placeholder="(ハイフンなし)"/>
     </div>
     <div class="col-sm-4">
         <form:errors cssClass="control-label" path="tel"/>

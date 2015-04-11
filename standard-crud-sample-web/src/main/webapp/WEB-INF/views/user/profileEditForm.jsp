@@ -1,3 +1,5 @@
+<jsp:include page="inc/legend.jsp"/>
+
 <t:messagesPanel/>
 
 <c:url value="/profile" var="editUrl"/>

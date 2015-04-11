@@ -1,9 +1,11 @@
+<jsp:include page="inc/legend.jsp"/>
+
 <t:messagesPanel/>
 
 <c:url value="/users" var="creatingUrl"/>
 <form:form action="${creatingUrl}" cssClass="form-horizontal" modelAttribute="userForm">
 
-    <jsp:include page="inc/form.jsp">
+    <jsp:include page="inc/userForm.jsp">
         <jsp:param name="operation" value="CREATE"/>
     </jsp:include>
 

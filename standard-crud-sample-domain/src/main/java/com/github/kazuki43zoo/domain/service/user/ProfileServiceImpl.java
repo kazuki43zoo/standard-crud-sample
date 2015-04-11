@@ -2,7 +2,6 @@ package com.github.kazuki43zoo.domain.service.user;
 
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.model.UserCredential;
-import com.github.kazuki43zoo.domain.repository.user.UserRepository;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +11,6 @@ import javax.inject.Inject;
 @Transactional
 @Service
 public class ProfileServiceImpl implements ProfileService {
-
-    @Inject
-    UserRepository userRepository;
 
     @Inject
     UserSharedService userSharedService;

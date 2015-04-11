@@ -1,6 +1,8 @@
 <spring:message code="i.sc.um.1010" var="message"/>
 <t:messagesPanel messagesType="info" messagesAttributeName="message"/>
 
+<jsp:include page="inc/legend.jsp"/>
+
 <t:messagesPanel/>
 
 <c:url value="/password" var="changeUrl"/>

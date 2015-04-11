@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
 
         // create a user
         inputUser.setStatus(UserStatus.ACTIVE);
-        inputUser.setVersion(0);
         userRepository.create(inputUser);
 
         // create a user credential

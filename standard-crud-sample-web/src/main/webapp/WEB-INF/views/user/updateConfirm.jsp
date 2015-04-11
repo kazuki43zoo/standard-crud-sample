@@ -1,7 +1,7 @@
 <c:url value="/users/${user.userUuid}" var="updateUrl"/>
 <form:form action="${updateUrl}" cssClass="form-horizontal" modelAttribute="userForm">
 
-    <jsp:include page="inc/confirm.jsp"/>
+    <jsp:include page="inc/userConfirm.jsp"/>
 
     <div class="form-group">
         <form:label path="status" cssClass="col-sm-3 control-label">ステータス</form:label>

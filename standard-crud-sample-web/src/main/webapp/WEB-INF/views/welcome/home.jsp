@@ -8,7 +8,7 @@
                 <h3>利用者向けメニュー</h3>
 
                 <p>
-                    <a href="<c:url value="/profile" />" class="btn btn-default">
+                    <a href="<c:url value="/profile" />">
                         <span class="glyphicon glyphicon-edit"></span>
                         <spring:message code="title.user.profileEditForm"/>
                     </a>
@@ -23,14 +23,19 @@
                     <h3>管理者向けメニュー</h3>
                     <sec:authorize url="/users">
                         <p>
-                            <a href="<c:url value="/users?searchForm" />" class="btn btn-default">
+                            <a href="<c:url value="/users?searchForm" />">
                                 <span class="glyphicon glyphicon-search"></span>
                                 <spring:message code="title.user.searchForm"/>
                             </a>
                         </p>
-
                         <p>
-                            <a href="<c:url value="/users?createForm" />" class="btn btn-default">
+                            <a href="<c:url value="/users" />">
+                                <span class="glyphicon glyphicon-list"></span>
+                                <spring:message code="title.user.searchResult"/>
+                            </a>
+                        </p>
+                        <p>
+                            <a href="<c:url value="/users?createForm" />">
                                 <span class="glyphicon glyphicon glyphicon-plus"></span>
                                 <spring:message code="title.user.createForm"/>
                             </a>

@@ -84,7 +84,7 @@
 
 </form:form>
 
-<a href="<c:url value="/"/>" class="btn btn-default">
-    <span class="glyphicon glyphicon-step-backward"></span>
+<a href="<c:url value="/"/>">
+    <span class="glyphicon glyphicon-home"></span>
     <spring:message code="title.welcome.home"/></a>
 

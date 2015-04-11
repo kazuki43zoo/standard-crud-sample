@@ -55,7 +55,7 @@
         <property name="exceptionMappings">
             <map>
                 <entry key="org.springframework.security.authentication.CredentialsExpiredException"
-                       value="/password"/>
+                       value="/password?encourage"/>
             </map>
         </property>
     </bean>

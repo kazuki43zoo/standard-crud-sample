@@ -12,7 +12,7 @@
     });
 </script>
 
-<h1><fmt:formatNumber value="${usersPage.totalElements}"/> 件
+<h1>検索結果：<fmt:formatNumber value="${usersPage.totalElements}"/> 件
     (${f:h(usersPage.number + 1) } / ${f:h(usersPage.totalPages)} ページ)</h1>
 
 <t:messagesPanel/>
@@ -57,9 +57,20 @@
 </c:if>
 
 <div>
-    <a href="<c:url value="/users?searchForm&${f:h(f:query(userSearchForm))}"/>" class="btn btn-default">
-        <span class="glyphicon glyphicon-step-backward"></span>
-        <spring:message code="title.user.searchForm"/></a>
+    <ul class="list-inline">
+        <li>
+            <a href="<c:url value="/users?searchForm&${f:h(f:query(userSearchForm))}"/>">
+                <span class="glyphicon glyphicon-search"></span>
+                <spring:message code="title.user.searchForm"/></a>
+        </li>
+        <li>
+            <a href="<c:url value="/users?createForm&backwardQueryString=${f:h(f:u(backwardQueryString))}"/>">
+                <span class="glyphicon glyphicon glyphicon-plus"></span>
+                <spring:message code="title.user.createForm"/>
+            </a>
+        </li>
+    </ul>
+
 </div>
 
 <div class="modal fade" id="deletingConfirmationDialog" tabindex="-1" role="dialog" aria-labelledby="modalLabel"

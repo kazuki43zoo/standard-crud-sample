@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         userSharedService.checkOptimisticLockingWithinLongTransaction(storedUser, inputUser);
 
         // update a user
-        userSharedService.updateUser(storedUser, inputUser);
+        userSharedService.updateUser(storedUser, inputUser, "updateUser");
 
         // update a user credential
         UserCredential inputCredential = inputUser.getCredential();

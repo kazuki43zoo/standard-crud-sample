@@ -13,6 +13,10 @@
             <spring:message code="w.sc.se.2000" var="message"/>
             <t:messagesPanel messagesType="warning" messagesAttributeName="message"/>
         </c:when>
+        <c:when test="${param.containsKey('deleted')}">
+            <spring:message code="i.sc.se.8003" var="message"/>
+            <t:messagesPanel messagesType="danger" messagesAttributeName="message"/>
+        </c:when>
         <c:when test="${param.containsKey('error')}">
             <t:messagesPanel messagesType="danger" messagesAttributeName="SPRING_SECURITY_LAST_EXCEPTION"/>
         </c:when>
@@ -48,7 +52,13 @@
                 <form:button class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span> ログイン</form:button>
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-4">
+                <a href="<c:url value="/password"/>"><span class="glyphicon glyphicon-edit"></span> パスワード変更フォームへ</a>
+            </div>
+        </div>
         <sec:csrfInput/>
     </form:form>
+
 
 </div>

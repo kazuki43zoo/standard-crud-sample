@@ -61,8 +61,8 @@ public class UserSharedServiceImpl implements UserSharedService {
         }
     }
 
-    public void updateUser(User storedUser, User inputUser) {
-        beanMapper.map(inputUser, storedUser, "updateProfile");
+    public void updateUser(User storedUser, User inputUser, String mappingId) {
+        beanMapper.map(inputUser, storedUser, mappingId);
         if (!userRepository.update(storedUser)) {
             throw new ObjectOptimisticLockingFailureException(
                     User.class, storedUser.getUserUuid());

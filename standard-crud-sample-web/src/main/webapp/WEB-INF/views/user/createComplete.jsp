@@ -1,9 +1,17 @@
 <spring:message code="i.sc.um.1004" var="message"/>
 <t:messagesPanel messagesType="success" messagesAttributeName="message"/>
 
-<a href="<c:url value="/users?createForm"/>" class="btn btn-default">
-    <span class="glyphicon glyphicon-plus"></span>
-    <spring:message code="title.user.createForm"/></a>
-<a href="<c:url value="/users?searchForm"/>" class="btn btn-default">
-    <span class="glyphicon glyphicon-step-backward"></span>
-    <spring:message code="title.user.searchForm"/></a>
+<ul class="list-inline">
+    <li>
+        <a href="<c:url value="/users?createForm"/>">
+            <span class="glyphicon glyphicon-plus"></span>
+            <spring:message code="title.user.createForm"/></a>
+    </li>
+    <li>
+        <a href="<c:url value="/users?${f:h(backwardQueryString)}" />">
+            <span class="glyphicon glyphicon-list"></span>
+            <spring:message code="title.user.searchResult"/>
+        </a>
+    </li>
+</ul>
+

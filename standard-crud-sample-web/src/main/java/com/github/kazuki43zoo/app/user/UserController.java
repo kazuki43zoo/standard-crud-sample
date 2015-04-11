@@ -53,8 +53,7 @@ public class UserController {
 
     @InitBinder("userForm")
     public void addValidators(WebDataBinder binder) {
-        binder.addValidators(
-                userIdValidator);
+        binder.addValidators(userIdValidator);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "createForm")
@@ -85,6 +84,7 @@ public class UserController {
     public String create(
             @Validated({Default.class, UserForm.Creating.class}) UserForm form,
             BindingResult bindingResult,
+            @ModelAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING) String backwardQueryString,
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -101,6 +101,7 @@ public class UserController {
         }
 
         redirectAttributes.addAttribute("userUuid", createdUser.getUserUuid());
+        redirectAttributes.addAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING, backwardQueryString);
         return "redirect:/users/{userUuid}?createComplete";
     }
 

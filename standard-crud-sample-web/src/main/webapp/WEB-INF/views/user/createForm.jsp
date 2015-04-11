@@ -20,6 +20,17 @@
 
 </form:form>
 
-<a href="<c:url value="/"/>" class="btn btn-default">
-    <span class="glyphicon glyphicon-step-backward"></span>
-    <spring:message code="title.welcome.home"/></a>
+<c:choose>
+    <c:when test="${backwardQueryString != null}">
+        <a href="<c:url value="/users?${f:h(backwardQueryString)}" />">
+            <span class="glyphicon glyphicon-list"></span>
+            <spring:message code="title.user.searchResult"/>
+        </a>
+    </c:when>
+    <c:otherwise>
+        <a href="<c:url value="/"/>">
+            <span class="glyphicon glyphicon-home"></span>
+            <spring:message code="title.welcome.home"/></a>
+    </c:otherwise>
+</c:choose>
+

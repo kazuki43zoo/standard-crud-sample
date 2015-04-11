@@ -1,7 +1,12 @@
-<spring:message code="i.sc.um.1010" var="message"/>
-<t:messagesPanel messagesType="info" messagesAttributeName="message"/>
 
 <jsp:include page="inc/legend.jsp"/>
+
+<c:choose>
+    <c:when test="${param.containsKey('encourage')}">
+        <spring:message code="i.sc.um.1010" var="message"/>
+        <t:messagesPanel messagesType="info" messagesAttributeName="message"/>
+    </c:when>
+</c:choose>
 
 <t:messagesPanel/>
 
@@ -55,3 +60,6 @@
 
 </form:form>
 
+<c:if test="${not param.containsKey('encourage')}">
+    <a href="<c:url value="/login"/>"><span class="glyphicon glyphicon-log-in"></span> ログインフォームへ</a>
+</c:if>

@@ -14,7 +14,7 @@ public interface UserSharedService {
 
     void checkOptimisticLockingWithinLongTransaction(User storedUser, User inputUser);
 
-    void updateUser(User storedUser, User inputUser,String mappingId);
+    void updateUser(User storedUser, User inputUser,String beanMappingId);
 
     void updateCredential(User storedUser, String userId, String password);
 

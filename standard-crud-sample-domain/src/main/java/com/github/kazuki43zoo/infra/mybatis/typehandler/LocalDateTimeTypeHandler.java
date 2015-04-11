@@ -36,7 +36,7 @@ public class LocalDateTimeTypeHandler extends BaseTypeHandler<LocalDateTime> {
     private LocalDateTime toDateTime(Timestamp timestamp) {
         return Optional.ofNullable(timestamp)
                 .map(value -> new LocalDateTime(value.getTime()))
-                .orElseGet(null);
+                .orElse(null);
     }
 
 }

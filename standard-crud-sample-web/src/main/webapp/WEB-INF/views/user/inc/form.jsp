@@ -1,6 +1,9 @@
-<jsp:include page="profileForm.jsp"/>
+<jsp:include page="profileForm.jsp">
+    <jsp:param name="operation" value="${param.operation}"/>
+</jsp:include>
+
 <div class="form-group">
-    <form:label path="roles" cssClass="col-sm-3 control-label">ロール</form:label>
+    <form:label path="roles" cssClass="col-sm-3 control-label required">ロール</form:label>
     <div class="col-sm-4">
         <c:forEach var="roleCodeListElement" items="${CL_ROLE}">
             <div class="checkbox-inline">

@@ -1,12 +1,13 @@
-<t:messagesPanel/>
 <spring:message code="i.sc.um.1010" var="message"/>
 <t:messagesPanel messagesType="info" messagesAttributeName="message"/>
+
+<t:messagesPanel/>
 
 <c:url value="/password" var="changeUrl"/>
 <form:form action="${changeUrl}" cssClass="form-horizontal" modelAttribute="passwordForm">
 
     <div class="form-group">
-        <form:label path="userId" cssClass="col-sm-3 control-label">ユーザーID</form:label>
+        <form:label path="userId" cssClass="col-sm-3 control-label required">ユーザーID</form:label>
         <div class="col-sm-4">
             <form:input cssClass="form-control" path="userId"/>
         </div>
@@ -16,7 +17,7 @@
     </div>
 
     <div class="form-group">
-        <form:label path="currentPassword" cssClass="col-sm-3 control-label">現在のパスワード</form:label>
+        <form:label path="currentPassword" cssClass="col-sm-3 control-label required">現在のパスワード</form:label>
         <div class="col-sm-4">
             <form:password cssClass="form-control" path="currentPassword" showPassword="true"/>
         </div>
@@ -25,7 +26,7 @@
         </div>
     </div>
     <div class="form-group">
-        <form:label path="password" cssClass="col-sm-3 control-label">新しいパスワード</form:label>
+        <form:label path="password" cssClass="col-sm-3 control-label required">新しいパスワード</form:label>
         <div class="col-sm-4">
             <form:password cssClass="form-control" path="password" showPassword="true"/>
         </div>
@@ -34,7 +35,7 @@
         </div>
     </div>
     <div class="form-group">
-        <form:label path="confirmPassword" cssClass="col-sm-3 control-label">確認パスワード</form:label>
+        <form:label path="confirmPassword" cssClass="col-sm-3 control-label required">確認パスワード</form:label>
         <div class="col-sm-4">
             <form:password cssClass="form-control" path="confirmPassword"/>
         </div>

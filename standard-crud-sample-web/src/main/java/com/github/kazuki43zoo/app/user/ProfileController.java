@@ -11,8 +11,6 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,9 +37,6 @@ public class ProfileController {
     UserHelper userHelper;
 
     @Inject
-    ConfirmPasswordValidator confirmPasswordValidator;
-
-    @Inject
     Mapper beanMapper;
 
     @ModelAttribute
@@ -52,12 +47,6 @@ public class ProfileController {
     @ModelAttribute
     public User setupUser(@AuthenticationPrincipal CustomUserDetails userDetail) {
         return userDetail.getUser();
-    }
-
-    @InitBinder("profileForm")
-    public void addValidators(WebDataBinder binder) {
-        binder.addValidators(
-                confirmPasswordValidator);
     }
 
     @RequestMapping(method = RequestMethod.GET)

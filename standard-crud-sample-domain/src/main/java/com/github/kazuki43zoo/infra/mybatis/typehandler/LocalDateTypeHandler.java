@@ -36,7 +36,7 @@ public class LocalDateTypeHandler extends BaseTypeHandler<LocalDate> {
     private LocalDate toLocalDate(Date date) {
         return Optional.ofNullable(date)
                 .map(value -> new LocalDate(value.getTime()))
-                .orElseGet(null);
+                .orElse(null);
     }
 
 }

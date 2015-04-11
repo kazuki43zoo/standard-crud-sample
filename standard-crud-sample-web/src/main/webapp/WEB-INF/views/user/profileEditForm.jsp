@@ -3,7 +3,9 @@
 <c:url value="/profile" var="editUrl"/>
 <form:form action="${editUrl}" cssClass="form-horizontal" modelAttribute="profileForm">
 
-    <jsp:include page="inc/profileForm.jsp"/>
+    <jsp:include page="inc/profileForm.jsp">
+        <jsp:param name="operation" value="UPDATE"/>
+    </jsp:include>
 
     <form:hidden path="version"/>
     <form:hidden path="credentialVersion"/>

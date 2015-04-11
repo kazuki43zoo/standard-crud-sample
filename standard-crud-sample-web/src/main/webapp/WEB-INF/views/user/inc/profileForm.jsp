@@ -1,5 +1,7 @@
+
+
 <div class="form-group">
-    <form:label path="userId" cssClass="col-sm-3 control-label">ユーザーID</form:label>
+    <form:label path="userId" cssClass="col-sm-3 control-label required">ユーザーID</form:label>
     <div class="col-sm-4">
         <form:input cssClass="form-control" path="userId"/>
     </div>
@@ -8,7 +10,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="name" cssClass="col-sm-3 control-label">氏名</form:label>
+    <form:label path="name" cssClass="col-sm-3 control-label required">氏名</form:label>
     <div class="col-sm-4">
         <form:input cssClass="form-control" path="name"/>
     </div>
@@ -44,7 +46,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="email" cssClass="col-sm-3 control-label">メールアドレス</form:label>
+    <form:label path="email" cssClass="col-sm-3 control-label required">メールアドレス</form:label>
     <div class="col-sm-4">
         <form:input cssClass="form-control" path="email"/>
     </div>
@@ -53,7 +55,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="password" cssClass="col-sm-3 control-label">パスワード</form:label>
+    <form:label path="password" cssClass="col-sm-3 control-label ${param.operation == 'CREATE' ? 'required' : ''}">パスワード</form:label>
     <div class="col-sm-4">
         <form:password cssClass="form-control" path="password" showPassword="true"/>
     </div>
@@ -62,7 +64,7 @@
     </div>
 </div>
 <div class="form-group">
-    <form:label path="confirmPassword" cssClass="col-sm-3 control-label">確認パスワード</form:label>
+    <form:label path="confirmPassword" cssClass="col-sm-3 control-label ${param.operation == 'CREATE' ? 'required' : 'conditionalRequired'}">確認パスワード</form:label>
     <div class="col-sm-4">
         <form:password cssClass="form-control" path="confirmPassword"/>
     </div>

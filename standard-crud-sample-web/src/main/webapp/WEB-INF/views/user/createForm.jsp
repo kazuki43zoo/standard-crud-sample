@@ -3,7 +3,9 @@
 <c:url value="/users" var="creatingUrl"/>
 <form:form action="${creatingUrl}" cssClass="form-horizontal" modelAttribute="userForm">
 
-    <jsp:include page="inc/form.jsp"/>
+    <jsp:include page="inc/form.jsp">
+        <jsp:param name="operation" value="CREATE"/>
+    </jsp:include>
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-8">

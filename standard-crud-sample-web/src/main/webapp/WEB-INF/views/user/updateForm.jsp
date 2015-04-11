@@ -3,10 +3,12 @@
 <c:url value="/users/${user.userUuid}" var="updateUrl"/>
 <form:form action="${updateUrl}" cssClass="form-horizontal" modelAttribute="userForm">
 
-    <jsp:include page="inc/form.jsp"/>
+    <jsp:include page="inc/form.jsp">
+        <jsp:param name="operation" value="UPDATE"/>
+    </jsp:include>
 
     <div class="form-group">
-        <form:label path="status" cssClass="col-sm-3 control-label">ステータス</form:label>
+        <form:label path="status" cssClass="col-sm-3 control-label required">ステータス</form:label>
         <div class="col-sm-4">
             <form:select path="status" cssClass="form-control" items="${CL_USERSTATUS}"/>
         </div>

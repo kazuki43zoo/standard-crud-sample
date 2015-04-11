@@ -195,6 +195,18 @@ span.form-control {
     color: #ff0000;
 }
 
+.required:before {
+    content: "※";
+    color: #ff0000;
+    margin-right: 5px;
+}
+
+.conditionalRequired:before {
+    content: "※";
+    color: #0000ff;
+    margin-right: 5px;
+}
+
 @media print, screen and (max-width: 960px) {
   
   div.wrapper {

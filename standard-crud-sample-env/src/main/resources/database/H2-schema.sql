@@ -3,7 +3,7 @@
 CREATE TABLE t_user (
   user_uuid     VARCHAR(36),
   name          NVARCHAR(256) NOT NULL,
-  date_of_birth DATE          NOT NULL,
+  date_of_birth DATE         ,
   address       NVARCHAR(256),
   tel           VARCHAR(20),
   email         VARCHAR(256)  NOT NULL,

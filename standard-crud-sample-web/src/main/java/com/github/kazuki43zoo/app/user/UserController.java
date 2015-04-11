@@ -44,9 +44,6 @@ public class UserController {
     UserIdValidator userIdValidator;
 
     @Inject
-    ConfirmPasswordValidator confirmPasswordValidator;
-
-    @Inject
     Mapper beanMapper;
 
     @ModelAttribute
@@ -57,8 +54,7 @@ public class UserController {
     @InitBinder("userForm")
     public void addValidators(WebDataBinder binder) {
         binder.addValidators(
-                userIdValidator,
-                confirmPasswordValidator);
+                userIdValidator);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "createForm")

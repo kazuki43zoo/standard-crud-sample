@@ -1,5 +1,7 @@
 package com.github.kazuki43zoo.app.user;
 
+import com.github.kazuki43zoo.core.validation.ConfirmEquals;
+import com.github.kazuki43zoo.core.validation.ConfirmNotNull;
 import com.github.kazuki43zoo.core.validation.Numeric;
 import org.hibernate.validator.constraints.Email;
 import org.joda.time.LocalDate;
@@ -10,9 +12,11 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@ConfirmNotNull("password")
+@ConfirmEquals("password")
 @lombok.Data
 @lombok.ToString(exclude = {"password", "confirmPassword"})
-public class ProfileForm implements ConfirmPasswordContainer, Serializable {
+public class ProfileForm implements Serializable {
 
     interface Creating {
     }
@@ -30,7 +34,6 @@ public class ProfileForm implements ConfirmPasswordContainer, Serializable {
     @Size(max = 256)
     private String name;
 
-    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfBirth;
 
@@ -50,7 +53,6 @@ public class ProfileForm implements ConfirmPasswordContainer, Serializable {
     @Size(min = 8, max = 32)
     private String password;
 
-    @NotNull(groups = Creating.class)
     private String confirmPassword;
 
     @Null(groups = Creating.class)

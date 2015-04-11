@@ -13,7 +13,6 @@ import java.util.List;
 @lombok.EqualsAndHashCode(callSuper = true)
 public class UserForm extends ProfileForm {
 
-
     private static final long serialVersionUID = 1L;
 
     @Select

@@ -31,10 +31,6 @@ public abstract class AbstractFlow implements Flow {
         return model != null;
     }
 
-    public final boolean hasCallerFlow() {
-        return callerFlowId != null;
-    }
-
     protected final String appendControlParameters(String path) {
         if (path == null) {
             return null;
@@ -47,7 +43,7 @@ public abstract class AbstractFlow implements Flow {
         }
         pathBuilder.append(ParameterNames.TERMINATE_TARGET_FLOW_ID).append("=").append(id);
         pathBuilder.append("&").append(ParameterNames.FLOW_OPERATION).append("=").append(Operation.TERMINATE);
-        if (hasCallerFlow()) {
+        if (callerFlowId != null) {
             pathBuilder.append("&").append(ParameterNames.FLOW_ID).append("=").append(callerFlowId);
         }
         return pathBuilder.toString();

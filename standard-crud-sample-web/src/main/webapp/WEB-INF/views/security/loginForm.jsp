@@ -36,8 +36,6 @@
 
             <div class="col-sm-4">
                 <form:input path="userId" cssClass="form-control"/>
-            </div>
-            <div class="col-sm-4">
                 <form:errors path="userId"/>
             </div>
         </div>
@@ -46,8 +44,6 @@
 
             <div class="col-sm-4">
                 <form:password path="password" cssClass="form-control"/>
-            </div>
-            <div class="col-sm-4">
                 <form:errors path="password"/>
             </div>
         </div>

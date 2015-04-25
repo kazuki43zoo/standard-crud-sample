@@ -1,5 +1,9 @@
 package com.github.kazuki43zoo.app.user;
 
+import com.github.kazuki43zoo.app.flow.DefaultFlow;
+import com.github.kazuki43zoo.app.flow.Flow;
+import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.service.security.CustomUserDetails;
 import com.github.kazuki43zoo.domain.service.security.SecurityContextSharedService;
@@ -9,6 +13,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,6 +42,9 @@ public class ProfileController {
     UserHelper userHelper;
 
     @Inject
+    FlowHelper flowHelper;
+
+    @Inject
     Mapper beanMapper;
 
     @ModelAttribute
@@ -58,7 +66,38 @@ public class ProfileController {
         return "user/profileEditForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "redo")
+    @RequestMapping(method = RequestMethod.POST, params = "reload")
+    public String reloadForm(
+            @AuthenticationPrincipal CustomUserDetails userDetail,
+            ProfileForm form) {
+        return editForm(userDetail, form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "gotoAddressSearch")
+    public String gotoAddressSearch(
+            ProfileForm form,
+            Model model,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
+            RedirectAttributes redirectAttributes) {
+        currentFlow.saveModel(model);
+        DefaultFlow newFlow = DefaultFlow.builder()
+                .finishPath("/profile?applyAddress")
+                .cancelPath("/profile?redo")
+                .callerFlowId(currentFlow.getId())
+                .build();
+        return flowHelper.redirectAndBeginFlow(
+                "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "applyAddress")
+    public String applyAddress(
+            ProfileForm form,
+            StreetAddress selectedStreetAddress) {
+        form.setAddress(selectedStreetAddress.getAddress());
+        return "user/profileEditForm";
+    }
+
+    @RequestMapping(params = "redo")
     public String editRedo(ProfileForm form) {
         return "user/profileEditForm";
     }
@@ -82,6 +121,7 @@ public class ProfileController {
             @AuthenticationPrincipal CustomUserDetails userDetail,
             @Validated({Default.class, ProfileForm.Updating.class}) ProfileForm form,
             BindingResult bindingResult,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -101,6 +141,7 @@ public class ProfileController {
             return "redirect:/profile";
         }
 
+        redirectAttributes.addAllAttributes(currentFlow.asIdMap());
         return "redirect:/profile?complete";
     }
 

@@ -1,7 +1,7 @@
 <h1><fmt:formatNumber value="${page.totalElements}"/> 件 ( <fmt:formatNumber
         value="${page.number + 1}"/> / <fmt:formatNumber value="${page.totalPages}"/> ページ )</h1>
 <c:if test="${1 < page.totalPages}">
-    <div class="paginationArea">
+    <div class="paginationContainer">
         <t:pagination page="${page}"
                       criteriaQuery="${f:query(streetAddressSearchForm)}&${f:query(_flow.asIdMap())}"
                       outerElementClass="pagination"/>
@@ -34,7 +34,7 @@
     </c:forEach>
 </table>
 <c:if test="${1 < page.totalPages}">
-    <div class="paginationArea">
+    <div class="paginationContainer">
         <t:pagination page="${page}"
                       criteriaQuery="${f:query(streetAddressSearchForm)}&${f:query(_flow.asIdMap())}"
                       outerElementClass="pagination"/>

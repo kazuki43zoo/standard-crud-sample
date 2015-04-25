@@ -73,7 +73,7 @@ public class UserSearchController {
             RedirectAttributes redirectAttributes) {
         currentFlow.saveModel(model);
         DefaultFlow newFlow = DefaultFlow.builder()
-                .finishPath("/users?applyAddress&destination=searchForm")
+                .finishPath("/users?applyAddress")
                 .cancelPath("/users?searchRedo")
                 .callerFlowId(currentFlow.getId())
                 .build();

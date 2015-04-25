@@ -207,6 +207,11 @@ span.form-control {
     margin-right: 5px;
 }
 
+button + button, button + a {
+    margin-left: 5px;
+}
+
+
 @media print, screen and (max-width: 960px) {
   
   div.wrapper {

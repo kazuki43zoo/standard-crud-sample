@@ -17,13 +17,13 @@
         <div class="col-sm-offset-3 col-sm-8">
             <form:button class="btn btn-default" name="confirm">
                 <span class="glyphicon glyphicon-ok"></span> 入力完了</form:button>
-            <a href="<c:url value="/profile?editForm"/>" class="btn btn-default">
-                <span class="glyphicon glyphicon-refresh"></span> 元に戻す</a>
+            <form:button class="btn btn-default" name="reload">
+                <span class="glyphicon glyphicon-refresh"></span> 元に戻す</form:button>
         </div>
     </div>
 
 </form:form>
 
-<a href="<c:url value="/"/>">
+<a href="<c:url value="${_flow.cancelPath}"/>">
     <span class="glyphicon glyphicon-home"></span>
     <spring:message code="title.welcome.home"/></a>

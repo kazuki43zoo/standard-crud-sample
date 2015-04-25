@@ -3,7 +3,7 @@
 
 <ul class="list-inline">
     <li>
-        <a href="<c:url value="/"/>">
+        <a href="<c:url value="${_flow.finishPath}"/>">
             <span class="glyphicon glyphicon-home"></span>
             <spring:message code="title.welcome.home"/>
         </a>

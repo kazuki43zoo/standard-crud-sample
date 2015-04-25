@@ -28,6 +28,4 @@ public interface Flow {
 
     boolean hasModel();
 
-    boolean hasCallerFlow();
-
 }

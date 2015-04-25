@@ -106,7 +106,7 @@ public class UserController {
                 "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
     }
 
-    @RequestMapping(value = {"", "{userUuid}"}, method = RequestMethod.GET, params = "applyAddress")
+    @RequestMapping(value = {"", "{userUuid}"}, method = RequestMethod.GET, params = {"applyAddress", "destination"})
     public String applyAddress(
             UserForm form,
             StreetAddress selectedStreetAddress,

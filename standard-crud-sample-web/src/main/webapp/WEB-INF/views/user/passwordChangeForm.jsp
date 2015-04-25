@@ -17,8 +17,6 @@
         <form:label path="userId" cssClass="col-sm-3 control-label required">ユーザーID</form:label>
         <div class="col-sm-4">
             <form:input cssClass="form-control" path="userId"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="userId"/>
         </div>
     </div>
@@ -27,8 +25,6 @@
         <form:label path="currentPassword" cssClass="col-sm-3 control-label required">現在のパスワード</form:label>
         <div class="col-sm-4">
             <form:password cssClass="form-control" path="currentPassword" showPassword="true"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="currentPassword"/>
         </div>
     </div>
@@ -36,8 +32,6 @@
         <form:label path="password" cssClass="col-sm-3 control-label required">新しいパスワード</form:label>
         <div class="col-sm-4">
             <form:password cssClass="form-control" path="password" showPassword="true"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="password"/>
         </div>
     </div>
@@ -45,8 +39,6 @@
         <form:label path="confirmPassword" cssClass="col-sm-3 control-label required">確認パスワード</form:label>
         <div class="col-sm-4">
             <form:password cssClass="form-control" path="confirmPassword"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="confirmPassword"/>
         </div>
     </div>

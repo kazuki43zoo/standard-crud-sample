@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @ControllerAdvice
 public class FlowControllerAdvice {
@@ -40,10 +41,8 @@ public class FlowControllerAdvice {
             return;
         }
 
-        Flow currentFlow = flowRepository.findOne(flowId);
-        if (currentFlow == null) {
-            throw new InvalidFlowException(flowId);
-        }
+        Flow currentFlow = Optional.ofNullable(flowRepository.findOne(flowId))
+                .orElseThrow(() -> new InvalidFlowException(flowId));
         flowHelper.activateFlow(currentFlow, currentModel);
 
     }

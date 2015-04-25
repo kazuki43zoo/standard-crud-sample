@@ -23,11 +23,20 @@ public class FlowHelper {
         return "forward:" + path + (path.contains("?") ? "&" : "?") + Flow.ParameterNames.FLOW_ID + "=" + newFlow.getId();
     }
 
+    public void beginFlow(Flow newFlow, Model currentModel) {
+        if (currentModel.containsAttribute(Flow.MODEL_NAME)) {
+            Flow currentFlow = Flow.class.cast(currentModel.asMap().get(Flow.MODEL_NAME));
+            flowRepository.delete(currentFlow.getId());
+        }
+        flowRepository.save(newFlow);
+        currentModel.addAttribute(Flow.MODEL_NAME, newFlow);
+    }
+
     public void beginDefaultFlow(Model currentModel) {
         if (!currentModel.containsAttribute(Flow.MODEL_NAME)) {
-            Flow callerFlow = DefaultFlow.builder().finishPath("/").build();
-            flowRepository.save(callerFlow);
-            currentModel.addAttribute(Flow.MODEL_NAME, callerFlow);
+            Flow defaultFlow = DefaultFlow.builder().finishPath("/").build();
+            flowRepository.save(defaultFlow);
+            currentModel.addAttribute(Flow.MODEL_NAME, defaultFlow);
         }
     }
 

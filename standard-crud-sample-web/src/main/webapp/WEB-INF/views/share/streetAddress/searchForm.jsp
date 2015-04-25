@@ -34,4 +34,7 @@
         </div>
     </div>
 </form:form>
-<a href="<c:url value="${_flow.cancelPath}"/>">戻る</a>
+<a href="<c:url value="${_flow.cancelPath}"/>">
+    <span class="glyphicon glyphicon-backward"></span>
+    戻る
+</a>

@@ -25,5 +25,6 @@
 </form:form>
 
 <a href="<c:url value="${_flow.cancelPath}"/>">
-    <span class="glyphicon glyphicon-home"></span>
-    <spring:message code="title.welcome.home"/></a>
+    <span class="glyphicon glyphicon-backward"></span>
+    戻る
+</a>

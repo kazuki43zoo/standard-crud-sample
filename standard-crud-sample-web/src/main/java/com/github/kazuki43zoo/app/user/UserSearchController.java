@@ -1,6 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
-import com.github.kazuki43zoo.app.PageableHelper;
+import com.github.kazuki43zoo.app.PaginationHelper;
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
 import com.github.kazuki43zoo.app.flow.FlowHelper;
@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.terasoluna.gfw.common.message.ResultMessages;
-import org.terasoluna.gfw.web.el.Functions;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
 import javax.inject.Inject;
+
+import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 
 @Controller
 @RequestMapping("users")
@@ -47,7 +47,7 @@ public class UserSearchController {
     FlowHelper flowHelper;
 
     @Inject
-    PageableHelper pageableHelper;
+    PaginationHelper paginationHelper;
 
     @ModelAttribute
     public UserSearchForm setupUserSearchForm() {
@@ -77,7 +77,9 @@ public class UserSearchController {
                 .cancelPath("/users?searchRedo")
                 .build();
         return flowHelper.redirectAndBeginFlow(
-                "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
+                "/share/streetAddresses?searchForm",
+                newFlow,
+                redirectAttributes);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = {"applyAddress", "destination=searchForm"})
@@ -131,10 +133,12 @@ public class UserSearchController {
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
         Flow newFlow = DefaultFlow.builder(currentFlow)
-                .finishPath("/users?" + Functions.query(form) + "&" + pageableHelper.toQuery(pageable))
+                .finishPath("/users?" + paginationHelper.toCriteriaQuery(form, pageable))
                 .build();
         return flowHelper.redirectAndBeginFlow(
-                "/users?createForm", newFlow, redirectAttributes);
+                "/users?createForm",
+                newFlow,
+                redirectAttributes);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "gotoUpdateForm")
@@ -145,11 +149,13 @@ public class UserSearchController {
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
         Flow newFlow = DefaultFlow.builder(currentFlow)
-                .finishPath("/users?" + Functions.query(form) + "&" + pageableHelper.toQuery(pageable))
+                .finishPath("/users?" + paginationHelper.toCriteriaQuery(form, pageable))
                 .build();
         redirectAttributes.addAttribute("userUuid", userUuid);
         return flowHelper.redirectAndBeginFlow(
-                "/users/{userUuid}?updateForm", newFlow, redirectAttributes);
+                "/users/{userUuid}?updateForm",
+                newFlow,
+                redirectAttributes);
     }
 
 
@@ -161,13 +167,12 @@ public class UserSearchController {
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             Model model) {
         Flow newFlow = DefaultFlow.builder(currentFlow)
-                .finishPath("/users?" + Functions.query(form) + "&" + pageableHelper.toQuery(pageable))
+                .finishPath("/users?" + paginationHelper.toCriteriaQuery(form, pageable))
                 .build();
         return flowHelper.forwardAndBeginFlow(
-                UriComponentsBuilder.fromPath("/users/{userUuid}").buildAndExpand(userUuid).toString(),
+                fromPath("/users/{userUuid}").buildAndExpand(userUuid).toString(),
                 newFlow,
                 model);
     }
-
 
 }

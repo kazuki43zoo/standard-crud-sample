@@ -3,9 +3,9 @@
 
 <ul class="list-inline">
     <li>
-        <a href="<c:url value="${_flow.finishPath}"/>">
-            <span class="glyphicon glyphicon-home"></span>
-            <spring:message code="title.welcome.home"/>
+        <a href="<c:url value="${_flow.cancelPath}"/>">
+            <span class="glyphicon glyphicon-backward"></span>
+            戻る
         </a>
     </li>
 </ul>

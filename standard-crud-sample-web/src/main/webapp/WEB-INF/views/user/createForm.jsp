@@ -20,17 +20,7 @@
 
 </form:form>
 
-<c:choose>
-    <c:when test="${backwardQueryString != null}">
-        <a href="<c:url value="/users?${f:h(backwardQueryString)}" />">
-            <span class="glyphicon glyphicon-list"></span>
-            <spring:message code="title.user.searchResult"/>
-        </a>
-    </c:when>
-    <c:otherwise>
-        <a href="<c:url value="/"/>">
-            <span class="glyphicon glyphicon-home"></span>
-            <spring:message code="title.welcome.home"/></a>
-    </c:otherwise>
-</c:choose>
+<a href="<c:url value="${_flow.cancelPath}" />">
+    <span class="glyphicon glyphicon-backward"></span> 戻る</a>
+</a>
 

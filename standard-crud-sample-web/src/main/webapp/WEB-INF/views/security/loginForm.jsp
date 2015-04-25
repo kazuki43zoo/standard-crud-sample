@@ -20,6 +20,10 @@
         <c:when test="${param.containsKey('error')}">
             <t:messagesPanel messagesType="danger" messagesAttributeName="SPRING_SECURITY_LAST_EXCEPTION"/>
         </c:when>
+        <c:when test="${param.containsKey('systemError')}">
+            <spring:message code="e.sc.fw.9001" arguments="${requestScope['X-Track']}" var="message"/>
+            <t:messagesPanel messagesType="danger" messagesAttributeName="message"/>
+        </c:when>
         <c:otherwise>
             <t:messagesPanel/>
         </c:otherwise>

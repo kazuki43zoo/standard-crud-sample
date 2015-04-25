@@ -36,6 +36,6 @@
 
 </form:form>
 
-<a href="<c:url value="/users?${f:h(backwardQueryString)}"/>">
-    <span class="glyphicon glyphicon-list"></span>
-    <spring:message code="title.user.searchResult"/></a>
+<a href="<c:url value="${_flow.cancelPath}" />">
+    <span class="glyphicon glyphicon-backward"></span> 戻る</a>
+</a>

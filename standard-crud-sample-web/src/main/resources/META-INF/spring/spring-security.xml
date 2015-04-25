@@ -56,6 +56,8 @@
             <map>
                 <entry key="org.springframework.security.authentication.CredentialsExpiredException"
                        value="/password?encourage"/>
+                <entry key="org.springframework.security.authentication.AuthenticationServiceException"
+                       value="/login?systemError"/>
             </map>
         </property>
     </bean>

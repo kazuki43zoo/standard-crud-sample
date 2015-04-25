@@ -1,0 +1,59 @@
+package com.github.kazuki43zoo.app.flow;
+
+import org.springframework.ui.Model;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
+
+@lombok.ToString
+@lombok.RequiredArgsConstructor
+public abstract class AbstractFlow implements Flow {
+
+    @lombok.Getter
+    private final String id = UUID.randomUUID().toString();
+
+    @lombok.Getter
+    protected String callerFlowId;
+
+    @lombok.Getter
+    private Model model;
+
+    public void saveModel(Model model) {
+        this.model = model;
+    }
+
+    public void clearModel() {
+        this.model = null;
+    }
+
+    public final Map<String, String> asIdMap() {
+        return Collections.singletonMap(ParameterNames.FLOW_ID, id);
+    }
+
+    public final boolean hasModel() {
+        return model != null;
+    }
+
+    public final boolean hasCallerFlow() {
+        return callerFlowId != null;
+    }
+
+    protected final String appendControlParameters(String path) {
+        StringBuilder pathBuilder = new StringBuilder(path);
+        if (path.contains("?")) {
+            pathBuilder.append("&");
+        } else {
+            pathBuilder.append("?");
+        }
+        pathBuilder.append(ParameterNames.FLOW_ID).append("=").append(id);
+        pathBuilder.append("&").append(ParameterNames.FLOW_OPERATION).append("=").append(Operation.TERMINATE);
+        return pathBuilder.toString();
+    }
+
+    static Flow caller() {
+        return new AbstractFlow() {
+        };
+    }
+
+}

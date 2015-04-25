@@ -23,19 +23,19 @@
                     <h3>管理者向けメニュー</h3>
                     <sec:authorize url="/users">
                         <p>
-                            <a href="<c:url value="/users?searchForm" />">
+                            <a href="<c:url value="/users?searchForm&_flowOperation=BEGIN" />">
                                 <span class="glyphicon glyphicon-search"></span>
                                 <spring:message code="title.user.searchForm"/>
                             </a>
                         </p>
                         <p>
-                            <a href="<c:url value="/users" />">
+                            <a href="<c:url value="/users?_flowOperation=BEGIN" />">
                                 <span class="glyphicon glyphicon-list"></span>
                                 <spring:message code="title.user.searchResult"/>
                             </a>
                         </p>
                         <p>
-                            <a href="<c:url value="/users?createForm" />">
+                            <a href="<c:url value="/users?createForm&_flowOperation=BEGIN" />">
                                 <span class="glyphicon glyphicon glyphicon-plus"></span>
                                 <spring:message code="title.user.createForm"/>
                             </a>

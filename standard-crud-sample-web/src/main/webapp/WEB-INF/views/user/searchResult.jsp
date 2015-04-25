@@ -1,11 +1,11 @@
-<c:set var="backwardQueryString" value="page=${usersPage.number}&size=${usersPage.size}&${f:query(userSearchForm)}"/>
+<c:set var="paginationQueryString" value="page=${usersPage.number}&size=${usersPage.size}&${f:query(userSearchForm)}"/>
 
 <script type="text/javascript">
     $(function () {
         $("#userTable .deleteBtn").on("click", function () {
             var $this = $(this);
             var $dialog = $("#deletingConfirmationDialog");
-            var action = contextPath + "users/" + $this.data("user-uuid");
+            var action = contextPath + "users?userUuid=" + $this.data("user-uuid") + "&" + "${paginationQueryString}";
             $dialog.find("#deleteForm").attr("action", action);
             $dialog.modal('show');
         });
@@ -36,7 +36,7 @@
             <td>${f:h(user.email)}</td>
             <td>${f:h(CL_USERSTATUS[user.status.name()])}</td>
             <td>
-                <a href="<c:url value="/users/${f:h(user.userUuid)}?updateForm&backwardQueryString=${f:h(f:u(backwardQueryString))}" />"
+                <a href="<c:url value="/users?gotoUpdateForm&userUuid=${f:h(user.userUuid)}&${paginationQueryString}&${f:query(_flow.asIdMap())}" />"
                    class="btn btn-default" title="編集">
                     <span class="glyphicon glyphicon-edit"></span></a>
                 <c:if test="${user.status != 'DELETED'}">
@@ -52,19 +52,19 @@
 
 <c:if test="${1 < usersPage.totalPages}">
     <div class="paginationContainer">
-        <t:pagination page="${usersPage}" criteriaQuery="${f:query(userSearchForm)}" outerElementClass="pagination"/>
+        <t:pagination page="${usersPage}" criteriaQuery="${f:query(userSearchForm)}&${f:query(_flow.asIdMap())}" outerElementClass="pagination"/>
     </div>
 </c:if>
 
 <div>
     <ul class="list-inline">
         <li>
-            <a href="<c:url value="/users?searchForm&${f:h(f:query(userSearchForm))}"/>">
+            <a href="<c:url value="/users?searchForm&${f:h(f:query(userSearchForm))}&${f:query(_flow.asIdMap())}"/>">
                 <span class="glyphicon glyphicon-search"></span>
                 <spring:message code="title.user.searchForm"/></a>
         </li>
         <li>
-            <a href="<c:url value="/users?createForm&backwardQueryString=${f:h(f:u(backwardQueryString))}"/>">
+            <a href="<c:url value="/users?gotoCreateForm&${paginationQueryString}&${f:query(_flow.asIdMap())}"/>">
                 <span class="glyphicon glyphicon glyphicon-plus"></span>
                 <spring:message code="title.user.createForm"/>
             </a>
@@ -88,11 +88,11 @@
             </div>
             <div class="modal-footer">
                 <form:form id="deleteForm">
-                    <input type="hidden" name="backwardQueryString" value="${f:h(backwardQueryString)}">
+                    <input type="hidden" name="delete">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         いいえ
                     </button>
-                    <button name="delete" class="btn btn-default">
+                    <button name="gotoDelete" class="btn btn-default">
                         はい
                     </button>
                 </form:form>

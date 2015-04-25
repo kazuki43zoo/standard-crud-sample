@@ -76,9 +76,7 @@
             <util:list>
                 <bean class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
                 <bean class="org.terasoluna.gfw.web.token.transaction.TransactionTokenRequestDataValueProcessor"/>
-                <bean class="com.github.kazuki43zoo.app.ModelAttributeRequestDataValueProcessor">
-                    <constructor-arg value="backwardQueryString"/>
-                </bean>
+                <ref bean="flowRequestDataValueProcessor"/>
             </util:list>
         </constructor-arg>
     </bean>

@@ -77,14 +77,14 @@
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-4">
             <form:button class="btn btn-default"><span class="glyphicon glyphicon-search"></span> 検索</form:button>
-            <a href="<c:url value="/users?searchForm"/>" class="btn btn-default">
+            <a href="<c:url value="/users?searchForm&${f:query(_flow.asIdMap())}"/>" class="btn btn-default">
                 <span class="glyphicon glyphicon-erase"></span> クリア</a>
         </div>
     </div>
 
 </form:form>
 
-<a href="<c:url value="/"/>">
+<a href="<c:url value="${_flow.cancelPath}"/>">
     <span class="glyphicon glyphicon-home"></span>
     <spring:message code="title.welcome.home"/></a>
 

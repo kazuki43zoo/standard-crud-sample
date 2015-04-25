@@ -1,6 +1,7 @@
 package com.github.kazuki43zoo.app.user;
 
-import com.github.kazuki43zoo.app.ModelAttributeNames;
+import com.github.kazuki43zoo.app.flow.DefaultFlow;
+import com.github.kazuki43zoo.app.flow.Flow;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.service.security.CustomUserDetails;
 import com.github.kazuki43zoo.domain.service.security.SecurityContextSharedService;
@@ -84,7 +85,7 @@ public class UserController {
     public String create(
             @Validated({Default.class, UserForm.Creating.class}) UserForm form,
             BindingResult bindingResult,
-            @ModelAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING) String backwardQueryString,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -101,7 +102,7 @@ public class UserController {
         }
 
         redirectAttributes.addAttribute("userUuid", createdUser.getUserUuid());
-        redirectAttributes.addAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING, backwardQueryString);
+        redirectAttributes.addAllAttributes(currentFlow.asIdMap());
         return "redirect:/users/{userUuid}?createComplete";
     }
 
@@ -162,7 +163,7 @@ public class UserController {
             @Validated({Default.class, UserForm.Updating.class}) UserForm form,
             BindingResult bindingResult,
             @AuthenticationPrincipal CustomUserDetails userDetail,
-            @ModelAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING) String backwardQueryString,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -181,7 +182,7 @@ public class UserController {
         }
 
         redirectAttributes.addAttribute("userUuid", userUuid);
-        redirectAttributes.addAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING, backwardQueryString);
+        redirectAttributes.addAllAttributes(currentFlow.asIdMap());
         return "redirect:/users/{userUuid}?updateComplete";
     }
 
@@ -197,13 +198,13 @@ public class UserController {
     @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "delete")
     public String delete(
             @PathVariable("userUuid") String userUuid,
-            @ModelAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING) String backwardQueryString,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
 
         userService.delete(userUuid);
 
         redirectAttributes.addAttribute("userUuid", userUuid);
-        redirectAttributes.addAttribute(ModelAttributeNames.BACKWARD_QUERY_STRING, backwardQueryString);
+        redirectAttributes.addAllAttributes(currentFlow.asIdMap());
         return "redirect:/users/{userUuid}?deleteComplete";
     }
 

@@ -14,6 +14,10 @@ public class DefaultFlow extends AbstractFlow {
         return new DefaultFlowBuilder();
     }
 
+    public static DefaultFlowBuilder builder(Flow callerFlow) {
+        return new DefaultFlowBuilder().callerFlowId(callerFlow.getId());
+    }
+
     public static class DefaultFlowBuilder {
         private final DefaultFlow flow = new DefaultFlow();
 

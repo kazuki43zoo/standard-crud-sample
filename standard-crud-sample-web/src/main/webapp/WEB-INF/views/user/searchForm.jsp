@@ -67,7 +67,7 @@
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-4">
             <form:button class="btn btn-default"><span class="glyphicon glyphicon-search"></span> 検索</form:button>
-            <form:button class="btn btn-default" name="clearForm"><span
+            <form:button class="btn btn-default" name="clearSearchForm"><span
                     class="glyphicon glyphicon-erase"></span> クリア</form:button>
         </div>
     </div>

@@ -59,7 +59,7 @@ public class UserSearchController {
         return "user/searchForm";
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = "clearForm")
+    @RequestMapping(method = RequestMethod.GET, params = "clearSearchForm")
     public String clearForm(Model model) {
         model.addAttribute(setupUserSearchForm());
         return searchForm();
@@ -72,16 +72,15 @@ public class UserSearchController {
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
         currentFlow.saveModel(model);
-        DefaultFlow newFlow = DefaultFlow.builder()
-                .finishPath("/users?applyAddress")
+        DefaultFlow newFlow = DefaultFlow.builder(currentFlow)
+                .finishPath("/users?applyAddress&destination=searchForm")
                 .cancelPath("/users?searchRedo")
-                .callerFlowId(currentFlow.getId())
                 .build();
         return flowHelper.redirectAndBeginFlow(
                 "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = "applyAddress")
+    @RequestMapping(method = RequestMethod.GET, params = {"applyAddress", "destination=searchForm"})
     public String applyAddress(
             UserSearchForm form,
             StreetAddress selectedStreetAddress) {
@@ -131,9 +130,8 @@ public class UserSearchController {
             Pageable pageable,
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
-        Flow newFlow = DefaultFlow.builder()
+        Flow newFlow = DefaultFlow.builder(currentFlow)
                 .finishPath("/users?" + Functions.query(form) + "&" + pageableHelper.toQuery(pageable))
-                .callerFlowId(currentFlow.getId())
                 .build();
         return flowHelper.redirectAndBeginFlow(
                 "/users?createForm", newFlow, redirectAttributes);
@@ -146,9 +144,8 @@ public class UserSearchController {
             Pageable pageable,
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
-        Flow newFlow = DefaultFlow.builder()
+        Flow newFlow = DefaultFlow.builder(currentFlow)
                 .finishPath("/users?" + Functions.query(form) + "&" + pageableHelper.toQuery(pageable))
-                .callerFlowId(currentFlow.getId())
                 .build();
         redirectAttributes.addAttribute("userUuid", userUuid);
         return flowHelper.redirectAndBeginFlow(
@@ -163,9 +160,8 @@ public class UserSearchController {
             Pageable pageable,
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             Model model) {
-        Flow newFlow = DefaultFlow.builder()
+        Flow newFlow = DefaultFlow.builder(currentFlow)
                 .finishPath("/users?" + Functions.query(form) + "&" + pageableHelper.toQuery(pageable))
-                .callerFlowId(currentFlow.getId())
                 .build();
         return flowHelper.forwardAndBeginFlow(
                 UriComponentsBuilder.fromPath("/users/{userUuid}").buildAndExpand(userUuid).toString(),

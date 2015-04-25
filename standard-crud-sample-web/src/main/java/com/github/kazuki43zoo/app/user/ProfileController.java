@@ -80,13 +80,14 @@ public class ProfileController {
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
         currentFlow.saveModel(model);
-        DefaultFlow newFlow = DefaultFlow.builder()
+        Flow newFlow = DefaultFlow.builder(currentFlow)
                 .finishPath("/profile?applyAddress")
                 .cancelPath("/profile?redo")
-                .callerFlowId(currentFlow.getId())
                 .build();
         return flowHelper.redirectAndBeginFlow(
-                "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
+                "/share/streetAddresses?searchForm",
+                newFlow,
+                redirectAttributes);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "applyAddress")

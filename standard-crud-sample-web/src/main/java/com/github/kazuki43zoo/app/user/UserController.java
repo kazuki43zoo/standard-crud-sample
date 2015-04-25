@@ -80,43 +80,22 @@ public class UserController {
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
         currentFlow.saveModel(model);
-        DefaultFlow newFlow = DefaultFlow.builder()
+        Flow newFlow = DefaultFlow.builder(currentFlow)
                 .finishPath("/users?applyAddress&destination=createForm")
                 .cancelPath("/users?createRedo")
-                .callerFlowId(currentFlow.getId())
                 .build();
         return flowHelper.redirectAndBeginFlow(
-                "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
+                "/share/streetAddresses?searchForm",
+                newFlow,
+                redirectAttributes);
     }
 
-    @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "gotoAddressSearch")
-    public String gotoAddressSearch(
-            @PathVariable("userUuid") String userUuid,
-            UserForm form,
-            Model model,
-            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
-            RedirectAttributes redirectAttributes) {
-        currentFlow.saveModel(model);
-        DefaultFlow newFlow = DefaultFlow.builder()
-                .finishPath("/users/" + userUuid + "?applyAddress&destination=updateForm")
-                .cancelPath("/users/" + userUuid + "?updateRedo")
-                .callerFlowId(currentFlow.getId())
-                .build();
-        return flowHelper.redirectAndBeginFlow(
-                "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
-    }
-
-    @RequestMapping(value = {"", "{userUuid}"}, method = RequestMethod.GET, params = {"applyAddress", "destination"})
+    @RequestMapping(method = RequestMethod.GET, params = {"applyAddress", "destination=createForm"})
     public String applyAddress(
             UserForm form,
-            StreetAddress selectedStreetAddress,
-            @RequestParam("destination") String destination,
-            Model model) {
+            StreetAddress selectedStreetAddress) {
         form.setAddress(selectedStreetAddress.getAddress());
-        if (form.getUserUuid() != null) {
-            userHelper.loadUserIntoModelWithinLongTransaction(form.getUserUuid(), model, form);
-        }
-        return "user/" + destination;
+        return "user/createForm";
     }
 
     @RequestMapping(params = "createRedo")
@@ -191,6 +170,35 @@ public class UserController {
     @RequestMapping(value = "{userUuid}", params = "reloadUpdateForm")
     public String clearUpdateForm(@PathVariable("userUuid") String userUuid, UserForm form, Model model) {
         return updateForm(userUuid, form, model);
+    }
+
+    @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "gotoAddressSearch")
+    public String gotoAddressSearch(
+            @PathVariable("userUuid") String userUuid,
+            UserForm form,
+            Model model,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
+            RedirectAttributes redirectAttributes) {
+        currentFlow.saveModel(model);
+        Flow newFlow = DefaultFlow.builder(currentFlow)
+                .finishPath("/users/" + userUuid + "?applyAddress")
+                .cancelPath("/users/" + userUuid + "?updateRedo")
+                .build();
+        return flowHelper.redirectAndBeginFlow(
+                "/share/streetAddresses?searchForm",
+                newFlow,
+                redirectAttributes);
+    }
+
+    @RequestMapping(value = "{userUuid}", method = RequestMethod.GET, params = "applyAddress")
+    public String applyAddress(
+            @PathVariable("userUuid") String userUuid,
+            UserForm form,
+            StreetAddress selectedStreetAddress,
+            Model model) {
+        form.setAddress(selectedStreetAddress.getAddress());
+        userHelper.loadUserIntoModelWithinLongTransaction(userUuid, model, form);
+        return "user/updateForm";
     }
 
     @RequestMapping(value = "{userUuid}", params = "updateRedo")

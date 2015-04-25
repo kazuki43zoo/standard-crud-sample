@@ -30,25 +30,21 @@ public class FlowControllerAdvice {
             return;
         }
 
+        if (flowOperation == Flow.Operation.TERMINATE) {
+            flowHelper.terminateFlow(
+                    request.getParameter(Flow.ParameterNames.TERMINATE_TARGET_FLOW_ID));
+        }
+
         String flowId = request.getParameter(Flow.ParameterNames.FLOW_ID);
         if (flowId == null) {
             return;
         }
 
         Flow currentFlow = flowRepository.findOne(flowId);
-        if (flowOperation == Flow.Operation.TERMINATE) {
-            if (currentFlow != null) {
-                currentFlow = flowHelper.terminateFlow(currentFlow);
-            }
-        } else {
-            if (currentFlow == null) {
-                throw new InvalidFlowException(flowId);
-            }
+        if (currentFlow == null) {
+            throw new InvalidFlowException(flowId);
         }
-
-        if (currentFlow != null) {
-            flowHelper.activateFlow(currentFlow, currentModel);
-        }
+        flowHelper.activateFlow(currentFlow, currentModel);
 
     }
 

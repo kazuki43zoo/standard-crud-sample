@@ -1,4 +1,4 @@
-<c:set var="paginationQueryString" value="page=${usersPage.number}&size=${usersPage.size}&${f:query(userSearchForm)}"/>
+<c:set var="paginationQueryString" value="page=${page.number}&size=${page.size}&${f:query(userSearchForm)}"/>
 
 <script type="text/javascript">
     $(function () {
@@ -12,8 +12,8 @@
     });
 </script>
 
-<h1>検索結果：<fmt:formatNumber value="${usersPage.totalElements}"/> 件
-    (${f:h(usersPage.number + 1) } / ${f:h(usersPage.totalPages)} ページ)</h1>
+<h1>検索結果：<fmt:formatNumber value="${page.totalElements}"/> 件
+    (${f:h(page.number + 1) } / ${f:h(page.totalPages)} ページ)</h1>
 
 <t:messagesPanel/>
 
@@ -27,9 +27,9 @@
         <th>ステータス</th>
         <th>操作</th>
     </tr>
-    <c:forEach var="user" items="${usersPage.content}" varStatus="rowStatus">
+    <c:forEach var="user" items="${page.content}" varStatus="rowStatus">
         <tr>
-            <td>${f:h((usersPage.number * usersPage.size) + rowStatus.count)}</td>
+            <td>${f:h((page.number * page.size) + rowStatus.count)}</td>
             <td>${f:h(user.credential.userId)}</td>
             <td>${f:h(user.name)}</td>
             <td>${f:h(user.dateOfBirth)}</td>
@@ -50,16 +50,16 @@
     </c:forEach>
 </table>
 
-<c:if test="${1 < usersPage.totalPages}">
+<c:if test="${1 < page.totalPages}">
     <div class="paginationContainer">
-        <t:pagination page="${usersPage}" criteriaQuery="${f:query(userSearchForm)}&${f:query(_flow.asIdMap())}" outerElementClass="pagination"/>
+        <t:pagination page="${page}" criteriaQuery="${f:query(userSearchForm)}&${f:query(_flow.asIdMap())}" outerElementClass="pagination"/>
     </div>
 </c:if>
 
 <div>
     <ul class="list-inline">
         <li>
-            <a href="<c:url value="/users?searchForm&${f:h(f:query(userSearchForm))}&${f:query(_flow.asIdMap())}"/>">
+            <a href="<c:url value="/users?searchRedo&${f:h(f:query(userSearchForm))}&${f:query(_flow.asIdMap())}"/>">
                 <span class="glyphicon glyphicon-search"></span>
                 <spring:message code="title.user.searchForm"/></a>
         </li>

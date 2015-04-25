@@ -13,8 +13,7 @@
                         label="${roleCodeListElement.value}"/>
             </div>
         </c:forEach>
-    </div>
-    <div class="col-sm-4">
-        <form:errors cssClass="control-label" path="roles"/>
+        <br>
+        <form:errors cssClass="control-label" path="roles" />
     </div>
 </div>

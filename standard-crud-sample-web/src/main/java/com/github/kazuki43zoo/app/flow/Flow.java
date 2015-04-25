@@ -10,6 +10,7 @@ public interface Flow {
 
     interface ParameterNames {
         String FLOW_ID = "_flowId";
+        String TERMINATE_TARGET_FLOW_ID = "_terminateTargetFlowId";
         String FLOW_OPERATION = "_flowOperation";
     }
 
@@ -21,11 +22,7 @@ public interface Flow {
 
     Map<String, String> asIdMap();
 
-    String getCallerFlowId();
-
     void saveModel(Model model);
-
-    void clearModel();
 
     Model getModel();
 

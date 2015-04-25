@@ -7,8 +7,6 @@
         <form:label path="userId" cssClass="col-sm-3 control-label">ユーザーID</form:label>
         <div class="col-sm-4">
             <form:input cssClass="form-control" path="userId"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="userId"/>
         </div>
     </div>
@@ -16,8 +14,6 @@
         <form:label path="name" cssClass="col-sm-3 control-label">氏名</form:label>
         <div class="col-sm-4">
             <form:input cssClass="form-control" path="name"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="name"/>
         </div>
     </div>
@@ -25,8 +21,6 @@
         <form:label path="dateOfBirth" cssClass="col-sm-3 control-label">誕生日</form:label>
         <div class="col-sm-4">
             <form:input type="date" cssClass="form-control" path="dateOfBirth" placeholder="(yyyy-M-d形式)"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="dateOfBirth"/>
         </div>
     </div>
@@ -34,17 +28,16 @@
         <form:label path="address" cssClass="col-sm-3 control-label">住所</form:label>
         <div class="col-sm-4">
             <form:input cssClass="form-control" path="address"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="address"/>
+        </div>
+        <div class="col-sm-1">
+            <form:button name="gotoAddressSearch" class="btn btn-default">検索</form:button>
         </div>
     </div>
     <div class="form-group">
         <form:label path="tel" cssClass="col-sm-3 control-label">電話番号</form:label>
         <div class="col-sm-4">
             <form:input cssClass="form-control" path="tel" placeholder="(ハイフンなし)"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="tel"/>
         </div>
     </div>
@@ -52,8 +45,6 @@
         <form:label path="email" cssClass="col-sm-3 control-label">メールアドレス</form:label>
         <div class="col-sm-4">
             <form:input cssClass="form-control" path="email"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="email"/>
         </div>
     </div>
@@ -68,8 +59,7 @@
                             label="${statusCodeListElement.value}"/>
                 </div>
             </c:forEach>
-        </div>
-        <div class="col-sm-4">
+            <br>
             <form:errors cssClass="control-label" path="statusTargets"/>
         </div>
     </div>
@@ -77,8 +67,8 @@
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-4">
             <form:button class="btn btn-default"><span class="glyphicon glyphicon-search"></span> 検索</form:button>
-            <a href="<c:url value="/users?searchForm&${f:query(_flow.asIdMap())}"/>" class="btn btn-default">
-                <span class="glyphicon glyphicon-erase"></span> クリア</a>
+            <form:button class="btn btn-default" name="clearForm"><span
+                    class="glyphicon glyphicon-erase"></span> クリア</form:button>
         </div>
     </div>
 

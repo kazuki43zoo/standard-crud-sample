@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-@lombok.ToString
+@lombok.ToString(exclude = "model")
 @lombok.RequiredArgsConstructor
 public abstract class AbstractFlow implements Flow {
 
@@ -23,10 +23,6 @@ public abstract class AbstractFlow implements Flow {
         this.model = model;
     }
 
-    public void clearModel() {
-        this.model = null;
-    }
-
     public final Map<String, String> asIdMap() {
         return Collections.singletonMap(ParameterNames.FLOW_ID, id);
     }
@@ -40,20 +36,21 @@ public abstract class AbstractFlow implements Flow {
     }
 
     protected final String appendControlParameters(String path) {
+        if (path == null) {
+            return null;
+        }
         StringBuilder pathBuilder = new StringBuilder(path);
         if (path.contains("?")) {
             pathBuilder.append("&");
         } else {
             pathBuilder.append("?");
         }
-        pathBuilder.append(ParameterNames.FLOW_ID).append("=").append(id);
+        pathBuilder.append(ParameterNames.TERMINATE_TARGET_FLOW_ID).append("=").append(id);
         pathBuilder.append("&").append(ParameterNames.FLOW_OPERATION).append("=").append(Operation.TERMINATE);
+        if (hasCallerFlow()) {
+            pathBuilder.append("&").append(ParameterNames.FLOW_ID).append("=").append(callerFlowId);
+        }
         return pathBuilder.toString();
-    }
-
-    static Flow caller() {
-        return new AbstractFlow() {
-        };
     }
 
 }

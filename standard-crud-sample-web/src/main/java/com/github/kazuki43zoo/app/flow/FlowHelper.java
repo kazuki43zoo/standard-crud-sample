@@ -31,20 +31,17 @@ public class FlowHelper {
         }
     }
 
-    public Flow terminateFlow(Flow currentFlow) {
-        flowRepository.delete(currentFlow.getId());
-        if (currentFlow.hasCallerFlow()) {
-            return flowRepository.findOne(currentFlow.getCallerFlowId());
-        } else {
-            return null;
+    public void terminateFlow(String flowId) {
+        if (flowId == null) {
+            return;
         }
+        flowRepository.delete(flowId);
     }
 
     public void activateFlow(Flow flow, Model currentModel) {
         currentModel.addAttribute(Flow.MODEL_NAME, flow);
         if (flow.hasModel()) {
             currentModel.addAllAttributes(flow.getModel().asMap());
-            flow.clearModel();
         }
     }
 

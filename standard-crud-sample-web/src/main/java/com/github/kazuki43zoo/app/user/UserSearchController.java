@@ -4,6 +4,7 @@ import com.github.kazuki43zoo.app.PageableHelper;
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
 import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.repository.user.UserSearchCriteria;
 import com.github.kazuki43zoo.domain.service.user.UserService;
@@ -54,7 +55,37 @@ public class UserSearchController {
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "searchForm")
-    public String searchForm(UserSearchForm from) {
+    public String searchForm() {
+        return "user/searchForm";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "clearForm")
+    public String clearForm(Model model) {
+        model.addAttribute(setupUserSearchForm());
+        return searchForm();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "gotoAddressSearch")
+    public String gotoAddressSearch(
+            UserSearchForm form,
+            Model model,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
+            RedirectAttributes redirectAttributes) {
+        currentFlow.saveModel(model);
+        DefaultFlow newFlow = DefaultFlow.builder()
+                .finishPath("/users?applyAddress&destination=searchForm")
+                .cancelPath("/users?searchRedo")
+                .callerFlowId(currentFlow.getId())
+                .build();
+        return flowHelper.redirectAndBeginFlow(
+                "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = {"applyAddress", "destination=searchForm"})
+    public String applyAddress(
+            UserSearchForm form,
+            StreetAddress selectedStreetAddress) {
+        form.setAddress(selectedStreetAddress.getAddress());
         return "user/searchForm";
     }
 
@@ -67,7 +98,7 @@ public class UserSearchController {
             Model model) {
 
         if (bindingResult.hasErrors()) {
-            return searchForm(form);
+            return searchForm();
         }
 
         UserSearchCriteria criteria = beanMapper.map(form, UserSearchCriteria.class);
@@ -75,7 +106,7 @@ public class UserSearchController {
 
         if (users.getTotalElements() == 0) {
             model.addAttribute(ResultMessages.info().add("i.sc.um.2000"));
-            return searchForm(form);
+            return searchForm();
         }
 
         if (!users.hasContent()) {
@@ -85,8 +116,13 @@ public class UserSearchController {
                     new PageRequest(users.getTotalPages() - 1, pageable.getPageSize(), pageable.getSort()), model);
         }
 
-        model.addAttribute("usersPage", users);
+        model.addAttribute("page", users);
         return "user/searchResult";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "searchRedo")
+    public String searchRedo(UserSearchForm form) {
+        return searchForm();
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "gotoCreateForm")
@@ -99,7 +135,8 @@ public class UserSearchController {
                 .finishPath("/users?" + Functions.query(form) + "&" + pageableHelper.toQuery(pageable))
                 .callerFlowId(currentFlow.getId())
                 .build();
-        return flowHelper.redirectAndBeginFlow("/users?createForm", newFlow, redirectAttributes);
+        return flowHelper.redirectAndBeginFlow(
+                "/users?createForm", newFlow, redirectAttributes);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "gotoUpdateForm")
@@ -114,7 +151,8 @@ public class UserSearchController {
                 .callerFlowId(currentFlow.getId())
                 .build();
         redirectAttributes.addAttribute("userUuid", userUuid);
-        return flowHelper.redirectAndBeginFlow("/users/{userUuid}?updateForm", newFlow, redirectAttributes);
+        return flowHelper.redirectAndBeginFlow(
+                "/users/{userUuid}?updateForm", newFlow, redirectAttributes);
     }
 
 
@@ -134,5 +172,6 @@ public class UserSearchController {
                 newFlow,
                 model);
     }
+
 
 }

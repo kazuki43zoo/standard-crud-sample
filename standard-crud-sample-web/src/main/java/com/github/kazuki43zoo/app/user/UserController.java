@@ -2,6 +2,8 @@ package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
+import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.service.security.CustomUserDetails;
 import com.github.kazuki43zoo.domain.service.security.SecurityContextSharedService;
@@ -45,6 +47,9 @@ public class UserController {
     UserIdValidator userIdValidator;
 
     @Inject
+    FlowHelper flowHelper;
+
+    @Inject
     Mapper beanMapper;
 
     @ModelAttribute
@@ -57,12 +62,64 @@ public class UserController {
         binder.addValidators(userIdValidator);
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = "createForm")
+    @RequestMapping(params = "createForm")
     public String createForm() {
         return "user/createForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "createRedo")
+    @RequestMapping(params = "clearCreateForm")
+    public String clearCreateForm(Model model) {
+        model.addAttribute(setupUserForm());
+        return createForm();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "gotoAddressSearch")
+    public String gotoAddressSearch(
+            UserForm form,
+            Model model,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
+            RedirectAttributes redirectAttributes) {
+        currentFlow.saveModel(model);
+        DefaultFlow newFlow = DefaultFlow.builder()
+                .finishPath("/users?applyAddress&destination=createForm")
+                .cancelPath("/users?createRedo")
+                .callerFlowId(currentFlow.getId())
+                .build();
+        return flowHelper.redirectAndBeginFlow(
+                "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
+    }
+
+    @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "gotoAddressSearch")
+    public String gotoAddressSearch(
+            @PathVariable("userUuid") String userUuid,
+            UserForm form,
+            Model model,
+            @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
+            RedirectAttributes redirectAttributes) {
+        currentFlow.saveModel(model);
+        DefaultFlow newFlow = DefaultFlow.builder()
+                .finishPath("/users/" + userUuid + "?applyAddress&destination=updateForm")
+                .cancelPath("/users/" + userUuid + "?updateRedo")
+                .callerFlowId(currentFlow.getId())
+                .build();
+        return flowHelper.redirectAndBeginFlow(
+                "/share/streetAddresses?searchForm", newFlow, redirectAttributes);
+    }
+
+    @RequestMapping(value = {"", "{userUuid}"}, method = RequestMethod.GET, params = "applyAddress")
+    public String applyAddress(
+            UserForm form,
+            StreetAddress selectedStreetAddress,
+            @RequestParam("destination") String destination,
+            Model model) {
+        form.setAddress(selectedStreetAddress.getAddress());
+        if (form.getUserUuid() != null) {
+            userHelper.loadUserIntoModelWithinLongTransaction(form.getUserUuid(), model, form);
+        }
+        return "user/" + destination;
+    }
+
+    @RequestMapping(params = "createRedo")
     public String createRedo(UserForm userFrom) {
         return createForm();
     }
@@ -114,7 +171,7 @@ public class UserController {
         return "user/createComplete";
     }
 
-    @RequestMapping(value = "{userUuid}", method = RequestMethod.GET, params = "updateForm")
+    @RequestMapping(value = "{userUuid}", params = "updateForm")
     public String updateForm(
             @PathVariable("userUuid") String userUuid,
             UserForm form,
@@ -131,7 +188,12 @@ public class UserController {
         return "user/updateForm";
     }
 
-    @RequestMapping(value = "{userUuid}", method = RequestMethod.POST, params = "updateRedo")
+    @RequestMapping(value = "{userUuid}", params = "reloadUpdateForm")
+    public String clearUpdateForm(@PathVariable("userUuid") String userUuid, UserForm form, Model model) {
+        return updateForm(userUuid, form, model);
+    }
+
+    @RequestMapping(value = "{userUuid}", params = "updateRedo")
     public String updateRedo(
             @PathVariable("userUuid") String userUuid,
             UserForm form, Model model) {

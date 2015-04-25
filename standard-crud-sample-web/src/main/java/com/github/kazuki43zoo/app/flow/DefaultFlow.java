@@ -18,12 +18,12 @@ public class DefaultFlow extends AbstractFlow {
         private final DefaultFlow flow = new DefaultFlow();
 
         public DefaultFlowBuilder finishPath(String finishPath) {
-            flow.finishPath = flow.appendControlParameters(finishPath);
+            flow.finishPath = finishPath;
             return this;
         }
 
         public DefaultFlowBuilder cancelPath(String cancelPath) {
-            flow.finishPath = flow.appendControlParameters(cancelPath);
+            flow.cancelPath = cancelPath;
             return this;
         }
 
@@ -33,6 +33,8 @@ public class DefaultFlow extends AbstractFlow {
         }
 
         public DefaultFlow build() {
+            flow.finishPath = flow.appendControlParameters(flow.finishPath);
+            flow.cancelPath = flow.appendControlParameters(flow.cancelPath);
             if (flow.cancelPath == null) {
                 flow.cancelPath = flow.finishPath;
             }

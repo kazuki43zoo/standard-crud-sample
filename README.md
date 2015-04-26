@@ -21,7 +21,7 @@ Sample Application of standard CRUD using TERASOLUNA Server Framework 5.x (5.0.0
 >
 > Please install the lombok into  IED(Eclipse, STS, IDEA ,etc...). For details, refer to [here](http://projectlombok.org/download.html).
 
-## Features of this samples
+## Standard features of this samples
 This sample application provide how to implement standard features.
 
 Target features are follows:
@@ -42,7 +42,6 @@ Target features are follows:
 * JSP with JSTL and Spring tag libraries
 * File upload (comming soon !!)
 * File download (comming soon !!)
-* Shared screen flow control (Providing common components in the `com.github.kazuki43zoo.app.flow` package)
 
 #### Security Layer
 * Form and DB Authentication
@@ -53,6 +52,10 @@ Target features are follows:
 * Attack measure (CSRF & Session fixation protection & securty HTTP headers)
 * Invalid session detection
 
+## Extended features of this samples
+
+#### Application Layer
+* Shared screen flow control (Providing common components in the `com.github.kazuki43zoo.app.flow` package)
 
 ## Sample Application Basic Design
 

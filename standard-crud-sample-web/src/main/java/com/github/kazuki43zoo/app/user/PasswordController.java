@@ -1,5 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
+import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.service.user.CredentialService;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.terasoluna.gfw.common.exception.BusinessException;
-import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
@@ -43,6 +43,7 @@ public class PasswordController {
             Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return changeForm();
         }
 
@@ -53,7 +54,7 @@ public class PasswordController {
             model.addAttribute(e.getResultMessages());
             return changeForm();
         } catch (ObjectOptimisticLockingFailureException e) {
-            model.addAttribute(ResultMessages.error().add("e.sc.um.8005"));
+            model.addAttribute(Message.OPERATION_CONFLICT.resultMessages());
             return changeForm();
         }
 

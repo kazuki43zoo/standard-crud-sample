@@ -41,14 +41,11 @@ public class UserServiceImpl implements UserService {
 
     public User create(User inputUser, List<Role> inputRoles) {
 
-        // create a user
         inputUser.setStatus(UserStatus.ACTIVE);
         userRepository.create(inputUser);
 
-        // create a user credential
         userSharedService.createCredential(inputUser);
 
-        // create user roles
         inputRoles.forEach(inputRole -> {
             inputUser.addRole(new UserRole(inputUser.getUserUuid(), inputRole));
         });
@@ -61,18 +58,14 @@ public class UserServiceImpl implements UserService {
 
         User storedUser = userSharedService.findUser(userUuid);
 
-        // check a optimistic locking within long transaction
         userSharedService.checkOptimisticLockingWithinLongTransaction(storedUser, inputUser);
 
-        // update a user
         userSharedService.updateUser(storedUser, inputUser, "updateUser");
 
-        // update a user credential
         UserCredential inputCredential = inputUser.getCredential();
         userSharedService.updateCredential(
                 storedUser, inputCredential.getUserId(), inputCredential.getPassword());
 
-        // update user roles
         userRepository.deleteRoles(storedUser);
         storedUser.getRoles().clear();
         inputRoles.forEach(inputRole -> {

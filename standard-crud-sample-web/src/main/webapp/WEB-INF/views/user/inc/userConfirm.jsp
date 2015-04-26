@@ -3,11 +3,10 @@
     <form:label path="roles" cssClass="col-sm-3 control-label">ロール</form:label>
     <div class="col-sm-8">
         <c:forEach var="roleCodeListElement" items="${CL_ROLE}">
-            <spring:eval expression="T(com.github.kazuki43zoo.domain.model.Role).valueOf(roleCodeListElement.key)"
-                         var="role"/>
+            <spring:eval expression="T(com.github.kazuki43zoo.domain.model.Role).valueOf(roleCodeListElement.key)" var="roleEnum"/>
             <span class="form-control">
                 <c:choose>
-                    <c:when test="${userForm.roles.contains(role)}">
+                    <c:when test="${userForm.roles.contains(roleEnum)}">
                         <span class="glyphicon glyphicon-check"></span>
                     </c:when>
                     <c:otherwise>

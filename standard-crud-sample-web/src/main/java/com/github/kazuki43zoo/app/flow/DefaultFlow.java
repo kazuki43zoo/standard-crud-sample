@@ -1,7 +1,6 @@
 package com.github.kazuki43zoo.app.flow;
 
 @lombok.ToString(callSuper = true)
-@lombok.RequiredArgsConstructor
 public class DefaultFlow extends AbstractFlow {
 
     @lombok.Getter

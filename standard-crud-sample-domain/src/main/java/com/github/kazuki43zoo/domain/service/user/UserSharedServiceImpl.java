@@ -1,5 +1,6 @@
 package com.github.kazuki43zoo.domain.service.user;
 
+import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.CredentialStatus;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.model.UserCredential;
@@ -12,7 +13,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
-import org.terasoluna.gfw.common.message.ResultMessages;
 
 import javax.inject.Inject;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class UserSharedServiceImpl implements UserSharedService {
     @Transactional(readOnly = true)
     public User findUser(String userUuid) {
         return Optional.ofNullable(userRepository.findOne(userUuid))
-                .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add("e.sc.fw.5001")));
+                .orElseThrow(() -> new ResourceNotFoundException(Message.RESOURCE_NOT_FOUND.resultMessages()));
     }
 
     @Transactional(readOnly = true)

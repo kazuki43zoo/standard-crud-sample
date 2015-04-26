@@ -89,7 +89,6 @@
                 <entry key="ResourceNotFoundException" value="common/error/resourceNotFoundError"/>
                 <entry key="BusinessException" value="common/error/businessError"/>
                 <entry key="InvalidTransactionTokenException" value="common/error/transactionTokenError"/>
-                <entry key=".DataAccessException" value="common/error/dataAccessError"/>
             </map>
         </property>
         <property name="statusCodes">
@@ -97,7 +96,6 @@
                 <entry key="common/error/resourceNotFoundError" value="404"/>
                 <entry key="common/error/businessError" value="409"/>
                 <entry key="common/error/transactionTokenError" value="409"/>
-                <entry key="common/error/dataAccessError" value="500"/>
             </map>
         </property>
         <property name="defaultErrorView" value="common/error/systemError"/>

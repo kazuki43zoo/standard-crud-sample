@@ -3,6 +3,7 @@ package com.github.kazuki43zoo.app.user;
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
 import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.service.security.CustomUserDetails;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
@@ -107,9 +107,11 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, params = "createConfirm")
     public String createConfirm(
             @Validated({Default.class, UserForm.Creating.class}) UserForm form,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return createRedo(form);
         }
 
@@ -121,10 +123,12 @@ public class UserController {
     public String create(
             @Validated({Default.class, UserForm.Creating.class}) UserForm form,
             BindingResult bindingResult,
+            Model model,
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return createRedo(form);
         }
 
@@ -218,6 +222,7 @@ public class UserController {
             Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return updateRedo(userUuid, form, model);
         }
 
@@ -237,6 +242,7 @@ public class UserController {
             Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return updateRedo(userUuid, form, model);
         }
 
@@ -292,7 +298,7 @@ public class UserController {
         ExtendedModelMap model = new ExtendedModelMap();
         String viewNameOfUpdateForm =
                 updateForm(e.getIdentifier().toString(), new UserForm(), model);
-        model.addAttribute(ResultMessages.danger().add("e.sc.um.8005"));
+        model.addAttribute(Message.OPERATION_CONFLICT.resultMessages());
         userHelper.bindAllCodeListIntoModel(model);
         return new ModelAndView(viewNameOfUpdateForm, model);
     }

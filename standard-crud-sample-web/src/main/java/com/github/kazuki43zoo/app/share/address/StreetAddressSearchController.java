@@ -2,6 +2,7 @@ package com.github.kazuki43zoo.app.share.address;
 
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
+import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.repository.address.StreetAddressSearchCriteria;
 import com.github.kazuki43zoo.domain.service.address.StreetAddressService;
@@ -51,6 +52,7 @@ public class StreetAddressSearchController {
             Pageable pageable,
             Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return searchForm();
         }
         StreetAddressSearchCriteria criteria = beanMapper.map(form, StreetAddressSearchCriteria.class);

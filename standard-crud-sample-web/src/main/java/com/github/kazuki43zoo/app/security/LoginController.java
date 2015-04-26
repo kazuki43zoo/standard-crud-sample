@@ -1,6 +1,8 @@
 package com.github.kazuki43zoo.app.security;
 
+import com.github.kazuki43zoo.core.message.Message;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,8 +29,9 @@ public class LoginController {
 
     @TransactionTokenCheck
     @RequestMapping(method = RequestMethod.POST)
-    public String login(@Validated LoginForm form, BindingResult bindingResult) {
+    public String login(@Validated LoginForm form, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return loginForm();
         }
 

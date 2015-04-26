@@ -1,17 +1,18 @@
+<t:messagesPanel/>
+
 <c:url value="/share/streetAddresses" var="searchPath"/>
 <form:form action="${searchPath}" method="get" cssClass="form-horizontal" modelAttribute="streetAddressSearchForm">
     <div class="form-group">
         <form:label path="zipCode" cssClass="col-sm-3 control-label">郵便番号</form:label>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
             <form:input cssClass="form-control" path="zipCode"/>
+            <form:errors cssClass="control-label" path="zipCode"/>
         </div>
     </div>
     <div class="form-group">
         <form:label path="address" cssClass="col-sm-3 control-label">住所</form:label>
         <div class="col-sm-4">
             <form:input cssClass="form-control" path="address"/>
-        </div>
-        <div class="col-sm-4">
             <form:errors cssClass="control-label" path="address"/>
         </div>
     </div>
@@ -23,7 +24,9 @@
         <div class="col-sm-3">
             <span class="form-control">デフォルト: 20件 最大: 200件</span>
         </div>
-        <div class="col-sm-4">
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-8">
             <form:errors cssClass="control-label" path="size"/>
         </div>
     </div>

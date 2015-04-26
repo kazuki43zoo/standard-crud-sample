@@ -20,16 +20,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     public User edit(String userUuid, User inputUser) {
 
-        // find user
         User storedUser = userSharedService.findUser(userUuid);
 
-        // check a optimistic locking within long transaction
         userSharedService.checkOptimisticLockingWithinLongTransaction(storedUser, inputUser);
 
-        // update a user
         userSharedService.updateUser(storedUser, inputUser, "updateProfile");
 
-        // update a user credential
         UserCredential inputCredential = inputUser.getCredential();
         userSharedService.updateCredential(
                 storedUser, inputCredential.getUserId(), inputCredential.getPassword());

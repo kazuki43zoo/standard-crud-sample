@@ -28,7 +28,6 @@ public class ConfirmEqualsValidator implements ConstraintValidator<ConfirmEquals
         if (Objects.equals(fieldValue, confirmFieldValue)) {
             return true;
         }
-        System.out.println(context.getDefaultConstraintMessageTemplate());
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(constraint.message())
                 .addPropertyNode(confirmField).addConstraintViolation();

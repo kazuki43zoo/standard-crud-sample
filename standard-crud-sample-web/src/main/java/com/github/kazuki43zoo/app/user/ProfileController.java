@@ -3,6 +3,7 @@ package com.github.kazuki43zoo.app.user;
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
 import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.service.security.CustomUserDetails;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
@@ -107,9 +107,11 @@ public class ProfileController {
     @RequestMapping(method = RequestMethod.POST, params = "confirm")
     public String editConfirm(
             @Validated({Default.class, ProfileForm.Updating.class}) ProfileForm form,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return editRedo(form);
         }
 
@@ -122,10 +124,12 @@ public class ProfileController {
             @AuthenticationPrincipal CustomUserDetails userDetail,
             @Validated({Default.class, ProfileForm.Updating.class}) ProfileForm form,
             BindingResult bindingResult,
+            Model model,
             @ModelAttribute(Flow.MODEL_NAME) DefaultFlow currentFlow,
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return editRedo(form);
         }
 
@@ -138,7 +142,7 @@ public class ProfileController {
             return editRedo(form);
         } catch (ObjectOptimisticLockingFailureException e) {
             securityContextSharedService.updateSecurityContextByUserUuid(userDetail.getUser().getUserUuid());
-            redirectAttributes.addFlashAttribute(ResultMessages.danger().add("e.sc.um.8005"));
+            redirectAttributes.addFlashAttribute(Message.OPERATION_CONFLICT.resultMessages());
             return "redirect:/profile";
         }
 

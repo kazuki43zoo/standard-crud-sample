@@ -1,5 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
+import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.CredentialStatus;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.model.UserCredential;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.terasoluna.gfw.common.codelist.CodeList;
-import org.terasoluna.gfw.common.message.ResultMessages;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -32,7 +32,7 @@ public class UserHelper {
         User user = userSharedService.findUser(userUuid);
         model.addAttribute(user);
         if (user.getCredential().getStatus() == CredentialStatus.WAITING_FOR_ACTIVE) {
-            model.addAttribute(ResultMessages.warning().add("w.sc.um.2008"));
+            model.addAttribute(Message.PASSWORD_NEED_CHANGE.resultMessages());
         }
         return user;
     }
@@ -52,7 +52,7 @@ public class UserHelper {
     }
 
     public void rejectInvalidUserId(Errors errors) {
-        errors.rejectValue("userId", "e.sc.um.8003");
+        errors.rejectValue("userId", Message.USER_ID_CAN_NOT_USE.getCode());
     }
 
 

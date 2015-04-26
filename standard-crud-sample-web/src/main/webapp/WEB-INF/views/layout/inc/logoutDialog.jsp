@@ -10,8 +10,10 @@
                     <h4 class="modal-title" id="modalLabel">ログアウト</h4>
                 </div>
                 <div class="modal-body">
-                    <span class="glyphicon glyphicon-warning-sign" style="color: orange; font-size: x-large;"></span>
-                    <sec:authentication property="principal.user.name"/> さん、ログアウトしてもよろしいですか？
+                    <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).LOGOUT_CONFIRM" var="messageEnum"/>
+                    <span class="glyphicon glyphicon-${messageEnum.typeString}-sign" style="font-size: x-large;"></span>
+                    <sec:authentication property="principal.user.name" var="userName"/>
+                    <spring:message code="${messageEnum.code}" arguments="${userName}" />
                 </div>
                 <div class="modal-footer">
                     <c:url value="/logout" var="logoutUrl"/>

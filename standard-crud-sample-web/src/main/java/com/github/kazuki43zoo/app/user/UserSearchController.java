@@ -4,6 +4,7 @@ import com.github.kazuki43zoo.app.PaginationHelper;
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
 import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
 import com.github.kazuki43zoo.domain.repository.user.UserSearchCriteria;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
@@ -99,6 +99,7 @@ public class UserSearchController {
             Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(Message.VALIDATION_ERROR.resultMessages());
             return searchForm();
         }
 
@@ -106,13 +107,13 @@ public class UserSearchController {
         Page<User> users = userService.searchUsers(criteria, pageable);
 
         if (users.getTotalElements() == 0) {
-            model.addAttribute(ResultMessages.info().add("i.sc.um.2000"));
+            model.addAttribute(Message.MATCHING_USERS_NOT_FOUND.resultMessages());
             return searchForm();
         }
 
         if (!users.hasContent()) {
             model.addAttribute(
-                    ResultMessages.info().add("i.sc.um.2001", pageable.getPageNumber() + 1));
+                    Message.USERS_OF_PAGE_NOT_FOUND.resultMessages(pageable.getPageNumber() + 1));
             return search(form, bindingResult,
                     new PageRequest(users.getTotalPages() - 1, pageable.getPageSize(), pageable.getSort()), model);
         }

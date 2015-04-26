@@ -2,27 +2,32 @@
 
     <c:choose>
         <c:when test="${param.containsKey('encourage')}">
-            <spring:message code="i.sc.se.1002" var="message"/>
-            <t:messagesPanel messagesType="info" messagesAttributeName="message"/>
+            <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).LOGIN_ENCOURAGE" var="messageEnum"/>
+            <spring:message code="${messageEnum.code}" var="message"/>
+            <t:messagesPanel messagesType="${messageEnum.typeString}" messagesAttributeName="message"/>
         </c:when>
         <c:when test="${param.containsKey('logoutSuccess')}">
-            <spring:message code="i.sc.se.1001" var="message"/>
-            <t:messagesPanel messagesType="success" messagesAttributeName="message"/>
+            <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).USER_WAS_LOGOUT" var="messageEnum"/>
+            <spring:message code="${messageEnum.code}" var="message"/>
+            <t:messagesPanel messagesType="${messageEnum.typeString}" messagesAttributeName="message"/>
         </c:when>
         <c:when test="${param.containsKey('invalidSession')}">
-            <spring:message code="w.sc.se.2000" var="message"/>
-            <t:messagesPanel messagesType="warning" messagesAttributeName="message"/>
+            <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).VALID_SESSION_NOT_EXIST" var="messageEnum"/>
+            <spring:message code="${messageEnum.code}" var="message"/>
+            <t:messagesPanel messagesType="${messageEnum.typeString}" messagesAttributeName="message"/>
         </c:when>
         <c:when test="${param.containsKey('deleted')}">
-            <spring:message code="i.sc.se.8003" var="message"/>
-            <t:messagesPanel messagesType="danger" messagesAttributeName="message"/>
+            <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).ACCOUNT_WAS_DELETED" var="messageEnum"/>
+            <spring:message code="${messageEnum.code}" var="message"/>
+            <t:messagesPanel messagesType="${messageEnum.typeString}" messagesAttributeName="message"/>
         </c:when>
         <c:when test="${param.containsKey('error')}">
             <t:messagesPanel messagesType="danger" messagesAttributeName="SPRING_SECURITY_LAST_EXCEPTION"/>
         </c:when>
         <c:when test="${param.containsKey('systemError')}">
-            <spring:message code="e.sc.fw.9001" arguments="${requestScope['X-Track']}" var="message"/>
-            <t:messagesPanel messagesType="danger" messagesAttributeName="message"/>
+            <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).SYSTEM_ERROR" var="messageEnum"/>
+            <spring:message code="${messageEnum.code}" arguments="${requestScope['X-Track']}" var="message"/>
+            <t:messagesPanel messagesType="${messageEnum.typeString}" messagesAttributeName="message"/>
         </c:when>
         <c:otherwise>
             <t:messagesPanel/>

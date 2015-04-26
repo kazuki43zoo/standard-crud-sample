@@ -3,8 +3,9 @@
 
 <c:choose>
     <c:when test="${param.containsKey('encourage')}">
-        <spring:message code="i.sc.um.1010" var="message"/>
-        <t:messagesPanel messagesType="info" messagesAttributeName="message"/>
+        <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).PASSWORD_CHANGE_ENCOURAGE" var="messageEnum"/>
+        <spring:message code="${messageEnum.code}" var="message"/>
+        <t:messagesPanel messagesType="${messageEnum.typeString}" messagesAttributeName="message"/>
     </c:when>
 </c:choose>
 

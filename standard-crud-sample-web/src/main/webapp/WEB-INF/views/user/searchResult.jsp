@@ -1,4 +1,4 @@
-<c:set var="paginationQueryString" value="page=${page.number}&size=${page.size}&${f:query(userSearchForm)}"/>
+<c:set var="paginationQueryString" value="${f:query(userSearchForm)}&page=${page.number}&size=${page.size}"/>
 
 <script type="text/javascript">
     $(function () {
@@ -40,8 +40,7 @@
                    class="btn btn-default" title="編集">
                     <span class="glyphicon glyphicon-edit"></span></a>
                 <c:if test="${user.status != 'DELETED'}">
-                    <button class="btn btn-default deleteBtn"
-                            data-user-uuid="${f:h(user.userUuid)}" title="削除">
+                    <button class="btn btn-default deleteBtn" data-user-uuid="${f:h(user.userUuid)}" title="削除">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </c:if>
@@ -52,7 +51,8 @@
 
 <c:if test="${1 < page.totalPages}">
     <div class="paginationContainer">
-        <t:pagination page="${page}" criteriaQuery="${f:query(userSearchForm)}&${f:query(_flow.asIdMap())}" outerElementClass="pagination"/>
+        <t:pagination page="${page}" criteriaQuery="${f:query(userSearchForm)}&${f:query(_flow.asIdMap())}"
+                      outerElementClass="pagination"/>
     </div>
 </c:if>
 
@@ -83,18 +83,15 @@
                 <h4 class="modal-title" id="modalLabel">ユーザー削除</h4>
             </div>
             <div class="modal-body">
-                <span class="glyphicon glyphicon-warning-sign" style="color: orange; font-size: x-large;"></span>
-                ユーザーを削除します。よろしいですか？
+                <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).USER_DELETE_CONFIRM" var="messageEnum"/>
+                <span class="glyphicon glyphicon-${messageEnum.typeString}-sign" style="font-size: x-large;"></span>
+                <spring:message code="${messageEnum.code}" />
             </div>
             <div class="modal-footer">
                 <form:form id="deleteForm">
                     <input type="hidden" name="delete">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        いいえ
-                    </button>
-                    <button name="gotoDelete" class="btn btn-default">
-                        はい
-                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">いいえ</button>
+                    <button name="gotoDelete" class="btn btn-default">はい</button>
                 </form:form>
             </div>
         </div>

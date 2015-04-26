@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @lombok.ToString(exclude = "model")
-@lombok.RequiredArgsConstructor
 public abstract class AbstractFlow implements Flow {
 
     @lombok.Getter

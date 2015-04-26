@@ -18,14 +18,6 @@
         <property name="jdbcTemplate" ref="jdbcTemplateForCodeList"/>
     </bean>
 
-    <!-- Example for usage of AbstractJdbcCodeList
-    <bean id="CL_SAMPLE" parent="AbstractJdbcCodeList">
-        <property name="querySql" value="SELECT code, code_name FROM t_sample_codes ORDER BY code" />
-        <property name="valueColumn" value="code" />
-        <property name="labelColumn" value="code_name" />
-    </bean>
-    -->
-
     <bean id="CL_USERSTATUS"
           class="org.terasoluna.gfw.common.codelist.EnumCodeList">
         <constructor-arg

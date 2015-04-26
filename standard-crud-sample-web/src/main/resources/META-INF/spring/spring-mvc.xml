@@ -46,7 +46,7 @@
     <context:component-scan base-package="com.github.kazuki43zoo.app"/>
 
     <mvc:resources mapping="/resources/**"
-                   location="/resources/,classpath:META-INF/resources/"
+                   location="/resources/"
                    cache-period="#{60 * 60}"/>
 
     <mvc:interceptors>

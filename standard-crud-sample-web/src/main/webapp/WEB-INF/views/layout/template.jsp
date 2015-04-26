@@ -49,7 +49,7 @@
 
 </div>
 
-<jsp:include page="inc/logoutDialog.jsp"/>
+<jsp:include page="parts/logoutDialog.jsp"/>
 
 </body>
 </html>

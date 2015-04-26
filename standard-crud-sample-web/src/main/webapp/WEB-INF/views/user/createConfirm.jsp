@@ -1,7 +1,7 @@
 <c:url value="/users" var="creatingUrl"/>
 <form:form action="${creatingUrl}" cssClass="form-horizontal" modelAttribute="userForm">
 
-    <jsp:include page="inc/userConfirm.jsp"/>
+    <jsp:include page="parts/userConfirm.jsp"/>
 
     <form:hidden path="confirmPassword"/>
     <form:hidden path="password"/>

@@ -1,5 +1,5 @@
 
-<jsp:include page="inc/legend.jsp"/>
+<jsp:include page="parts/legend.jsp"/>
 
 <c:choose>
     <c:when test="${param.containsKey('encourage')}">

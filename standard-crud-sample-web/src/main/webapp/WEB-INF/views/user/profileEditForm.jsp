@@ -1,11 +1,11 @@
-<jsp:include page="inc/legend.jsp"/>
+<jsp:include page="parts/legend.jsp"/>
 
 <t:messagesPanel/>
 
 <c:url value="/profile" var="editUrl"/>
 <form:form action="${editUrl}" cssClass="form-horizontal" modelAttribute="profileForm">
 
-    <jsp:include page="inc/profileForm.jsp">
+    <jsp:include page="parts/profileForm.jsp">
         <jsp:param name="operation" value="UPDATE"/>
     </jsp:include>
 

@@ -41,7 +41,11 @@ public class FlowRepository {
 
     public void delete(String id) {
         log.debug("delete : {}", id);
-        flows.remove(id);
+        Flow flow = findOne(id);
+        if (flow != null) {
+            flow.saveModel(null);
+            flows.remove(id);
+        }
     }
 
     public void deleteAll() {

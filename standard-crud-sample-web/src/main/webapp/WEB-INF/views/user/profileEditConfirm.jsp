@@ -2,7 +2,7 @@
 <form:form action="${editUrl}" cssClass="form-horizontal" modelAttribute="profileForm">
 
     <c:set var="userForm" value="${profileForm}" scope="request"/>
-    <jsp:include page="inc/profileConfirm.jsp"/>
+    <jsp:include page="parts/profileConfirm.jsp"/>
 
     <form:hidden path="confirmPassword"/>
     <form:hidden path="password"/>

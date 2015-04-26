@@ -11,7 +11,7 @@ Sample Application of standard CRUD using TERASOLUNA Server Framework 5.x (5.0.0
 |Validation Framework|Bean Validation(Hivernate Validator)|1.1(5.1.3.Final)|
 |O/R Mapper|MyBatis|3.2.8|
 |Bean Mapper|Dozer|5.5.1|
-|Template Engine|JSP|-|
+|Template Engine|Java Server Page|-|
 |Layout Engine|Tiles|3.0.5|
 |Date and Time Operations|Joda Time|2.5|
 |Logging|Logback|1.1.2|

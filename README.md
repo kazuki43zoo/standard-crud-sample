@@ -35,7 +35,6 @@ Target features are follows:
 * Standard screen flow control (PRG pattern)
 * Input validation (Bean Validation & Spring Validator)
 * Pagination
-* Taking over search criteria on stateless (using query parameter + `@ModelAttribute` + `RequestDataValueProcessor`)
 * Transaction token check
 * Exception handling
 * Message management
@@ -43,6 +42,7 @@ Target features are follows:
 * JSP with JSTL and Spring tag libraries
 * File upload (comming soon !!)
 * File download (comming soon !!)
+* Shared screen flow control (Providing common components in the `com.github.kazuki43zoo.app.flow` package)
 
 #### Security Layer
 * Form and DB Authentication

@@ -26,7 +26,7 @@ This sample application provide how to implement standard features.
 
 Target features are follows:
 
-#### Domain Layer
+#### Domain Layer (Infrastructure Layer)
 * Entity CRUD operations
 * Transaction management
 * Exclusion control (Optimistic Lock control & Long transaction control)

@@ -45,6 +45,10 @@ public enum Message {
             "e.sc.fw.2001", DANGER),
     RESOURCE_NOT_FOUND(
             "e.sc.fw.5001", DANGER),
+    INVALID_FLOW(
+            "e.sc.fw.7006", DANGER),
+    MATCHING_DATA_LIMIT_OVER(
+            "e.sc.fw.7007", DANGER),
     OPERATION_CONFLICT(
             "e.sc.fw.8002", DANGER),
     SYSTEM_ERROR(

@@ -1,5 +1,6 @@
 package com.github.kazuki43zoo.app.user;
 
+import com.github.kazuki43zoo.app.DownloadException;
 import com.github.kazuki43zoo.app.PaginationHelper;
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
@@ -13,19 +14,21 @@ import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.List;
 
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 
@@ -120,6 +123,29 @@ public class UserSearchController {
 
         model.addAttribute("page", users);
         return "user/searchResult";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "download")
+    @ResponseBody
+    public ResponseEntity<List<User>> download(
+            @Validated UserSearchForm form,
+            BindingResult bindingResult) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            throw new DownloadException(Message.VALIDATION_ERROR.resultMessages());
+        }
+
+        UserSearchCriteria criteria = beanMapper.map(form, UserSearchCriteria.class);
+        List<User> users;
+        try {
+            users = userService.searchUsers(criteria);
+        } catch (BusinessException e) {
+            throw new DownloadException(e.getResultMessages());
+        }
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=users.json")
+                .body(users);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "searchRedo")

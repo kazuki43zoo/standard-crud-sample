@@ -27,6 +27,18 @@
             <bean class="org.springframework.security.web.bind.support.AuthenticationPrincipalArgumentResolver"/>
             <bean class="org.terasoluna.gfw.web.token.transaction.TransactionTokenContextHandlerMethodArgumentResolver"/>
         </mvc:argument-resolvers>
+        <mvc:message-converters register-defaults="false">
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean id="objectMapper"
+                          class="com.fasterxml.jackson.datatype.joda.JodaMapper">
+                        <property name="dateFormat">
+                            <bean class="com.fasterxml.jackson.databind.util.StdDateFormat"/>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
     </mvc:annotation-driven>
 
     <mvc:default-servlet-handler/>
@@ -86,14 +98,20 @@
         <property name="order" value="3"/>
         <property name="exceptionMappings">
             <map>
-                <entry key="ResourceNotFoundException" value="common/error/resourceNotFoundError"/>
-                <entry key="BusinessException" value="common/error/businessError"/>
-                <entry key="InvalidTransactionTokenException" value="common/error/transactionTokenError"/>
+                <entry key="ResourceNotFoundException"
+                       value="common/error/resourceNotFoundError"/>
+                <entry key="DownloadException"
+                       value="common/error/downloadError"/>
+                <entry key="BusinessException"
+                       value="common/error/businessError"/>
+                <entry key="InvalidTransactionTokenException"
+                       value="common/error/transactionTokenError"/>
             </map>
         </property>
         <property name="statusCodes">
             <map>
                 <entry key="common/error/resourceNotFoundError" value="404"/>
+                <entry key="common/error/downloadError" value="400"/>
                 <entry key="common/error/businessError" value="409"/>
                 <entry key="common/error/transactionTokenError" value="409"/>
             </map>

@@ -1,5 +1,6 @@
 package com.github.kazuki43zoo.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.LocalDate;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class User implements Serializable {
     private UserStatus status;
     private UserCredential credential;
     private List<UserRole> roles = new ArrayList<>();
+    @JsonIgnore
     private long version;
 
     public void incrementVersion(){

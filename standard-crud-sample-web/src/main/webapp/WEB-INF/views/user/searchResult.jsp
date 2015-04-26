@@ -69,8 +69,11 @@
                 <spring:message code="title.user.createForm"/>
             </a>
         </li>
+        <li>
+            <a href="<c:url value="/users?download&${f:h(f:query(userSearchForm))}&${f:h(f:query(_flow.asIdMap()))}"/>"
+               target="download"><span class="glyphicon glyphicon-download"></span> ダウンロード</a>
+        </li>
     </ul>
-
 </div>
 
 <div class="modal fade" id="deletingConfirmationDialog" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
@@ -83,9 +86,10 @@
                 <h4 class="modal-title" id="modalLabel">ユーザー削除</h4>
             </div>
             <div class="modal-body">
-                <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).USER_DELETE_CONFIRM" var="messageEnum"/>
+                <spring:eval expression="T(com.github.kazuki43zoo.core.message.Message).USER_DELETE_CONFIRM"
+                             var="messageEnum"/>
                 <span class="glyphicon glyphicon-${messageEnum.typeString}-sign" style="font-size: x-large;"></span>
-                <spring:message code="${messageEnum.code}" />
+                <spring:message code="${messageEnum.code}"/>
             </div>
             <div class="modal-footer">
                 <form:form id="deleteForm">

@@ -16,7 +16,7 @@ public class FlowControllerAdvice {
     FlowRepository flowRepository;
 
     @Inject
-    FlowHelper flowHelper;
+    FlowManager flowManager;
 
     @ModelAttribute
     public void controlFlows(HttpServletRequest request, Model currentModel) {
@@ -27,12 +27,12 @@ public class FlowControllerAdvice {
                         request.getParameter(Flow.ParameterNames.FLOW_OPERATION));
 
         if (flowOperation == Flow.Operation.BEGIN) {
-            flowHelper.beginDefaultFlow(currentModel);
+            flowManager.beginDefaultFlow(currentModel);
             return;
         }
 
         if (flowOperation == Flow.Operation.TERMINATE) {
-            flowHelper.terminateFlow(
+            flowManager.terminateFlow(
                     request.getParameter(Flow.ParameterNames.TERMINATE_TARGET_FLOW_ID));
         }
 
@@ -43,7 +43,7 @@ public class FlowControllerAdvice {
 
         Flow currentFlow = Optional.ofNullable(flowRepository.findOne(flowId))
                 .orElseThrow(() -> new InvalidFlowException(flowId));
-        flowHelper.activateFlow(currentFlow, currentModel);
+        flowManager.activateFlow(currentFlow, currentModel);
 
     }
 

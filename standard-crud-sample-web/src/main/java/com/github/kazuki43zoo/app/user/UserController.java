@@ -2,7 +2,7 @@ package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
-import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.app.flow.FlowManager;
 import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
@@ -47,7 +47,7 @@ public class UserController {
     UserIdValidator userIdValidator;
 
     @Inject
-    FlowHelper flowHelper;
+    FlowManager flowManager;
 
     @Inject
     Mapper beanMapper;
@@ -84,7 +84,7 @@ public class UserController {
                 .finishPath("/users?applyAddress&destination=createForm")
                 .cancelPath("/users?createRedo")
                 .build();
-        return flowHelper.redirectAndBeginFlow(
+        return flowManager.redirectAndBeginFlow(
                 "/share/streetAddresses?searchForm",
                 newFlow,
                 redirectAttributes);
@@ -188,7 +188,7 @@ public class UserController {
                 .finishPath("/users/" + userUuid + "?applyAddress")
                 .cancelPath("/users/" + userUuid + "?updateRedo")
                 .build();
-        return flowHelper.redirectAndBeginFlow(
+        return flowManager.redirectAndBeginFlow(
                 "/share/streetAddresses?searchForm",
                 newFlow,
                 redirectAttributes);

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.inject.Inject;
 
 @Component
-public class FlowHelper {
+public class FlowManager {
 
     @Inject
     FlowRepository flowRepository;

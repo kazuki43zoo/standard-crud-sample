@@ -3,7 +3,7 @@ package com.github.kazuki43zoo.app.user;
 import com.github.kazuki43zoo.app.PaginationHelper;
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
-import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.app.flow.FlowManager;
 import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
@@ -44,7 +44,7 @@ public class UserSearchController {
     Mapper beanMapper;
 
     @Inject
-    FlowHelper flowHelper;
+    FlowManager flowManager;
 
     @Inject
     PaginationHelper paginationHelper;
@@ -76,7 +76,7 @@ public class UserSearchController {
                 .finishPath("/users?applyAddress&destination=searchForm")
                 .cancelPath("/users?searchRedo")
                 .build();
-        return flowHelper.redirectAndBeginFlow(
+        return flowManager.redirectAndBeginFlow(
                 "/share/streetAddresses?searchForm",
                 newFlow,
                 redirectAttributes);
@@ -136,7 +136,7 @@ public class UserSearchController {
         Flow newFlow = DefaultFlow.builder(currentFlow)
                 .finishPath("/users?" + paginationHelper.toCriteriaQuery(form, pageable))
                 .build();
-        return flowHelper.redirectAndBeginFlow(
+        return flowManager.redirectAndBeginFlow(
                 "/users?createForm",
                 newFlow,
                 redirectAttributes);
@@ -153,7 +153,7 @@ public class UserSearchController {
                 .finishPath("/users?" + paginationHelper.toCriteriaQuery(form, pageable))
                 .build();
         redirectAttributes.addAttribute("userUuid", userUuid);
-        return flowHelper.redirectAndBeginFlow(
+        return flowManager.redirectAndBeginFlow(
                 "/users/{userUuid}?updateForm",
                 newFlow,
                 redirectAttributes);
@@ -170,7 +170,7 @@ public class UserSearchController {
         Flow newFlow = DefaultFlow.builder(currentFlow)
                 .finishPath("/users?" + paginationHelper.toCriteriaQuery(form, pageable))
                 .build();
-        return flowHelper.forwardAndBeginFlow(
+        return flowManager.forwardAndBeginFlow(
                 fromPath("/users/{userUuid}").buildAndExpand(userUuid).toString(),
                 newFlow,
                 model);

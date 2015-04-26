@@ -2,7 +2,7 @@ package com.github.kazuki43zoo.app.user;
 
 import com.github.kazuki43zoo.app.flow.DefaultFlow;
 import com.github.kazuki43zoo.app.flow.Flow;
-import com.github.kazuki43zoo.app.flow.FlowHelper;
+import com.github.kazuki43zoo.app.flow.FlowManager;
 import com.github.kazuki43zoo.core.message.Message;
 import com.github.kazuki43zoo.domain.model.StreetAddress;
 import com.github.kazuki43zoo.domain.model.User;
@@ -42,7 +42,7 @@ public class ProfileController {
     UserHelper userHelper;
 
     @Inject
-    FlowHelper flowHelper;
+    FlowManager flowManager;
 
     @Inject
     Mapper beanMapper;
@@ -84,7 +84,7 @@ public class ProfileController {
                 .finishPath("/profile?applyAddress")
                 .cancelPath("/profile?redo")
                 .build();
-        return flowHelper.redirectAndBeginFlow(
+        return flowManager.redirectAndBeginFlow(
                 "/share/streetAddresses?searchForm",
                 newFlow,
                 redirectAttributes);

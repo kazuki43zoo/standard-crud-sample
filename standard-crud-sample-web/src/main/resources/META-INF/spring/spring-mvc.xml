@@ -29,6 +29,7 @@
         </mvc:argument-resolvers>
         <mvc:message-converters register-defaults="false">
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="prettyPrint" value="${json.prettyPrint:true}"/>
                 <property name="objectMapper">
                     <bean id="objectMapper"
                           class="com.fasterxml.jackson.datatype.joda.JodaMapper">

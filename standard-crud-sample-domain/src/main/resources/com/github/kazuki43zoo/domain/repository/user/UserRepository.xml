@@ -203,7 +203,18 @@
             #{pageable.offset}
     </select>
 
-    <sql id="fragmentSelectFromOfFindOne">
+    <select id="findAllByCriteria" resultMap="userResultMap">
+        <include refid="fragmentSelectFromForFull"/>
+        <include refid="whereForFindByCriteria"/>
+        ORDER BY
+            u.name
+        LIMIT
+            #{pageSize}
+        OFFSET
+            0
+    </select>
+
+    <sql id="fragmentSelectFromForFull">
         SELECT
             u.user_uuid
             ,u.name
@@ -230,13 +241,13 @@
     </sql>
 
     <select id="findOne" resultMap="userResultMap">
-        <include refid="fragmentSelectFromOfFindOne"/>
+        <include refid="fragmentSelectFromForFull"/>
         WHERE
             u.user_uuid = #{userUuid}
     </select>
 
     <select id="findOneByUserId" resultMap="userResultMap">
-        <include refid="fragmentSelectFromOfFindOne"/>
+        <include refid="fragmentSelectFromForFull"/>
         WHERE
             uc.user_id = #{userId}
         AND

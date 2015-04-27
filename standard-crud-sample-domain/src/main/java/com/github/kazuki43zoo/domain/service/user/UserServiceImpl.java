@@ -8,7 +8,6 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(
                     Message.MATCHING_DATA_LIMIT_OVER.resultMessages(count, limitCount));
         }
-        return userRepository.findPageByCriteria(criteria, new PageRequest(0, limitCount));
+        return userRepository.findAllByCriteria(criteria, limitCount);
     }
 
     public User create(User inputUser, List<Role> inputRoles) {

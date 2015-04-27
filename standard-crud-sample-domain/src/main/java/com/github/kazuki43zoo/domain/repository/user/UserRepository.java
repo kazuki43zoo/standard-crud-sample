@@ -14,6 +14,9 @@ public interface UserRepository {
     List<User> findPageByCriteria(
             @Param("criteria") UserSearchCriteria criteria,
             @Param("pageable") Pageable pageable);
+    List<User> findAllByCriteria(
+            @Param("criteria") UserSearchCriteria criteria,
+            @Param("pageSize") int pageSize);
 
     User findOne(String userUuid);
 
